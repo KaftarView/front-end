@@ -1,0 +1,6 @@
+@font-face {
+    font-family: 'Anjoman-FaNum-Bold';
+    src: url('/src/fonts/Woff/Anjoman-FaNum-Bold.woff') format('woff'),
+         url('/src/fonts/Woff2/Anjoman-FaNum-Bold.woff2') format('woff2');
+  
+}
