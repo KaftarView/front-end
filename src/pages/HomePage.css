@@ -1,0 +1,367 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@font-face {
+    font-family: 'Anjoman-FaNum-Bold';
+    src: url('/src/fonts/Woff/Anjoman-FaNum-Bold.woff') format('woff'),
+         url('/src/fonts/Woff2/Anjoman-FaNum-Bold.woff2') format('woff2');
+  
+  }
+
+
+  @font-face {
+    font-family: 'Anjoman-FaNum-Regular';
+    src: url('/src/fonts/Woff/Anjoman-FaNum-Regular.woff') format('woff'),
+         url('/src/fonts/Woff2/Anjoman-FaNum-Regular.woff2') format('woff2');
+  
+  }
+
+.home-page{
+    background-color: #eaebee;
+    /* display: grid; */
+    gap: 1rem;
+    font-size: 100%;
+    
+    
+}
+
+.intro-background  {
+    margin-top: 5rem;
+    width: 100%;
+    height: 80vh;
+    /* background-size: 100vw 100vh; */
+    /* background-position:center; */
+    /* margin-top: 10rem; */
+     /* grid-row: 1 / 35; */
+    /*grid-column: 1 / 9; */
+    
+
+    /* flex-basis: 33.33%; */
+    /* grid:  100%; */
+    font-family: 'Anjoman-FaNum-Regular';
+    background-size: cover;
+  
+    color: white;
+    background: linear-gradient(#0cac7a, #656cbc);
+    align-content: center;
+    text-align: center;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* background-image: url("https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png"); */
+
+}
+
+
+
+.intro-background h1{
+    font-size: 2rem;
+}
+
+
+/* .intro-background button{ */
+    /* margin-top: 2rem; */
+    /* background-color:inset 2px 2px 2px 0px white, */
+    /* 7px 7px 20px 0px white(4, 9, 49, 0.5), */
+    /* 4px 4px 5px 0px white; */
+    /* font-size: 1rem; */
+    /* padding: 1rem 2rem; Add padding if necessary to make the button size larger */
+    /* color: black; Ensure text is visible on the button */
+    /* border-color: white;
+    padding: 2rem; */
+/* } */
+
+
+
+
+
+  
+/* .writing-text:after {
+    content: ' ';
+    display: inline-block;
+    background:white;
+    position:relative;
+    width: 10px;
+    height: 1.1em;
+    vertical-align: middle;
+    animation-name: blink;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes blink {
+    0% {
+      opacity: 1
+    }
+    50% {
+      opacity: 1
+    }
+    100% {
+      opacity: 0
+    }
+  } */
+.intro-background .my_button
+{
+    padding: .2rem;
+    border: .05rem solid white;
+}
+
+ .intro-background .transbox {
+    margin: 30px;
+    background-color: rgba(255, 255, 255, 0.1); /* Use rgba to control background opacity */
+    /* border: 1px solid black; */
+    padding: .7rem; /* Optional: Add padding for some spacing */
+  }
+   
+  .intro-background  h1 {
+
+    color: #000000;
+    opacity: 1;
+
+  }
+
+.content{
+    background-color: #eaebee;
+    padding: 2rem;
+    flex-basis: 66.66%;
+    border-radius: 0.5rem;
+    grid-column: 1 / 9;
+
+}
+
+.content .lists{
+
+    display: grid;
+    grid-template-columns:repeat(auto-fit,minmax(20rem,1fr)) ;
+  
+    gap: .7rem;
+    
+}
+
+.content .lists .box{
+    background-color:#c7ccd7 ;
+    
+    /* display: flex; */
+    /* flex-grow: 1; */
+    /* justify-content: center;
+    align-items: center;
+    flex-basis: calc(33.33% - .5rem); */
+    height: 24rem;
+    width: 18rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    border-radius: 1rem;
+    color: black;
+    position: relative;
+    padding: 1rem;
+    /* background: transparent; */
+  /* cursor: pointer; */
+    /* transition: all 0.3s ease;
+
+   outline: none; */
+
+}
+.content .lists .box:hover{
+    /* background: rgba(2,126,251,1); */
+    box-shadow:inset 2px 2px 2px 0px rgba(4, 9, 49, 0.5),
+    7px 7px 20px 0px rgba(4, 9, 49, 0.5),
+    4px 4px 5px 0px rgba(4, 9, 49, 0.5);
+    transition: all 0.3s ease
+ }
+
+.content .lists .box .product-title{
+    font-family: 'Anjoman-FaNum-Bold';
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: .5rem;
+}
+.content .lists .box .product-description
+{
+    font-family: 'Anjoman-FaNum-Regular';
+    font-size: 1rem;
+    
+}
+
+.content .lists .box img{
+    width: 16rem;
+    height: 10rem;
+    margin-bottom: .5rem;
+
+}
+
+
+.content .lists .box .product-status
+{
+    font-family: 'Anjoman-FaNum-Bold';
+    color: white;
+    font-weight: bold;
+    background-color: rgba(1, 3, 23, 0.7);
+    padding: .3rem;
+    border-radius: 1rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: .8rem;
+}
+.content .lists .box .product-price
+{
+    font-family: 'Anjoman-FaNum-Bold';
+
+    
+    position: absolute;
+    bottom: 3.5rem;
+    left: 1rem;
+    font-size: 1.1rem;
+}
+
+.content .lists .box-small
+{
+    background-color:#c7ccd7 ;
+    display: flex;
+    /* flex-grow: 1; */
+    justify-content: flex-start;
+    align-items: center;
+    /* flex-basis: calc(33.33% - .5rem); */
+    width: 20rem;
+    height: 12rem;
+    border-radius: 1rem;
+    color: black;
+    padding: 1rem;   
+    position: relative;
+    margin-right: 1rem;
+    margin-left: 2rem;
+}
+.content .lists .box-small:hover{
+    /* background: rgba(2,126,251,1); */
+    box-shadow:inset 2px 2px 2px 0px rgba(4, 9, 49, 0.5),
+    7px 7px 20px 0px rgba(4, 9, 49, 0.5),
+    4px 4px 5px 0px rgba(4, 9, 49, 0.5);
+    transition: all 0.3s ease
+ }
+
+.content .lists .box-small .product-title{
+    font-family: 'Anjoman-FaNum-Bold';
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: .5rem;
+}
+
+/* .content .lists .box-small img{
+    width: 5rem;
+    height: 3.5rem;
+    margin-bottom: .5rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+
+} */
+
+
+.content .lists .box-small .product-status
+{
+    font-family: 'Anjoman-FaNum-Bold';
+    color: white;
+    font-weight: bold;
+    background-color: rgba(1, 3, 23, 0.7);
+    padding: .3rem;
+    border-radius: .3rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: .8rem;
+}
+
+
+
+
+.title
+{
+    font-family: 'Anjoman-FaNum-Bold';
+    font-size: 1.5rem;
+    margin-top: 5rem;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+    margin-left: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+.title-link
+{
+    font-family: 'Anjoman-FaNum-Bold';
+    font-size: .8rem;
+    background-color: #e0e4ec;
+    border-radius: 2rem;
+    padding: .3rem;
+}
+
+
+
+.content .lists .box-small .my_btn
+{
+    font-family: 'Anjoman-FaNum-Regular';
+    background-color: rgb(126, 126, 196);
+    border-radius: .7rem;
+    padding: .4rem;
+    font-size: .8rem;
+    position: absolute;
+    bottom: .7rem;
+    left: 7rem;
+    align-items: center;
+    
+}
+
+.content .lists .box-small .my_btn:hover
+{
+    font-family: 'Anjoman-FaNum-Regular';
+    background-color: rgb(90, 90, 177);
+    position: absolute;
+    transition: all 0.4s ease
+    
+}
+
+
+.content .lists .box .my_btn
+{
+    font-family: 'Anjoman-FaNum-Regular';
+    background-color: rgb(126, 126, 196);
+    border-radius: .7rem;
+    padding: .4rem;
+    font-size: .8rem;
+    position: absolute;
+    bottom: .7rem;
+    left: 6.25rem;
+    
+}
+
+.content .lists .box .my_btn:hover
+{
+    font-family: 'Anjoman-FaNum-Regular';
+    background-color: rgb(90, 90, 177);
+    position: absolute;
+    transition: all 0.4s ease
+    
+}
+.content .lists .box-test:hover{
+    cursor: pointer;
+}
+
+
+/* .background-color-orange
+{
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: orange;
+}
+
+
+.background-color-blue
+{
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background-color: rgb(104, 104, 230)
+} */
