@@ -1,13 +1,18 @@
 import{Routes,Route} from "react-router-dom"
-import HomePage from "../pages/HomePage"
-import AboutUsPage from "../pages/AboutUsPage"
+// import EventsPage from "../Pages/EventsPage/EventsPage"
+// import EventDetail from "../Pages/EventDetail/EventDetail"
 import PATHS from "./path"
+import HomePage from "../Pages/HomePage"
 
 const Router = () => {
   return (
     <Routes>
-        <Route path={PATHS.home}  element={<HomePage/>} />
-        <Route path={PATHS.aboutUse} element={<AboutUsPage/>} />
+        <Route path={PATHS.home}  element={<HomePage/>}></Route>
+        {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
+        <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}
+        <Route></Route>
+        <Route></Route>
+        <Route></Route>
 
     </Routes>
   )
