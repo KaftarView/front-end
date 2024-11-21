@@ -6,6 +6,8 @@ import HomePage from "../pages/HomePage"
 import Login from "../pages/Login/Login"
 import Navbar from "../pages/NavBar/NavBar"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
+import ChangePassword from "../pages/ChangePasswordAndUserInfo/ChangePassword"
+import PersonalInfo from "../pages/ChangePasswordAndUserInfo/PersonalInfo"
 // import Footer from "../pages/Footer/Footer"
 
 
@@ -16,6 +18,8 @@ const Router = () => {
         <Route path={PATHS.home}  element={<HomePage/>}></Route>
         <Route path={PATHS.Navbar}  element={<Navbar/>}></Route>
         <Route path={PATHS.ProfilePage}  element={<ProfilePage/>}></Route>
+        <Route path={PATHS.ChangePassword}  element={<ChangePassword/>}></Route>
+        <Route path={PATHS.PersonalInfo}  element={<PersonalInfo/>}></Route>
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}
