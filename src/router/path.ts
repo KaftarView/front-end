@@ -6,6 +6,7 @@ const PATHS ={
     course: '/cources',
     pudcast: '/pudcasts',
     magazine: '/magazines',
-    pamphlet:'/pamphlets'
+    pamphlet:'/pamphlets',
+    Login:'/Login',
 }
 export default PATHS
