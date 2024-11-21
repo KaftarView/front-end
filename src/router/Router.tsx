@@ -5,6 +5,7 @@ import PATHS from "./path"
 import HomePage from "../pages/HomePage"
 import Login from "../pages/Login/Login"
 import Navbar from "../pages/NavBar/NavBar"
+import ProfilePage from "../pages/ProfilePage/ProfilePage"
 // import Footer from "../pages/Footer/Footer"
 
 
@@ -14,6 +15,7 @@ const Router = () => {
        <Route path={PATHS.Login}  element={<Login/>}></Route>
         <Route path={PATHS.home}  element={<HomePage/>}></Route>
         <Route path={PATHS.Navbar}  element={<Navbar/>}></Route>
+        <Route path={PATHS.ProfilePage}  element={<ProfilePage/>}></Route>
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}

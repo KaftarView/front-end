@@ -1,4 +1,5 @@
 import Footer from "../pages/Footer/Footer"
+import ProfilePage from "../pages/ProfilePage/ProfilePage"
 
 const PATHS ={
     home: '/',
@@ -11,6 +12,7 @@ const PATHS ={
     pamphlet:'/pamphlets',
     Login:'/Login',
     Navbar:'/Navbar',
-    Footer:'/Footer'
+    Footer:'/Footer',
+    ProfilePage:'/Profile'
 }
 export default PATHS
