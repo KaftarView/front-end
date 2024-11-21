@@ -16,6 +16,7 @@ import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, BrowserRouter as Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./components/AuthContext";
 
 // const Main: React.FC = () => {
 //   const { isAllowed } = useAuth();
@@ -58,12 +59,13 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <BrowserRouter>
-
-        <App />
-  
-    </BrowserRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    // {/* </React.StrictMode> */}
   );
 } else {
   console.error("Root element not found");
 }
-document.getElementsByTagName('html')[0].setAttribute("dir", "rtl");
+document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
