@@ -1,3 +1,5 @@
+import ProfilePage from "../pages/ProfilePage/ProfilePage"
+
 const PATHS ={
     home: '/',
     aboutUse: '/about-us',
@@ -8,5 +10,6 @@ const PATHS ={
     magazine: '/magazines',
     pamphlet:'/pamphlets',
     Login:'/Login',
+    ProfilePage:'/Profile'
 }
 export default PATHS
