@@ -1,3 +1,5 @@
+import Footer from "../pages/Footer/Footer"
+
 const PATHS ={
     home: '/',
     aboutUse: '/about-us',
@@ -8,5 +10,7 @@ const PATHS ={
     magazine: '/magazines',
     pamphlet:'/pamphlets',
     Login:'/Login',
+    Navbar:'/Navbar',
+    Footer:'/Footer'
 }
 export default PATHS
