@@ -16,6 +16,8 @@ import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, BrowserRouter as Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./components/AuthContext";
+import { AppProvider } from "./components/AppContext";
 
 // const Main: React.FC = () => {
 //   const { isAllowed } = useAuth();
@@ -58,9 +60,11 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <BrowserRouter>
-
+    <AppProvider>
+      <AuthProvider>
         <App />
-  
+      </AuthProvider>
+    </AppProvider>
     </BrowserRouter>
   );
 } else {

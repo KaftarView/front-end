@@ -35,6 +35,7 @@ const HomePage = () => {
 
             <div className='title'><span className='title-name'>جدیدترین رویداد‌ها</span> <button className='title-link btn'>رفتن به رویداد‌ها</button></div>
             <div className="lists "> 
+            <Link to={'/event/6'}>
                 <div className="box">
                     <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
                     <h2 className="product-title">آموزش لاراول </h2>
@@ -43,7 +44,7 @@ const HomePage = () => {
                     <span className="product-price">790,000 تومان</span>
                     <button className="my_btn">مشاهده اطلاعات </button>
                 </div>
-               
+               </Link>
                      <div className="box box-test" >
                        
                     <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />

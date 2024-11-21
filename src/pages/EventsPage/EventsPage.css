@@ -1,0 +1,158 @@
+
+    .events-page-container {
+      justify-items: center;
+    }
+  /* Events-body container to hold the nav and squares */
+  .events-body {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-end; */
+    gap: 10px; /* Space between nav and square container */
+    width: 75%; /* Max width for center alignment */
+    max-width: 100%; /* Make responsive on smaller screens */
+    margin-top: 100px;
+    /* margin: 5px; */
+  }
+
+  /* Navbar styling */
+  .nav-events-page {
+    width: 100%; /* Full width of the parent container */
+    background-color: rgb(138, 133, 133);
+    color: #fff;
+    padding: 10px;
+    /* text-align: center; */
+    box-sizing: border-box;
+    text-align: right;
+  }
+
+  .paging-div {
+    width: 100%;
+    background-color: rgb(138, 133, 133);
+    padding: 10px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .paging-div nav {
+    text-align: left !important;
+  }
+
+  option
+  {
+      text-align: right;
+      font-weight: bold;
+  }
+
+
+
+  /* Square container styling */
+  .square-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between squares */
+    /* justify-content: flex-end; */
+  }
+
+  .events-descriptin-div{
+    text-align: right;
+    font-size: small;
+  }
+
+  /* Square styling */
+  .square {
+  border-radius: 1rem;
+  padding: 8px;
+    width: 270px;
+    max-width: 270px;
+    min-width: 270px;
+    height: 23rem;
+    background-color:#dadde8;
+    flex: 1 1 calc(33.33% - 20px); /* Adjust to 3 per row with gap */
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to squares */
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+    display: flex;
+    flex-direction: column;
+    /* align-items:flex-end; */
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .square:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Extra shadow effect on hover */
+      transform: translateY(-2px); /* Slight lift effect */
+      }
+  small {
+      color: rgb(133, 143, 143);
+  }
+
+  .fa-money , .fa-map-marker {
+      color: gray;
+      font-size: 20px;
+      
+  }
+  .card-image {
+      width: 100%; 
+    height: auto; 
+    object-fit: cover; 
+    border-radius: 1rem;
+    /* margin-bottom: 10px; */
+  }
+  .icon-div-money p {
+      font-size: smaller;
+  }
+   /* p , label , option{
+      
+      font-family: 'Anjoman-FaNum-Light';
+   } */
+  h3 {
+      /* margin: 2px; */
+      font-size: 20px;
+      font-family: 'Anjoman-FaNum-Bold';
+  }
+  .card-info {
+      padding: 5px;
+      /* align-items: flex-end; */
+      justify-items: start;
+  }
+  .icon-div {
+      display: flex;
+      margin: 0px;
+      gap: 5px;
+      /* flex-direction: row; */
+      align-items: center;
+      height: 30px;
+  }
+
+  select {
+      width: 100px;
+      height: 30px;
+      border-radius: 8px;
+      color: #000; /* Text color */
+      background-color: #fff; /* Background color */
+      border: 1px solid #ccc; /* Border for the dropdown */
+      padding: 5px;
+      font-size: 16px;
+  }
+
+  select option {
+    color: #000; /* Text color */
+    background-color: #fff; /* Background color */
+  }
+  
+  label {
+      margin-right: 10px;
+      margin-left: 20px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .square {
+      flex: 1 1 calc(50% - 20px); /* 2 squares per row on medium screens */
+    }
+  }
+
+  @media (max-width: 270px) {
+    .square {
+      flex: 1 1 100%; /* 1 square per row on small screens */
+    }
+  }
