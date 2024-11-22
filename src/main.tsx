@@ -19,6 +19,7 @@ import { BrowserRouter, BrowserRouter as Route, Routes } from "react-router-dom"
 import { AuthProvider } from "./components/AuthContext";
 import { AppProvider } from "./components/AppContext";
 
+
 // const Main: React.FC = () => {
 //   const { isAllowed } = useAuth();
 
@@ -67,9 +68,9 @@ if (rootElement) {
       </AuthProvider>
     </AppProvider>
     </BrowserRouter>
-
   );
 } else {
   console.error("Root element not found");
 }
 document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
+

@@ -11,6 +11,8 @@ const PATHS ={
     pudcast: '/pudcasts',
     magazine: '/magazines',
     pamphlet:'/pamphlets',
+    SignUp:'/SignUp',
+    Otp2:'/Otp2'
     otp: "/otp",
     resetPassword : 'resetPassword'
     Login:'/Login',
