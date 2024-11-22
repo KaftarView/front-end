@@ -1,0 +1,26 @@
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .menu-item:hover {
+    background-color: #f5f5f5; /* Equivalent to Tailwind's hover:bg-gray-100 */
+  }
+  
+  .menu-item-icon {
+    width: 32px; /* Equivalent to Tailwind's w-8 */
+    height: 32px; /* Equivalent to Tailwind's h-8 */
+  }
+  
+  .menu-item-title {
+    font-size: 24px; /* Equivalent to Tailwind's text-3xl */
+    color: #2d3748; /* Equivalent to Tailwind's text-gray-800 */
+    font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+  }
+  
