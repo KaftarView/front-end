@@ -30,21 +30,21 @@ const Otp: React.FC = () => {
             newOtp[index] = value;  
             setOtp(newOtp);  
             
-            // Move focus to the next input field (to the left in RTL)  
-            if (index > 0) {  
-                inputRefs.current[index - 1]?.focus();  
+            // Move focus to the next input field (to the right in RTL)  
+            if (index < otp.length - 1) {  
+                inputRefs.current[index + 1]?.focus();  
             }  
         } else if (value === '') {   
             const newOtp = [...otp];  
             newOtp[index] = '';  
             setOtp(newOtp);  
     
-            // Move focus to the previous input field (to the right in RTL)  
-            if (index < otp.length - 1) {  
-                inputRefs.current[index + 1]?.focus();  
+            // Move focus to the previous input field (to the left in RTL)  
+            if (index > 0) {  
+                inputRefs.current[index - 1]?.focus();  
             }  
         }  
-    };  
+    };
     const showAlert = () => {  
         alert("ایمیل با موفقیت ارسال شد");  
     };  
@@ -64,7 +64,7 @@ const Otp: React.FC = () => {
             if(response.data.statusCode == 200)
             {
                 allowAccess();
-                navigate('/resetPass' , { state: { email } });
+                navigate('/resetPassword' , { state: { email } });
             }
         } catch (error) {
             if (axios.isAxiosError(error))
@@ -143,17 +143,17 @@ const Otp: React.FC = () => {
                 </div>
                 <p>لطفا کد ارسال شده به ایمیل را وارد کنید</p>
                 <div className='inputs'>
-                    {otp.map((value, index) => (
-                        <input 
-                            className='otp_input' 
-                            type="text"
-                            key={index}
-                            value={value}
-                            onChange={(event) => handleChange(event, index)}
-                            maxLength={1}
-                            ref={(el) => (inputRefs.current[index] = el)}  
-                        />
-                    ))}         
+                {otp.slice().reverse().map((value, index) => (  
+                    <input  
+                    className="otp2_input"  
+                    type="text"  
+                    key={index}  
+                    value={value}  
+                    onChange={(event) => handleChange(event, otp.length - 1 - index)} // Adjust index for reverse mapping  
+                    maxLength={1}  
+                    ref={(el) => (inputRefs.current[otp.length - 1 - index] = el)} // Adjust ref for reverse mapping  
+                    />  
+                ))}        
                 </div>
                 <h3 className="log">
                 ایمیل اشتباهی را وارد کردید ؟

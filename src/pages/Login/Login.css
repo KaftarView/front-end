@@ -11,23 +11,11 @@
 
 
 }
-html, body {  
-  margin: 0;  
-  padding: 0;  
-  /* background-image: url("././public/pacman3.jpg");
-  background-size: cover; */
 
-} 
-body {  
-  height: 100vh;  
-}  
-  #root{
-    height: 100%;
-  }    /* box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);  */ 
- 
 .Login { 
   border: 4px dashed rgb(228, 127, 18);
   border-radius: 30px;
+  width: 400px;
   max-width: 500px;
   height: auto;
   margin: 50px auto;
@@ -36,9 +24,13 @@ body {
       /* box-shadow: 100px 20px 20px rgba(0, 0, 0, 0.3);  */ 
 
 } 
-h2 , label {
-  font-family: 'Anjoman-FaNum-Bold';
+label {
+  font-family: 'Anjoman-FaNum-Light';
  
+}
+h2 {
+  font-family: 'Anjoman-FaNum-Bold';
+
 }
 .sign_form{
   justify-items: center;
@@ -74,7 +66,7 @@ h2 , label {
 .submit { 
   display: block; 
   margin: 6px auto; 
-  width: 200px; 
+  width: 100px; 
   padding: 5px; 
   border-radius: 5px; 
   transition: 0.5s; 
@@ -91,7 +83,7 @@ h2 , label {
   color: rgb(74, 152, 174);
   border: 1px solid rgb(74, 152, 174);
   /* width: 150px; */
-  width: 300px;
+  width: 200px;
   font-family: 'Anjoman-FaNum-Bold';
 }
  
@@ -117,26 +109,29 @@ h2 , label {
 } 
  
 label { 
-  font-size: 0.79rem; /* Smaller label text (e.g., 14px) */ 
+  font-size: 1rem; /* Smaller label text (e.g., 14px) */ 
 } 
  
 .text-danger { 
-  font-size: 0.59rem; 
+  font-size: 0.8rem; 
   color:  rgb(0, 67, 80); 
   text-align:center; 
 } 
 
 
 .log2{
-  font-size: 20px;
+  font-size: 15px;
   color: rgb(74, 152, 174);
   text-align:center;/* Smaller heading (e.g., 20px) */
   text-align:center;
   font-family: 'Anjoman-FaNum-Light';;
 }
 
+.danger-div {
+  height: 15px;
+}
 .log{
-  font-size: 1.4rem;
+  font-size: 1rem;
   color: rgb(0, 67, 80); /* Smaller error message text (e.g., 12px) */
   font-family: 'Anjoman-FaNum-Light';;
 }

@@ -5,6 +5,7 @@ import "./Login.css";
 import axios, { CanceledError } from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useAppContext } from '../../components/AppContext';
 
 interface FormData {
   username: string;
@@ -21,7 +22,7 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errMessage, setErrMessage] = useState<string>("");
-
+  const { backendUrl, setBackendUrl } = useAppContext();  
   const navigate = useNavigate();
   const location = useLocation();
   const showAlert = () => {  
@@ -40,14 +41,14 @@ const Login = () => {
       console.log(obj.password);
 
       const res = await axios.post(
-        "https://d97a-212-64-199-253.ngrok-free.app/v1/auth/login",
+        `${backendUrl}/v1/auth/login`,
         obj
       );
 
       if(res.data.statusCode === 200)
         {
             showAlert();
-            navigate('/HomePage')
+            navigate('/')
         }
 
     } catch (err) {
@@ -140,7 +141,10 @@ const Login = () => {
         >
           ثبت
         </button>
+        <div className="danger-div">
         {errMessage && <p className="text-danger">{errMessage}</p>}
+        </div>
+
       </form>
     </div>
   );

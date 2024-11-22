@@ -49,18 +49,18 @@
       font-family: 'Anjoman-FaNum-Bold';
     }
     .main-container {
-        margin-top: 80px;
         /* background-color: aqua; */
         width: 90%;
         max-width: 1200px;
-        height: 1300px;
-        padding-top: 80px;
+        /* height: 1300px; */
+        padding-top: 10rem;
         padding-left: 40px;
         padding-right: 40px;
         display: flex;
         flex-direction: row;
         gap: 20px;
         justify-content: center;
+
     }
 
     .event-detail-container {

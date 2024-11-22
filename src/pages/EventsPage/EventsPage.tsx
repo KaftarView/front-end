@@ -3,7 +3,9 @@ import { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import { mockEvents, Event } from './mockEvents';
 import axios from 'axios';
-// import Footer from '../Fototer/Footer';
+import Navbar from '../NavBar/NavBar'
+import Footer from '../Footer/Footer'
+import { useAppContext } from '../../components/AppContext';
 // import Navbar from '../NavBar/NavBar';
 
 interface Event{
@@ -39,13 +41,13 @@ const EventsPage: React.FC = () => {
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents); 
   const [loading, setLoading] = useState<boolean>(true);  
   const [error, setError] = useState<string | null>(null); 
-
+  const { backendUrl, setBackendUrl } = useAppContext();  
 
   
   useEffect(() => {  
     const fetchEvents = async () => {  
       try {  
-        const response = await axios.get('https://86a7-212-64-199-253.ngrok-free.app/v1/public/events/published', {
+        const response = await axios.get(`${backendUrl}/v1/public/events/published`, {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header
@@ -116,7 +118,7 @@ const EventsPage: React.FC = () => {
 
   return (  
     <>  
-      {/* <Navbar />   */}
+      <Navbar />  
       <div className="events-page-container">  
         <div className="events-body">  
           <nav className="nav-events-page"> 
@@ -226,7 +228,7 @@ const EventsPage: React.FC = () => {
           </div>  
         </div>  
       </div>  
-      {/* <Footer/>   */}
+      <Footer/>  
     </>  
   );
 };

@@ -6,6 +6,7 @@ import axios, { CanceledError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from '../../components/AuthContext';
+import { useAppContext } from '../../components/AppContext';
 
 interface FormData {
   username: string;
@@ -27,7 +28,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordAgain, setShowPasswordAgain] = useState(false);
   const [errMessage, setErrMessage] = useState<string | null>(null);
-
+  const { backendUrl, setBackendUrl } = useAppContext();  
   const navigate = useNavigate();
   const { allowAccess } = useAuth();
 
@@ -53,7 +54,7 @@ const SignUp = () => {
         ConfirmPassword: data.passwordagain,
       };
       const res = await axios.post(
-        "https://d97a-212-64-199-253.ngrok-free.app/v1/auth/register",
+        `${backendUrl}/v1/auth/register`,
         payload
       );
       
@@ -80,7 +81,7 @@ const SignUp = () => {
       <h2 className="sign">ثبت نام</h2>
       <form className="sign_form" onSubmit={handleSubmit(onSubmit)}>
         {/* Username */}
-        <div className="mb-4">
+        <div className="z">
           <label
             className="block text-gray-700 font-medium mb-2 text-right text-xl rounded w-30"
             htmlFor="username"
@@ -103,7 +104,7 @@ const SignUp = () => {
         </div>
 
         {/* Password */}
-        <div className="mb-6">
+        <div className="z">
           <label
             className="block text-gray-700 font-medium mb-2 text-right text-xl"
             htmlFor="password"
@@ -131,7 +132,7 @@ const SignUp = () => {
         </div>
 
         {/* Confirm Password */}
-        <div className="mb-8">
+        <div className="z">
           <label
             className="block text-gray-700 font-medium mb-2 text-right text-xl"
             htmlFor="passwordagain"
@@ -160,7 +161,7 @@ const SignUp = () => {
         </div>
 
         {/* Email */}
-        <div className="mb-7">
+        <div className="z">
           <label
             className="block text-gray-700 font-medium mb-2 text-right text-xl"
             htmlFor="email"
@@ -199,7 +200,9 @@ const SignUp = () => {
         </button>
 
         {/* Error Message */}
+        <div className="danger-div1">
         {errMessage && <p className="text-danger">{errMessage}</p>}
+        </div>
       </form>
     </div>
   );

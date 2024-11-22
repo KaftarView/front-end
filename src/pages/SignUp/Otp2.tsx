@@ -96,6 +96,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../components/AuthContext";
 import "./Otp2.css";
+import { useAppContext } from '../../components/AppContext';
 
 interface LocationState {
   state: {
@@ -114,39 +115,62 @@ const Otp2: React.FC = () => {
   // const [popupVisible, setPopupVisible] = useState(false); // State for popup visibility
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [errMessage, setErrMessage] = useState<string>("");
+  const { backendUrl, setBackendUrl } = useAppContext();  
   const navigate = useNavigate();
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const value = event.target.value;
-    if (/^[0-9]$/.test(value)) {
-      const newOtp = [...otp2];
-      newOtp[index] = value;
-      setOtp(newOtp);
-      if (index < otp2.length - 1) {
-        inputRefs.current[index + 1]?.focus();
-      }
-    } else if (value === "") {
-      const newOtp = [...otp2];
-      newOtp[index] = "";
-      setOtp(newOtp);
+  // const handleChange = (
+  //   event: ChangeEvent<HTMLInputElement>,
+  //   index: number
+  // ) => {
+  //   const value = event.target.value;
+  //   if (/^[0-9]$/.test(value)) {
+  //     const newOtp = [...otp2];
+  //     newOtp[index] = value;
+  //     setOtp(newOtp);
+  //     if (index < otp2.length - 1) {
+  //       inputRefs.current[index - 1]?.focus();
+  //     }
+  //   } else if (value === "") {
+  //     const newOtp = [...otp2];
+  //     newOtp[index] = "";
+  //     setOtp(newOtp);
 
-      if (index > 0) {
-        inputRefs.current[index - 1]?.focus();
-      }
-    }
-  };
+  //     if (index > 0) {
+  //       inputRefs.current[index + 1]?.focus();
+  //     }
+  //   }
+  // };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>, index: number) => {  
+    const value = event.target.value;  
+    if (/^[0-9]$/.test(value)) {  
+        const newOtp = [...otp2];  
+        newOtp[index] = value;  
+        setOtp(newOtp);  
+        
+        // Move focus to the next input field (to the right in RTL)  
+        if (index < otp2.length - 1) {  
+            inputRefs.current[index + 1]?.focus();  
+        }  
+    } else if (value === '') {   
+        const newOtp = [...otp2];  
+        newOtp[index] = '';  
+        setOtp(newOtp);  
+
+        // Move focus to the previous input field (to the left in RTL)  
+        if (index > 0) {  
+            inputRefs.current[index - 1]?.focus();  
+        }  
+    }  
+};
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const otpValue = otp2.join("");
     const payload = { email: email, otp: otpValue };
-
+    console.log(payload)
     try {
       const response = await axios.post(
-        "https://d97a-212-64-199-253.ngrok-free.app/v1/auth/register/verify",
+        `${backendUrl}/v1/auth/register/verify`,
         payload
       );
       console.log("Response:", response.data);
@@ -155,7 +179,7 @@ const Otp2: React.FC = () => {
       // setPopupVisible(true);
       if (response.data.statusCode === 200) {
         showAlert();
-        navigate("/Home");
+        navigate("/");
       }
 
       // // Optionally navigate to another page after a delay
@@ -179,17 +203,17 @@ const Otp2: React.FC = () => {
         </div>
         <h1 className="h1">کد ارسال شده به ایمیل را وارد کنید</h1>
         <div className="inputs2">
-          {otp2.map((value, index) => (
-            <input
-              className="otp2_input"
-              type="text"
-              key={index}
-              value={value}
-              onChange={(event) => handleChange(event, index)}
-              maxLength={1}
-              ref={(el) => (inputRefs.current[index] = el)}
-            />
-          ))}
+        {otp2.slice().reverse().map((value, index) => (  
+            <input  
+              className="otp2_input"  
+              type="text"  
+              key={index}  
+              value={value}  
+              onChange={(event) => handleChange(event, otp2.length - 1 - index)} // Adjust index for reverse mapping  
+              maxLength={1}  
+              ref={(el) => (inputRefs.current[otp2.length - 1 - index] = el)} // Adjust ref for reverse mapping  
+            />  
+          ))}  
         </div>
 
         <button className="button2" type="submit">

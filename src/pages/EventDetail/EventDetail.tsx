@@ -103,8 +103,8 @@
 import './EventDetail.css';
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import Navbar from '../NavBar/NavBar';
-// import Footer from '../Fototer/Footer';
+import Navbar from '../NavBar/NavBar';
+import Footer from '../Footer/Footer';
 import { mockEvents } from '../EventsPage/mockEvents';
 import CommentSection from '../../components/Comment';
 
@@ -136,18 +136,18 @@ const EventDetail: React.FC = () => {
   if (!event) {
     return (
       <>
-        {/* <Navbar /> */}
+        <Navbar />
         <div className="main-container">
           <h2>رویداد یافت نشد</h2>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </>
     );
   }
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div className='event-detail-container'>
       <div className="main-container">
         {/* Event Info Section */}
@@ -212,7 +212,7 @@ const EventDetail: React.FC = () => {
 
       </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

@@ -1,6 +1,8 @@
 
     .events-page-container {
       justify-items: center;
+      height: 100%;
+      padding-top: 10rem;
     }
   /* Events-body container to hold the nav and squares */
   .events-body {
@@ -10,7 +12,7 @@
     gap: 10px; /* Space between nav and square container */
     width: 75%; /* Max width for center alignment */
     max-width: 100%; /* Make responsive on smaller screens */
-    margin-top: 100px;
+    /* margin-top: 100px; */
     /* margin: 5px; */
   }
 

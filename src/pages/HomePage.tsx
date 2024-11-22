@@ -1,6 +1,8 @@
 // import "/src/components/Reset.css"
 import "./HomePage.css"
 import { Link } from "react-router-dom"
+import Navbar from "./NavBar/NavBar"
+import Footer from "./Footer/Footer"
 
 // import PATHS from "../router/path"
 const HomePage = () => {
@@ -18,7 +20,8 @@ const HomePage = () => {
   return (
 
 
-
+    <>
+    <Navbar/>
     <div className='home-page'>
         <div className="intro-background">
         {/* <img src="src\images\photo_2024-11-16_00-01-09.jpg" alt="" /> */}
@@ -249,6 +252,8 @@ const HomePage = () => {
         </div>
 
      </div> 
+     <Footer/>
+     </>
 
   )
 }
