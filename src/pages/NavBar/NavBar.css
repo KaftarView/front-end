@@ -1,0 +1,72 @@
+.navbar {
+    padding: 0;
+    padding-top: 0;
+    height:90px;
+    background-color:rgb(229, 231, 235);
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    margin-bottom: 30px;
+
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    flex-direction: row-reverse;
+    height: 90px;
+  }
+  
+  .auth-container {
+    margin-left: 20px;
+    display: none; /* Hidden by default for smaller screens */
+  }
+  
+  .auth-container .auth-buttonNav {
+    padding: 8px 16px;
+    margin-left:30px ;
+    background-color: rgb(228, 127, 18);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .auth-container .profile-icon {
+    font-size: 2rem;
+    color: rgb(228, 127, 18);
+  }
+  
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 24px;
+    text-transform: uppercase;
+  }
+  
+  .nav-links li {
+    font-size: 16px;
+  }
+  
+  .logo-container {
+    padding: 8px;
+    margin-right: 16px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .logoNav {
+    height: 90px;
+    cursor: pointer;
+  }
+  
+  /* For larger screens */
+  @media (min-width: 768px) {
+    .auth-container {
+      display: block;
+    }
+  }
+  

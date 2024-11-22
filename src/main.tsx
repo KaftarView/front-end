@@ -55,6 +55,7 @@ import { AppProvider } from "./components/AppContext";
 //   );
 // };
 
+
 const rootElement = document.getElementById("root");
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
@@ -66,8 +67,9 @@ if (rootElement) {
       </AuthProvider>
     </AppProvider>
     </BrowserRouter>
+
   );
 } else {
   console.error("Root element not found");
 }
-document.getElementsByTagName('html')[0].setAttribute("dir", "rtl");
+document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");

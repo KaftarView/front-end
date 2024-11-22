@@ -1,3 +1,6 @@
+import Footer from "../pages/Footer/Footer"
+import ProfilePage from "../pages/ProfilePage/ProfilePage"
+
 const PATHS ={
     home: '/',
     aboutUse: '/about-us',
@@ -10,5 +13,11 @@ const PATHS ={
     pamphlet:'/pamphlets',
     otp: "/otp",
     resetPassword : 'resetPassword'
+    Login:'/Login',
+    Navbar:'/Navbar',
+    Footer:'/Footer',
+    ProfilePage:'/Profile',
+    ChangePassword:'/ChangePassword',
+    PersonalInfo:'/personal-info'
 }
 export default PATHS
