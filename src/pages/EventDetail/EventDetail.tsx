@@ -106,6 +106,7 @@ import { useParams } from "react-router-dom";
 // import Navbar from '../NavBar/NavBar';
 // import Footer from '../Fototer/Footer';
 import { mockEvents } from '../EventsPage/mockEvents';
+import CommentSection from '../../components/Comment';
 
 const EventDetail: React.FC = () => {
   const [isScrolling, setIsScrolling] = useState(false);
@@ -153,10 +154,12 @@ const EventDetail: React.FC = () => {
 
         {/* Event Description and Image Section */}
         <div className="img-description">
-          <div className="image-div-eve">
+
+          <div className="description-section">
+          <div className="image-div-event">
             <img className="image" src="../public/event.avif" alt={`${event.Category} Thumbnail`} />
           </div>
-          <div className="description-section">
+
             <div className="accent-line"></div>
             <h2 className="description-title">{event.Category || "بدون عنوان"}</h2>
             <p className="description-text">
@@ -165,6 +168,8 @@ const EventDetail: React.FC = () => {
                     در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی و عملی یاد خواهید گرفت تا چک لیست اجرایی خود را برای برگزاری یک رویداد موفق تهیه و تنظیم کنید
             </p>
           </div>
+            <CommentSection />
+
         </div>
         <div className={`detail-info box-shadow ${isScrolling ? "outset-shadow" : ""}`} id="stickyDiv">
           <h2>بلیت رویداد</h2>
@@ -196,7 +201,9 @@ const EventDetail: React.FC = () => {
             <div className="info-label">دسته بندی</div>
             <div className="info-value">{event.Category || "عمومی"}</div>
           </div>
+          <div className='buy-button-div'>
           <a href="#" className="buy-button">خرید بلیت</a>
+          </div>
           <div className='edit-delete-buttons'>
             <a href="#" className="edit-button">ویرایش رویداد</a>
             <a href="#" className="delete-button">حذف رویداد</a>

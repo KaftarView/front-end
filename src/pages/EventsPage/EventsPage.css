@@ -14,6 +14,22 @@
     /* margin: 5px; */
   }
 
+  .add-button {
+    display: block;
+    width: auto;
+    padding: 12px;
+    background-color: #dc7744;
+    color: #fff;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-family: 'Anjoman-FaNum-Bold';
+
+  }
+
   /* Navbar styling */
   .nav-events-page {
     width: 100%; /* Full width of the parent container */
@@ -21,8 +37,13 @@
     color: #fff;
     padding: 10px;
     /* text-align: center; */
+    display: flex;
+    flex-direction: row;
+    /* gap: 15rem; */
     box-sizing: border-box;
     text-align: right;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .paging-div {
@@ -130,7 +151,6 @@
       color: #000; /* Text color */
       background-color: #fff; /* Background color */
       border: 1px solid #ccc; /* Border for the dropdown */
-      padding: 5px;
       font-size: 16px;
   }
 

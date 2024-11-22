@@ -16,6 +16,7 @@ const ForgetPassword: React.FC = () => {
         e.preventDefault();
         // allowAccess();
         // navigate('/otp', { state: { email } });
+        setErrMessage('');
 
         try {
             const response = await fetch(`${backendUrl}/v1/auth/forgot-password`, {
@@ -38,6 +39,8 @@ const ForgetPassword: React.FC = () => {
             }
             if(data.statusCode === 422) {
                 setErrMessage('ایمیل وجود ندارد')
+                setEmail({ email: '' })
+
             }
         } catch (error) {
             if (error instanceof Error) {  

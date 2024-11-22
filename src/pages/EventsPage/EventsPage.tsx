@@ -1,15 +1,82 @@
 import './EventsPage.css';
 import { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { mockEvents, Event } from './mockEvents';
+// import { mockEvents, Event } from './mockEvents';
+import axios from 'axios';
 // import Footer from '../Fototer/Footer';
 // import Navbar from '../NavBar/NavBar';
-const EventsPage: React.FC = () => {
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents); 
-  const [filter, setFilter] = useState<string>('all'); 
 
+interface Event{
+  ID: number;  
+  CreatedAt: string;  
+  UpdatedAt: string; 
+  DeletedAt: string | null;  
+  Name: string;  
+  Status: number;  
+  Description: string;  
+  BasePrice: number;  
+  FromDate: string;  
+  ToDate: string;  
+  MinCapacity: number;  
+  MaxCapacity: number;  
+  VenueType: string;  
+  Location: string;  
+  Communications: null | any; 
+  Categories:{
+    Name : string;
+  }[];
+  Commentable: {  
+    ID: number;  
+    Comments: null | any;
+  };  
+}  
+const EventsPage: React.FC = () => {
+
+  const [filter, setFilter] = useState<string>('all'); 
   const [currentPage, setCurrentPage] = useState<number>(1); 
-  const eventsPerPage = 2;
+  const eventsPerPage = 1;
+  const [mockEvents, setEvents] = useState<Event[]>([]); 
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents); 
+  const [loading, setLoading] = useState<boolean>(true);  
+  const [error, setError] = useState<string | null>(null); 
+
+
+  
+  useEffect(() => {  
+    const fetchEvents = async () => {  
+      try {  
+        const response = await axios.get('https://86a7-212-64-199-253.ngrok-free.app/v1/public/events/published', {
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            'Content-Type': 'application/json', // Example header
+
+          },
+        });
+
+      if (response.status === 200 && response.data) {
+        console.log(response.data.data)
+        const processedEvents = response.data.data.map((event :Event) => ({
+          ...event,
+          VenueType: 'آنلاین'
+        }));
+        processedEvents.map((event :Event) => (console.log(event.Name))) 
+        console.log(processedEvents)
+        setEvents(processedEvents);
+        setFilteredEvents(processedEvents)
+      }
+      } catch (err) {  
+        setError('Failed to fetch events');  
+      } finally {  
+        setLoading(false);  
+      }  
+    };  
+
+    fetchEvents();  
+  }, []); // Empty dependency array means this runs once on mount  
+
+  if (loading) {  
+    return <div>Loading events...</div>;  
+  }  
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {  
     const selectedFilter = e.target.value;  
@@ -53,6 +120,7 @@ const EventsPage: React.FC = () => {
       <div className="events-page-container">  
         <div className="events-body">  
           <nav className="nav-events-page"> 
+          <div className='dropdown-div'>
           <label htmlFor="dropdown"> دسته بندی :</label>  
             <select   
               id="dropdown"   
@@ -62,10 +130,12 @@ const EventsPage: React.FC = () => {
             >  
             
               <option value="all">همه</option>  
-              <option value="online">آنلاین</option>  
+              <option value="آنلاین">آنلاین</option>  
               <option value="physical">حضوری</option>  
               <option value="hybrid">ترکیبی</option>  
             </select>  
+            </div>
+            <button className='add-button'>ایجاد رویداد</button>
 
           </nav>  
   
@@ -79,7 +149,7 @@ const EventsPage: React.FC = () => {
                       <img   
                         className="card-image"   
                         src="./././public/event.avif"   
-                        alt={`${event.Category} Thumbnail`}   
+                        // alt={`${event.Categories[0].Name} Thumbnail`}   
                       />  
                     </div>  
                     <div className="card-info">  
@@ -90,18 +160,18 @@ const EventsPage: React.FC = () => {
                           month: "long",  
                         })}  
                       </small>  
-                      <h3>{event.Category}</h3> 
+                      <h3>{event.Name}</h3> 
                       <div className='events-descriptin-div'>
                       <p>در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی ... </p> 
                       </div>
             
                       <div className="icon-div">  
                         <i className="fa fa-money" aria-hidden="true"></i>  
-                        <p>از {event.MaxCapacity} هزار تومان</p>  
+                        <p>از {event.BasePrice} هزار تومان</p>  
                       </div>  
                       <div className="icon-div"> 
                         <i className="fa fa-map-marker" aria-hidden="true"></i>  
-                        <p>{event.VenueType === "online" ? "آنلاین" : event.Location}</p>  
+                        <p>{event.VenueType }</p>  
                       </div>  
                     </div>  
                   </div>  
@@ -122,7 +192,7 @@ const EventsPage: React.FC = () => {
         className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-900 ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`}
         onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
       >
-        Next
+       بعد
       </a>
     </li>
     
@@ -147,7 +217,7 @@ const EventsPage: React.FC = () => {
         className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-e-0 border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-900 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
         onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
       >
-        Previous
+         قبل
       </a>
     </li>
   </ul>

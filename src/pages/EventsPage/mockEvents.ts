@@ -88,6 +88,42 @@ export type Event = {
     },
   ];
 
+const z ={
+  "statusCode": 200,
+  "message": "OK",
+  "data": {
+      "ID": 1,
+      "CreatedAt": "2024-11-21T10:14:50.32+03:30",
+      "UpdatedAt": "2024-11-21T10:14:50.32+03:30",
+      "DeletedAt": null,
+      "Name": "alos test event1",
+      "Status": 2,
+      "Description": "bobooobobobobobobo",
+      "BasePrice": 0,
+      "FromDate": "2024-12-01T12:30:00+03:30",
+      "ToDate": "2024-12-02T12:30:00+03:30",
+      "MinCapacity": 60,
+      "MaxCapacity": 200,
+      "VenueType": 1,
+      "Location": "slide.com",
+      "Communications": null,
+      "Commentable": {
+          "ID": 0,
+          "Comments": null
+      },
+      "Organizers": [],
+      "Categories": [
+          {
+              "ID": 1,
+              "CreatedAt": "2024-11-21T10:14:50.302+03:30",
+              "UpdatedAt": "2024-11-21T10:14:50.302+03:30",
+              "DeletedAt": null,
+              "Name": "yo1",
+              "Description": ""
+          }
+      ]
+  }
+}
 
 
 

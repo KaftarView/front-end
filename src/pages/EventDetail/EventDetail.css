@@ -25,8 +25,13 @@
     .edit-delete-buttons{
       display: flex;
       flex-direction: row;
+      justify-content: center;
       gap:25px;
 
+    }
+
+    .buy-button-div {
+      justify-items: center;
     }
     .edit-button , .delete-button {
       display: block;
@@ -47,7 +52,7 @@
         margin-top: 80px;
         /* background-color: aqua; */
         width: 90%;
-        max-width: 1100px;
+        max-width: 1200px;
         height: 1300px;
         padding-top: 80px;
         padding-left: 40px;
@@ -208,6 +213,10 @@
     font-size: 1.1em;
     line-height: 1.6;
     color: #555;
+  }
+
+  .image-div-event {
+    margin-bottom: 15px;
   }
 
   /* Additional accent line */
