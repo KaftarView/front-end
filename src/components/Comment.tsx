@@ -26,18 +26,23 @@ const CommentSection = () => {
 
   return (
     <div className="comment-section">
-
       {comments.map((comment, index) => (
         <div key={index} className="comment">
           <div className="comment-header">
-            <img 
-              src={comment.profilePhoto} 
-              alt={`${comment.username}'s profile`} 
-              className="comment-profile-photo" 
+            <div className="comment-options">
+              <span className="comment-three-dots">...</span>
+              <button className="delete-button-comment">
+                حذف
+              </button>
+            </div>
+            <img
+              src={comment.profilePhoto}
+              alt={`${comment.username}'s profile`}
+              className="comment-profile-photo"
             />
             <div className="comment-info">
-              <span className="username">{comment.username}</span>
-              <span className="date">{comment.date}</span>
+              <span className="comment-username">{comment.username}</span>
+              <span className="comment-date">{comment.date}</span>
             </div>
           </div>
           <div className="comment-body">
@@ -45,8 +50,23 @@ const CommentSection = () => {
           </div>
         </div>
       ))}
+      <form  className="comment-form">
+        <input
+          type="email"
+          placeholder="Your email"
+          // value={newComment.email}
+          // onChange={(e) => setNewComment({ ...newComment, email: e.target.value })}
+          required
+        />
+        <textarea
+          placeholder="Write your comment"
+          // value={newComment.text}
+          // onChange={(e) => setNewComment({ ...newComment, text: e.target.value })}
+          required
+        ></textarea>
+        <button type="submit">ارسال نظر</button>
+      </form>
     </div>
   );
-};
-
+      }
 export default CommentSection;

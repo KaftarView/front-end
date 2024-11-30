@@ -107,6 +107,7 @@ import Navbar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
 import { mockEvents } from '../EventsPage/mockEvents';
 import CommentSection from '../../components/Comment';
+import Popup from '../../components/PopUp/PopUp';
 
 const EventDetail: React.FC = () => {
   const [isScrolling, setIsScrolling] = useState(false);
@@ -168,9 +169,11 @@ const EventDetail: React.FC = () => {
                     در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی و عملی یاد خواهید گرفت تا چک لیست اجرایی خود را برای برگزاری یک رویداد موفق تهیه و تنظیم کنید
             </p>
           </div>
+          <Popup />
             <CommentSection />
 
         </div>
+        
         <div className={`detail-info box-shadow ${isScrolling ? "outset-shadow" : ""}`} id="stickyDiv">
           <h2>بلیت رویداد</h2>
           
