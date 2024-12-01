@@ -1,9 +1,8 @@
 import axios from "axios";
-import { getToken, setToken, removeToken, isTokenExpired } from "./jwt";
+import { getToken, setToken, removeToken, isTokenExpired , getRefreshToken } from "./jwt";
 
-// Create Axios instance
 const apiClient = axios.create({
-  baseURL: "https://your-backend-api.com", // Replace with your backend URL
+  baseURL: "https://e773-212-64-199-253.ngrok-free.app", // Replace with your backend URL
 });
 
 
@@ -64,17 +63,14 @@ apiClient.interceptors.response.use(
 
       try {
         // Call the refresh token endpoint
-        const refreshResponse = await axios.post(
-          "https://your-backend-api.com/auth/refresh",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${getToken()}`, // Add the old access token or refresh token here
-            },
-          }
-        );
 
-        const { token } = refreshResponse.data; // Replace with your backend's token structure
+        const refreshToken = getRefreshToken();
+        const { data } = await axios.post('https://e773-212-64-199-253.ngrok-free.app/v1/auth/refresh-token', {
+          refreshToken,
+        });
+
+
+        const { token } = data.data; // Replace with your backend's token structure
         setToken(token); // Save the new access token
         processQueue(null, token);
 

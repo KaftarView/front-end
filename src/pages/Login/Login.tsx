@@ -5,6 +5,8 @@ import axios, { CanceledError } from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAppContext } from '../../components/AppContext';
+import { setRefreshToken, setToken } from "../../utils/jwt";
+import apiClient from  "../../utils/apiClient"
 
 interface FormData {
   username: string;
@@ -43,11 +45,17 @@ const Login = () => {
         `${backendUrl}/v1/auth/login`,
         obj
       );
-
+        console.log(res)
       if(res.data.statusCode === 200)
         {
-            showAlert();
-            navigate('/')
+            // showAlert();
+            // navigate('/')
+            // setToken(res.data.)
+            setToken(res.data.data.access_token);
+            setRefreshToken(res.data.data.refresh_token)
+            console.log(localStorage.getItem("refresh_token"));
+            
+
         }
 
     } catch (err) {
