@@ -94,7 +94,9 @@
     position: -webkit-sticky;
     transition: box-shadow 0.3s ease;
   }
-
+  .event-details-title {
+    text-align: justify;
+  }
   /* Title styling */
   .detail-info h2 {
     font-size: 1.5em;

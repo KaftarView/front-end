@@ -108,12 +108,31 @@ import Footer from '../Footer/Footer';
 import { mockEvents } from '../EventsPage/mockEvents';
 import CommentSection from '../../components/Comment';
 import Popup from '../../components/PopUp/PopUp';
+import axios, { AxiosError } from 'axios';    
+import { useAppContext } from '../../components/AppContext';
+import EventHost from '../../components/EventHost/EventHost';
+
+interface EventDetail {
+  id: number;
+  name: string;
+  description: string;
+  location: string;
+  status: string;
+  venue_type: string;
+  categories: string[];
+  created_at: string;
+  from_date: string;
+  to_date: string;
+}
 
 const EventDetail: React.FC = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const { id } = useParams<{ id: string }>();
-  const event = mockEvents.find((e) => e.ID.toString() === id);
-
+  // const event = mockEvents.find((e) => e.ID.toString() === id);
+  const [loading, setLoading] = useState(true);  
+  const [error, setError] = useState<string | null>(null); 
+  const { backendUrl, setBackendUrl } = useAppContext();  
+  const [event, setEvent] = useState<EventDetail | null>(null);
   let scrollTimeout: NodeJS.Timeout;
 
   useEffect(() => {
@@ -132,6 +151,43 @@ const EventDetail: React.FC = () => {
       clearTimeout(scrollTimeout);
     };
   }, []);
+
+  useEffect(() => {  
+    const fetchEvent = async () => {  
+        setLoading(true);  
+        setError(null);  
+
+        try {  
+            const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
+              headers: {
+                "ngrok-skip-browser-warning": "69420",
+                'Content-Type': 'application/json', // Example header
+    
+              },
+            });  
+            console.log(response.data.data); 
+            const eventData = response.data.data;
+            setEvent(eventData);
+            console.log(event) 
+        } catch (err) {  
+          if (axios.isAxiosError(err)) {
+            // Handle specific error cases, e.g., 404 for not found  
+            if (err.response && err.response.status === 404) {  
+                setError('Event not found');  
+            } else {  
+                setError('An error occurred while fetching the event');  
+            }  
+          }
+        } finally {  
+            setLoading(false);  
+        }  
+    };  
+
+    fetchEvent();  
+}, [id]);  
+  if (loading) {  
+    return <div>Loading event...</div>;  
+  }  
 
   // If event is not found, display a fallback message
   if (!event) {
@@ -158,11 +214,11 @@ const EventDetail: React.FC = () => {
 
           <div className="description-section">
           <div className="image-div-event">
-            <img className="image" src="../public/event.avif" alt={`${event.Category} Thumbnail`} />
+            <img className="image" src="../public/event.avif" alt={`${event.categories[0]} Thumbnail`} />
           </div>
 
             <div className="accent-line"></div>
-            <h2 className="description-title">{event.Category || "بدون عنوان"}</h2>
+            <h2 className="description-title">{event.name|| "بدون عنوان"}</h2>
             <p className="description-text">
             برگزاری یک رویداد موفق با هر هدفی که باشد آموزش سازمانی، ارائه محصول و خدمت به مشتریان، نمایش دستاوردها و عملکرد سالانه سازمان و … نیازمند تعریف یک فرآیند اجرایی دقیق و شفاف است. فرآیندی که در آن کلیه جزئیات مراحل مختلف همچون برنامه ریزی و تعیین هدف، تیم اجرایی و شرح وظایف آنها، ابزار و امکانات، لیست هزینه ها، مجری و سخنران، پذیرایی و تشریفات، اطلاع رسانی مشخص شده باشد.
                     در نهایت شما نیازمند تدوین یک چک لیست کامل از تمامی فعالیت هایی هستید که به شما کمک می کند یک رویداد را با موفقیت کامل برگزار کرده و به نتایج دلخواه خود ، هم راستا با هدف تعیین شده، دست پیدا کنید.                    
@@ -170,6 +226,13 @@ const EventDetail: React.FC = () => {
             </p>
           </div>
           <Popup />
+          <div className='event-details-title'>
+          <h2>برگزار کننده‌گان</h2>
+          </div>
+          {id && <EventHost eventId={id} />}
+          <div className='event-details-title'>
+          <h2>نظرات</h2>
+          </div>
             <CommentSection />
 
         </div>
@@ -178,13 +241,19 @@ const EventDetail: React.FC = () => {
           <h2>بلیت رویداد</h2>
           
           <div className="info-row">
-            <div className="info-label">برگزارکننده</div> 
-            <div className="info-value">{event.Location || "نامعلوم"}</div>
+            <div className="info-label">از تاریخ</div> 
+            <div className="info-value">             
+             {new Date(event.from_date).toLocaleDateString("fa-IR", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+              })}
+              </div>
           </div>
           <div className="info-row">
-            <div className="info-label">تاریخ</div>
+            <div className="info-label">تا تاریخ</div>
             <div className="info-value">
-              {new Date(event.FromDate).toLocaleDateString("fa-IR", {
+              {new Date(event.to_date).toLocaleDateString("fa-IR", {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -194,15 +263,15 @@ const EventDetail: React.FC = () => {
           </div>
           <div className="info-row">
             <div className="info-label">قیمت بلیت</div> 
-            <div className="info-value"> {event.MaxCapacity || "رایگان"}هزارتومان </div>
+            <div className="info-value">هزارتومان </div>
           </div>
           <div className="info-row">
-            <div className="info-label">آدرس</div>
-            <div className="info-value">{event.Location || "نامعلوم"}</div>
+            <div className="info-label">نحوه برگزاری</div>
+            <div className="info-value">{event.venue_type === "Online" ? "آنلاین" : "حضوری"}</div>
           </div>
           <div className="info-row">
             <div className="info-label">دسته بندی</div>
-            <div className="info-value">{event.Category || "عمومی"}</div>
+            <div className="info-value">{event.categories[0] || "عمومی"}</div>
           </div>
           <div className='buy-button-div'>
           <a href="#" className="buy-button">خرید بلیت</a>

@@ -8,35 +8,50 @@ import Footer from '../Footer/Footer'
 import { useAppContext } from '../../components/AppContext';
 // import Navbar from '../NavBar/NavBar';
 
-interface Event{
-  ID: number;  
-  CreatedAt: string;  
-  UpdatedAt: string; 
-  DeletedAt: string | null;  
-  Name: string;  
-  Status: number;  
-  Description: string;  
-  BasePrice: number;  
-  FromDate: string;  
-  ToDate: string;  
-  MinCapacity: number;  
-  MaxCapacity: number;  
-  VenueType: string;  
-  Location: string;  
-  Communications: null | any; 
-  Categories:{
-    Name : string;
-  }[];
-  Commentable: {  
-    ID: number;  
-    Comments: null | any;
-  };  
-}  
+// interface Event{
+//   ID: number;  
+//   CreatedAt: string;  
+//   UpdatedAt: string; 
+//   DeletedAt: string | null;  
+//   Name: string;  
+//   Status: number;  
+//   Description: string;  
+//   BasePrice: number;  
+//   FromDate: string;  
+//   ToDate: string;  
+//   MinCapacity: number;  
+//   MaxCapacity: number;  
+//   VenueType: string;  
+//   Location: string;  
+//   Communications: null | any; 
+//   Categories:{
+//     Name : string;
+//   }[];
+//   Commentable: {  
+//     ID: number;  
+//     Comments: null | any;
+//   };  
+// }  
+
+interface Event {
+  id: number;
+  name: string;
+  description: string;
+  location: string;
+  status: string;
+  venue_type: string;
+  categories: string[];
+  created_at: string;
+  from_date: string;
+  to_date: string;
+}
+
+
 const EventsPage: React.FC = () => {
 
   const [filter, setFilter] = useState<string>('all'); 
   const [currentPage, setCurrentPage] = useState<number>(1); 
-  const eventsPerPage = 1;
+  const eventsPerPage = 5;
   const [mockEvents, setEvents] = useState<Event[]>([]); 
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents); 
   const [loading, setLoading] = useState<boolean>(true);  
@@ -47,7 +62,7 @@ const EventsPage: React.FC = () => {
   useEffect(() => {  
     const fetchEvents = async () => {  
       try {  
-        const response = await axios.get(`${backendUrl}/v1/public/events/published`, {
+        const response = await axios.get(`${backendUrl}/v1/events`, {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header
@@ -61,7 +76,7 @@ const EventsPage: React.FC = () => {
           ...event,
           VenueType: 'آنلاین'
         }));
-        processedEvents.map((event :Event) => (console.log(event.Name))) 
+        processedEvents.map((event :Event) => (console.log(event.name))) 
         console.log(processedEvents)
         setEvents(processedEvents);
         setFilteredEvents(processedEvents)
@@ -88,7 +103,7 @@ const EventsPage: React.FC = () => {
     if (selectedFilter === 'all') {  
       setFilteredEvents(mockEvents);  
     } else {  
-      const filtered = mockEvents.filter(event => event.VenueType === selectedFilter);  
+      const filtered = mockEvents.filter(event => event.venue_type === selectedFilter);  
       setFilteredEvents(filtered);  
     }  
   };  
@@ -132,7 +147,7 @@ const EventsPage: React.FC = () => {
             >  
             
               <option value="all">همه</option>  
-              <option value="آنلاین">آنلاین</option>  
+              <option value="Online">آنلاین</option>  
               <option value="physical">حضوری</option>  
               <option value="hybrid">ترکیبی</option>  
             </select>  
@@ -145,7 +160,7 @@ const EventsPage: React.FC = () => {
           <div className="square-container">  
             {currentEvents.length > 0 ? (  
               currentEvents.map((event) => (  
-                <Link to={`/event/${event.ID}`} key={event.ID} className="square-link">  
+                <Link to={`/event/${event.id}`} key={event.id} className="square-link">  
                   <div className="square">  
                     <div>  
                       <img   
@@ -156,24 +171,24 @@ const EventsPage: React.FC = () => {
                     </div>  
                     <div className="card-info">  
                       <small>  
-                        {new Date(event.FromDate).toLocaleDateString("fa-IR", {  
+                        {new Date(event.from_date).toLocaleDateString("fa-IR", {  
                           weekday: "long",  
                           day: "numeric",  
                           month: "long",  
                         })}  
                       </small>  
-                      <h3>{event.Name}</h3> 
+                      <h3>{event.name}</h3> 
                       <div className='events-descriptin-div'>
                       <p>در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی ... </p> 
                       </div>
             
                       <div className="icon-div">  
                         <i className="fa fa-money" aria-hidden="true"></i>  
-                        <p>از {event.BasePrice} هزار تومان</p>  
+                        <p>از هزار تومان</p>  
                       </div>  
                       <div className="icon-div"> 
                         <i className="fa fa-map-marker" aria-hidden="true"></i>  
-                        <p>{event.VenueType }</p>  
+                        <p>{event.venue_type === "Online" ? "آنلاین" : "حضوری" }</p>  
                       </div>  
                     </div>  
                   </div>  

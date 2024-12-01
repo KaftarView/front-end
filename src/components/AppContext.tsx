@@ -11,7 +11,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 // Create a provider component  
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {  
-    const [backendUrl, setBackendUrl] = useState<string>('https://e8a5-212-64-199-253.ngrok-free.app');
+    const [backendUrl, setBackendUrl] = useState<string>('https://f4de-194-225-232-244.ngrok-free.app');
 
     return (  
         <AppContext.Provider value={{ backendUrl, setBackendUrl }}>  
