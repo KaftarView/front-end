@@ -35,6 +35,7 @@ import { useAppContext } from '../../components/AppContext';
 
 interface Event {
   id: number;
+  banner: string;
   name: string;
   description: string;
   location: string;
@@ -165,7 +166,7 @@ const EventsPage: React.FC = () => {
                     <div>  
                       <img   
                         className="card-image"   
-                        src="./././public/event.avif"   
+                        src={event.banner}   
                         // alt={`${event.Categories[0].Name} Thumbnail`}   
                       />  
                     </div>  

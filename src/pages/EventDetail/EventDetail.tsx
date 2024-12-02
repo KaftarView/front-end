@@ -114,6 +114,7 @@ import EventHost from '../../components/EventHost/EventHost';
 
 interface EventDetail {
   id: number;
+  banner: string;
   name: string;
   description: string;
   location: string;
@@ -214,7 +215,7 @@ const EventDetail: React.FC = () => {
 
           <div className="description-section">
           <div className="image-div-event">
-            <img className="image" src="../public/event.avif" alt={`${event.categories[0]} Thumbnail`} />
+            <img className="image" src={event.banner} alt={`${event.categories[0]} Thumbnail`} />
           </div>
 
             <div className="accent-line"></div>
