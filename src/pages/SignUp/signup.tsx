@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from '../../components/AuthContext';
 import { useAppContext } from '../../components/AppContext';
+import apiClient from  "../../utils/apiClient"
 
 interface FormData {
   username: string;
@@ -53,8 +54,8 @@ const SignUp = () => {
         Password: data.password,
         ConfirmPassword: data.passwordagain,
       };
-      const res = await axios.post(
-        `${backendUrl}/v1/auth/register`,
+      const res = await apiClient.post(
+        '/v1/auth/register',
         payload
       );
       
