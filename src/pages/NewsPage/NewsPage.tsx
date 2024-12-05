@@ -1,16 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import './NewsPage.css';
+import axios from 'axios';  
 import Navbar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
+import Modal from '../../components/PopupQuestion/PopopQuestion';
+import PopupQuestion from '../../components/PopupQuestion/PopopQuestion';
+
+interface NewsOverall {  
+  ID: number;  
+  Title: string;  
+  Description: string;  
+  CreatedAt: string;  
+  UpdatedAt: string;  
+  Author: string;  
+  Categories : string[];
+}  
 
 const NewsPage: React.FC = () => {
   const [filter, setFilter] = useState('');
   const [search, setSearch] = useState('');
+  const [newsList, setNewsList] = useState<NewsOverall[]>([]); 
+  const [currentNewsId , setCurrentNewsId] = useState<number | null>(null); 
+  const [isModalVisible, setIsModalVisible] = useState(false); 
+  const [loading, setLoading] = useState<boolean>(true);  
+  const [error, setError] = useState<string | null>(null); 
 
-  const newsList = [
-    { id: 1, title: 'اخبار جدید', summary: 'در روزهای آتی برنامه ای...', image: '../../public/news.jpg' },
-    { id: 2, title: 'اخبار جدید', summary: 'در روزهای آتی برنامه ای...', image: '../../public/news.jpg' },
+
+  const newList = [
+    { id: 1, title: 'اخبار جدید', summary: 'در روزهای آتی برنامه ای...', image: '../../public/news.jpg' ,publishDate: "December 4, 2024", },
+    { id: 2, title: 'اخبار جدید', summary: 'در روزهای آتی برنامه ای...', image: '../../public/news.jpg' ,publishDate: "December 4, 2024", },
   ];
+  useEffect(() => {  
+    const fetchNews = async () => {  
+      setLoading(true); 
+      try {  
+        const categories = filter ? [filter] : []; 
+        console.log(categories);  
+        const response = await axios.post('https://2884-2a12-5e40-1-67be-8b92-66b0-e183-2a0c.ngrok-free.app/v1/news/filtered', {  
+          categories: categories,
+        });  
+        console.log(response.data.data);  
+        if (response.data.statusCode === 200) {  
+          setNewsList(response.data.data);  
+          console.log(newsList)
+        } else {  
+          setError('Failed to fetch news');  
+        }  
+      } catch (err) {  
+        console.error(err);
+        setError('An error occurred while fetching news');  
+      } finally {  
+        setLoading(false);  
+      }  
+    };  
+
+    fetchNews();  
+  }, [filter]);  
+  const deleteNewsById = async (newsId: number) => {  
+    try {  
+      await axios.delete(`/news/${newsId}`);  
+      console.log('News deleted successfully');  
+      
+      // Update the local state to remove the deleted news item  
+      setNewsList((prevNewsList) => prevNewsList.filter((news) => news.ID !== newsId));  
+      setIsModalVisible(false);  
+    } catch (error) {  
+      console.error('Error deleting news:', error);  
+    }  
+  };  
+
+  // Handle delete button click  
+  const handleDeleteClick = (newsId: number) => {  
+    setCurrentNewsId(newsId);  
+    setIsModalVisible(true);  
+  };  
+
+  const handleConfirmDelete = () => {  
+    if (currentNewsId !== null) {  
+      deleteNewsById(currentNewsId);  
+    }  
+  };  
+
+  const handleCancelDelete = () => {  
+    setIsModalVisible(false);  
+    setCurrentNewsId(null);  
+  };  
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -23,6 +97,7 @@ const NewsPage: React.FC = () => {
   return (
     <>
     <Navbar />
+    <div className='news-page-container'>
     <div className="news-page">
       <div className="center-div">
       <div className="filter-search">
@@ -42,29 +117,43 @@ const NewsPage: React.FC = () => {
   </div>
   <select value={filter} onChange={handleFilterChange} className="filter-dropdown">
     <option value="">All</option>
-    <option value="latest">Latest</option>
-    <option value="popular">Popular</option>
+    <option value="To">Latest</option>
+    <option value="public">Popular</option>
   </select>
 </div>
         <div className="news-container">
           {newsList.map((news) => (
-            <div key={news.id} className="news-box">
+            <div key={news.ID} className="news-box">
               <div className="news-options">
                 <span className="three-dots">⋮</span>
                 <div className="options-menu">
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => handleDeleteClick(news.ID)}>Delete</button> 
                 </div>
               </div>
-                <img src={news.image} alt={news.title} className="news-image" />
+                <img src='../../public/news.jpg' alt={news.Title} className="news-image" />
               <div className="news-summary">
-                <h3>{news.title}</h3>
-                <p>{news.summary}</p>
+                <h3>{news.Title}</h3>
+                <p>{news.Description}</p>
+                <span className="news-publish-date">انتشار :              
+                {new Date(news.CreatedAt).toLocaleDateString("fa-IR", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+              })}</span>
               </div>
             </div>
+
           ))}
+          <PopupQuestion   
+                  isVisible={isModalVisible}  
+                  message = "آیا از حذف این خبر اطمینان دارید؟"
+                  onConfirm={handleConfirmDelete}  
+                  onCancel={handleCancelDelete}  
+                />  
         </div>
       </div>
+    </div>
     </div>
     <Footer />
     </>

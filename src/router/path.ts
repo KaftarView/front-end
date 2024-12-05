@@ -21,6 +21,6 @@ const PATHS ={
     ProfilePage:'/Profile',
     ChangePassword:'/ChangePassword',
     PersonalInfo:'/personal-info',
-    NewsPage : 'news-page'
+    NewsPage : '/news-page'
 }
 export default PATHS
