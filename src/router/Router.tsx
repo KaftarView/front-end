@@ -18,6 +18,9 @@ import ProfilePage from "../pages/ProfilePage/ProfilePage"
 import ChangePassword from "../pages/ChangePasswordAndUserInfo/ChangePassword"
 import PersonalInfo from "../pages/ChangePasswordAndUserInfo/PersonalInfo"
 import NewsPage from "../pages/NewsPage/NewsPage"
+import Addevent from "../pages/AddEvent/addevent"
+import Tikets from "../pages/AddEvent/Tikets"
+import Discount from "../pages/AddEvent/Discount"
 // import Footer from "../pages/Footer/Footer"
 
 
@@ -45,6 +48,9 @@ const Router = () => {
         <Route path={PATHS.ChangePassword}  element={<ChangePassword/>}></Route>
         <Route path={PATHS.PersonalInfo}  element={<PersonalInfo/>}></Route>
         <Route path={PATHS.NewsPage}  element={<NewsPage/>}></Route>
+        <Route path={PATHS.AddEvent}  element={<Addevent />} />
+        <Route path={PATHS.Tikets} element={<Tikets />} />
+        <Route path={PATHS.Discount}  element={<Discount />} />
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}

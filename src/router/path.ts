@@ -21,6 +21,9 @@ const PATHS ={
     ProfilePage:'/Profile',
     ChangePassword:'/ChangePassword',
     PersonalInfo:'/personal-info',
-    NewsPage : '/news-page'
+    NewsPage : '/news-page',
+    AddEvent:'/addevent',
+    Tikets:'/Tikets/:eventId',
+    Discount:'/Discount/:eventId',
 }
 export default PATHS
