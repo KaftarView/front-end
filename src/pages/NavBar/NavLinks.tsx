@@ -13,7 +13,7 @@ interface SubMenuLink {
   sublink: SubLinkItem[];
 }
 
-interface LinkItem {  
+interface LinkItem {
   name: string;
   submenu?: boolean;
   sublinks: SubMenuLink[];
@@ -24,19 +24,21 @@ const NavLinks: React.FC = () => {
   const [heading, setHeading] = useState<string>("");
 
   return (
-    <div dir="rtl" className="flex text-xl">
+    <div dir="rtl" className="flex text-xl font-anjoman">
       {links.map((link: LinkItem, index: number) => (
-        <div 
-          key={index} 
-          className="relative group px-3" 
-          style={{ position: "relative", zIndex: 5 }}
+        <div
+          key={index}
+          className="relative group px-3"
+          style={{ position: "relative", zIndex: 5 }} // Ensure parent has proper stacking context
         >
-          <div className="px-3 text-center md:cursor-pointer flex items-center">
+          <div className=" py-4 px-18 text-center md:cursor-pointer flex items-center">
             {link.submenu ? (
               <h1
-                className="py-7 px-3 flex justify-between items-center md:pr-0 pr-5 text-black font-bold text-xl hover:text-[#f97316]"
+                className="px-3 flex justify-between items-center md:pr-0 pr-5 text-black font-bold text-xl hover:text-[#f97316]"
                 onClick={() => {
-                  heading !== link.name ? setHeading(link.name) : setHeading("");
+                  heading !== link.name
+                    ? setHeading(link.name)
+                    : setHeading("");
                 }}
               >
                 {link.name}
@@ -44,7 +46,7 @@ const NavLinks: React.FC = () => {
             ) : (
               <Link
                 to={link.link || "#"}
-                className="py-7 px-3 text-black font-bold text-xl hover:text-[#f97316]"
+                className="px-3 text-black font-bold text-xl hover:text-[#f97316]"
               >
                 {link.name}
               </Link>
@@ -54,18 +56,19 @@ const NavLinks: React.FC = () => {
           {link.submenu && (
             <div>
               {/* Desktop submenu */}
-              <div 
+              <div
                 className="absolute top-20 right-0 hidden group-hover:md:block hover:md:block"
                 style={{ zIndex: 10 }} // Submenu z-index higher than .line
               >
                 <div className="py-3">
-                  <div 
-                    className="w-4 h-4 right-3 absolute mt-1 bg-white rotate-45"
+                  <div
+                    // className="w-5 h-4 right-3 absolute mt-1 bg-white rotate-45"
+                    className="w-5 h-4 right-3 absolute mt-1 bg-gray-200 rotate-45"
                     style={{ zIndex: 11 }} // Arrow part of submenu above .line
                   ></div>
                 </div>
-                <div 
-                  className="bg-white p-5 grid grid-cols-3 gap-20 text-right text-black rounded shadow-xl"
+                <div
+                  className="bg-gray-200 p-4 grid grid-cols-4 gap-20 text-right text-black rounded shadow-xl"
                   style={{ zIndex: 12 }} // Main submenu
                 >
                   {link.sublinks.map((mysublinks, subIndex) => (
