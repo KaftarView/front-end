@@ -21,7 +21,7 @@ import NewsPage from "../pages/NewsPage/NewsPage"
 import Addevent from "../pages/AddEvent/addevent"
 import Tikets from "../pages/AddEvent/Tikets"
 import Discount from "../pages/AddEvent/Discount"
-// import Footer from "../pages/Footer/Footer"
+
 
 
 const Router = () => {
@@ -30,6 +30,7 @@ const Router = () => {
     <Routes>
        <Route path={PATHS.Login}  element={<Login/>}></Route>
         <Route path={PATHS.home}  element={<HomePage/>}></Route>
+
         <Route path={PATHS.SignUp} element={<SignUp/>}></Route>
         <Route path={PATHS.Otp2} element={<Otp2/>}></Route>
         <Route path={PATHS.forgetpassword}  element={<ForgetPassword/>}></Route>

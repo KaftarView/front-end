@@ -1,5 +1,7 @@
 
+import React, { useEffect, useState } from "react";
 import React, { useState } from "react";
+
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../../public/ElmosLogo.png";
 import NavLinks from "./NavLinks";
@@ -21,6 +23,19 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  
+//   useEffect(() => {
+//     // Check login state from localStorage
+//     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+//     setIsLoggedIn(loggedIn);
+
+//     // Save last loaded page for redirect after login
+//     // if (location.pathname !== "/Login" && location.pathname !== "/signup") {
+//       // localStorage.setItem("lastPage", location.pathname);
+//     // }
+//   }, [location]);
+
+
   const handleSignupRedirect = () => {
     navigate("/signup");
   };
@@ -29,6 +44,7 @@ const Navbar: React.FC = () => {
     <>
       <nav className="navbar">
         <div className="navbar-container">
+        <div className="ButtonNav">
           {/* Login/Register or Profile Icon */}
           <div className="auth-container">
             {isLoggedIn ? (
@@ -38,11 +54,13 @@ const Navbar: React.FC = () => {
                   className="profile-icon"
                 ></ion-icon>
               </Link>
-            ) : (
+            ) :  (
               <button onClick={handleSignupRedirect} className="auth-buttonNav">
                 ثبت نام / ورود
               </button>
             )}
+            </div>
+
           </div>
 
           {/* Center with Navigation Links */}
@@ -61,7 +79,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-
-
-
 

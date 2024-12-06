@@ -1,6 +1,7 @@
 import Footer from "../pages/Footer/Footer"
 import ProfilePage from "../pages/ProfilePage/ProfilePage"
 
+
 const PATHS ={
     home: '/',
     aboutUse: '/about-us',
@@ -25,5 +26,6 @@ const PATHS ={
     AddEvent:'/addevent',
     Tikets:'/Tikets/:eventId',
     Discount:'/Discount/:eventId',
+
 }
 export default PATHS
