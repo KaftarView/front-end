@@ -1,0 +1,43 @@
+.event-hosts {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+.event-host {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  background-color: #f9f9f9;
+}
+
+.event-host:not(:last-child) {
+  border-bottom: 1px solid #ccc; /* Light gray line */
+}
+
+.event-host-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Circular photo */
+  margin-right: 16px;
+  margin-left: 8px;
+}
+
+.event-host-info {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+}
+
+.event-host-info h3 {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.event-host-info p {
+  margin: 4px 0 0;
+  font-size: 0.9em;
+  color: #555; /* Grayish text */
+}

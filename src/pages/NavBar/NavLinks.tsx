@@ -13,7 +13,8 @@ interface SubMenuLink {
   sublink: SubLinkItem[];
 }
 
-interface LinkItem {
+
+interface LinkItem {  
   name: string;
   submenu?: boolean;
   sublinks: SubMenuLink[];
@@ -46,7 +47,9 @@ const NavLinks: React.FC = () => {
             ) : (
               <Link
                 to={link.link || "#"}
+
                 className="px-3 text-black font-bold text-xl hover:text-[#f97316]"
+
               >
                 {link.name}
               </Link>
@@ -57,10 +60,12 @@ const NavLinks: React.FC = () => {
             <div>
               {/* Desktop submenu */}
               <div
+
                 className="absolute top-20 right-0 hidden group-hover:md:block hover:md:block"
                 style={{ zIndex: 10 }} // Submenu z-index higher than .line
               >
                 <div className="py-3">
+
                   <div
                     // className="w-5 h-4 right-3 absolute mt-1 bg-white rotate-45"
                     className="w-5 h-4 right-3 absolute mt-1 bg-gray-200 rotate-45"

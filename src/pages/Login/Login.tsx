@@ -1,15 +1,19 @@
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import "./Login.css";
 import axios, { CanceledError } from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useAppContext } from '../../components/AppContext';
+import { setRefreshToken, setToken } from "../../utils/jwt";
+import {useAuth , User} from '../../components/AuthContext'
+import apiClient from  "../../utils/apiClient"
 
 interface FormData {
   username: string;
   password: string;
 }
+
 
 const Login = () => {
   const {
@@ -21,13 +25,15 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errMessage, setErrMessage] = useState<string>("");
-
+  const { backendUrl, setBackendUrl } = useAppContext();  
   const navigate = useNavigate();
   const location = useLocation();
+  const { login , logout } = useAuth();  
   const showAlert = () => {  
     alert("خوش آمدید");  
   };  
-
+  logout()
+  // localStorage.removeItem("access_token")
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -39,15 +45,26 @@ const Login = () => {
       console.log(obj.username);
       console.log(obj.password);
 
-      const res = await axios.post(
-        "https://d97a-212-64-199-253.ngrok-free.app/v1/auth/login",
-        obj
-      );
-
+      const res = await apiClient.post('/v1/auth/login', obj);  
+      console.log(res);  
       if(res.data.statusCode === 200)
         {
+            setToken(res.data.data.access_token);
+            setRefreshToken(res.data.data.refresh_token)
+            const user: User = {
+              id: res.data.data.id,  
+              username: res.data.data.name,  
+              email: res.data.data.email,
+              roles : res.data.data.roles,
+              permissions: res.data.data.roles,
+          
+            };  
             showAlert();
-            navigate('/HomePage')
+            navigate('/')
+            login(user);
+            
+            
+
         }
 
     } catch (err) {
@@ -140,7 +157,10 @@ const Login = () => {
         >
           ثبت
         </button>
+        <div className="danger-div">
         {errMessage && <p className="text-danger">{errMessage}</p>}
+        </div>
+
       </form>
     </div>
   );

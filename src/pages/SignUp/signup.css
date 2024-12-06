@@ -1,0 +1,198 @@
+@font-face {
+  font-family: 'Anjoman-FaNum-Bold';
+  src: url('/src/fonts/Woff/Anjoman-FaNum-Bold.woff') format('woff'),
+       url('/src/fonts/Woff2/Anjoman-FaNum-Bold.woff2') format('woff2');
+
+}
+@font-face {
+  font-family: 'Anjoman-FaNum-Light';
+  src: url('/src/fonts/Woff/Anjoman-FaNum-Light.woff') format('woff'),
+       url('/src/fonts/Woff2/Anjoman-FaNum-Light.woff2') format('woff2');
+
+
+}
+
+  .signup {
+    border: 4px dashed rgb(228, 127, 18);
+    border-radius: 30px;
+    max-width: 430px;
+    height: auto;
+    margin: 50px auto;
+    padding: 15px;
+    background-color: #E9E9E9
+        /* box-shadow: 100px 20px 20px rgba(0, 0, 0, 0.3);  */
+
+  }
+
+  h2 , label {
+    font-family: 'Anjoman-FaNum-Light';
+   
+  }
+  .z {
+    margin-bottom: 2px;
+  }
+
+  .sign_form{
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+    
+  }
+
+
+.a{
+  text-align: center;
+}
+  .input-container {  
+    position: relative;  
+    width: 250px; 
+  }  
+  .fa-fw {  
+    position: absolute;  
+    right: 5px; /* Space from the right */  
+    top: 50%;  
+    transform: translateY(-50%);  
+    color: #888;  
+    cursor: pointer; /* Optional: makes the icon look clickable */  
+  }  
+
+  .fa-question-circle
+  {
+    position: absolute;  
+    left: 5px; /* Space from the right */  
+    top: 50%;  
+    transform: translateY(-50%);  
+    color: #888;  
+    cursor: pointer; /* Optional: makes the icon look clickable */  
+
+  }
+
+
+  .field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+  }
+  .img2 {
+    width: 250px;
+    height: auto; 
+    display: block;
+    margin: 0 auto;
+     /* box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);  */
+  }
+  
+  .input-container input {  
+    width: 100%;  
+    padding-top: 10px; /* Space for the icon */  
+    padding-bottom: 10px;
+    padding-right: 5px;
+    border-radius: 15px;  
+    height: 40px;
+    font-family: 'Anjoman-FaNum-Light';
+
+    font-size: medium;
+    text-align: center;
+    border: 2px solid rgb(228, 127, 18);
+}  
+  
+  .submit {
+    display: block;
+    margin: 6px auto;
+    width: 100px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: 0.5s;
+    height: 35px;
+    border: 1px solid rgb(74, 152, 174);
+    background-color: rgb(74, 152, 174);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    /* margin-top: 80px; */
+    
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Makes icon unclickable */
+  }
+  
+  .submit:hover:enabled {
+    background-color: transparent;
+    color: rgb(74, 152, 174);
+    border: 1px solid rgb(74, 152, 174);
+    /* width: 150px; */
+    width: 200px;
+    font-family: 'Anjoman-FaNum-Bold';
+  }
+  
+  .input-field:focus {
+    color: rgb(0, 67, 80);
+    outline-color: rgb(0, 67, 80);
+    transition: 0.5s;
+    
+  }
+  
+  .submit-disabled {
+    background-color: rgb(0, 67, 80);
+    color: white;
+    border: 1px solid rgb(0, 67, 80);
+    cursor: not-allowed; 
+  }
+
+  h2.sign {
+    margin-bottom: 0px;
+  }
+
+  .sign{
+    font-size: 0.8rem;
+    padding-bottom: 20px;
+    /* font-weight: bold; */
+    text-align:center;/* Smaller heading (e.g., 20px) */
+  }
+  
+  label {
+    font-size: 1rem; /* Smaller label text (e.g., 14px) */
+    font-family: 'Anjoman-FaNum-Light';
+  }
+  
+  .text-danger {
+    font-size: 0.9rem;
+    color:  rgb(0, 67, 80);/* Smaller error message text (e.g., 12px) */
+    text-align: center;
+    font-family: 'Anjoman-FaNum-Light';
+  }
+  p {
+    font-family: 'Anjoman-FaNum-Light';
+  }
+
+  .log2{
+    font-size: 20px;
+    color: rgb(74, 152, 174);
+    text-align:center;/* Smaller heading (e.g., 20px) */
+    text-align:center;
+    font-family: 'Anjoman-FaNum-Light';;
+  }
+
+  .log{
+    font-size: 1.4rem;
+    color: rgb(0, 67, 80); /* Smaller error message text (e.g., 12px) */
+    font-family: 'Anjoman-FaNum-Light';;
+  }
+
+  .danger-div1 p {
+    font-size: 1rem;
+  }
+
+  .danger-div1 {
+    height: 15px;
+  }
+
+
+  

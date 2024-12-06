@@ -1,0 +1,206 @@
+.comment-section {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  position: relative;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+}
+
+.comment-profile-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.comment-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-username {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.comment-body {
+  margin-top: 10px;
+  justify-items: flex-start;
+  margin-right: 3rem;
+}
+
+.comment-options {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.comment-three-dots {
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.delete-button-comment {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #b9b5b5;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comment-options:hover .delete-button-comment {
+  display: block;
+}
+
+.comment-form input,
+.comment-form textarea {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.comment-form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comment-form button:hover {
+  background-color: #0056b3;
+}
+
+
+.comment-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: ghostwhite;
+}
+
+.comment-form input,
+.comment-form textarea {
+  margin-bottom: 15px;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comment-form input:focus,
+.comment-form textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 6px rgba(0, 123, 255, 0.5);
+}
+
+.comment-form input::placeholder,
+.comment-form textarea::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.comment-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.comment-form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  max-width: 10rem;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comment-form button:hover {
+  background-color: #0056b3;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.comment-options {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-block;
+}
+
+.three-dots {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.options-menu {
+  display: none;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.comment-options:hover .options-menu {
+  display: block;
+}
+
+.options-menu button {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.options-menu button:hover {
+  background: #eee;
+}

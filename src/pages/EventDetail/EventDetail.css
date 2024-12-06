@@ -1,0 +1,250 @@
+/* @font-face {
+    font-family: 'Anjoman-FaNum-Bold';
+    src: url('././fonts/Woff/Anjoman-FaNum-Bold.woff') format('woff'),
+       url('././fonts/Woff2/Anjoman-FaNum-Bold.woff2') format('woff2');
+
+    }
+    @font-face {
+    font-family: 'Anjoman-FaNum-Light';
+    src: url('././fonts/Woff/Anjoman-FaNum-Light.woff') format('woff'),
+        url('././fonts/Woff2/Anjoman-FaNum-Light.woff2') format('woff2');
+    } */
+ 
+
+    h2 {
+        font-family: 'Anjoman-FaNum-Bold';
+    }
+
+    body {
+        /* margin: 0; */
+        /* justify-items: center; */
+        background-color: #ebeff7(247, 247, 247);
+        /* width: 100%; */
+    }
+
+    .edit-delete-buttons{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap:25px;
+
+    }
+
+    .buy-button-div {
+      justify-items: center;
+    }
+    .edit-button , .delete-button {
+      display: block;
+      width: 40%;
+      padding: 12px;
+      margin-top: 15px;
+      background-color: #dc7744;
+      color: #fff;
+      font-weight: bold;
+      font-size: small;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      font-family: 'Anjoman-FaNum-Bold';
+    }
+    .main-container {
+        /* background-color: aqua; */
+        width: 90%;
+        max-width: 1200px;
+        /* height: 1300px; */
+        padding-top: 10rem;
+        padding-left: 40px;
+        padding-right: 40px;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        justify-content: center;
+
+    }
+
+    .event-detail-container {
+      justify-items: center;
+    }
+
+    /* .detail-info{
+        background-color: blueviolet;
+        height: 400px;
+        width: 250px;
+        position:sticky;
+        z-index:10;
+        top: 20px;
+        position: -webkit-sticky;
+        transition: box-shadow 0.3s ease;
+    } */
+
+    .detail-info {
+    /* width: 90%; */
+    /* max-width: 300px; */
+    width: 350px;
+    height:fit-content;
+    background-color: #FAFBFD;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e5e7eb;
+    position:sticky;
+    z-index:10;
+    top: 20px;
+    position: -webkit-sticky;
+    transition: box-shadow 0.3s ease;
+  }
+  .event-details-title {
+    text-align: justify;
+  }
+  /* Title styling */
+  .detail-info h2 {
+    font-size: 1.5em;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Information rows */
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .info-label {
+    font-weight: bold;
+    color: #4b5563;
+    font-family: 'Anjoman-FaNum-Bold';
+  }
+
+  .info-value {
+    color: #1f2937;
+    text-align: right;
+    /* font-family: 'Anjoman-FaNum-Light'; */
+  }
+
+  /* Button styling */
+  .buy-button {
+    display: block;
+    width: 90%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #673AB7;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-family: 'Anjoman-FaNum-Bold';
+  }
+
+  .buy-button:hover {
+    background-color: #5820b8;
+  }
+
+    .img-description {
+        /* background-color: burlywood; */
+        width: 70%;
+        height: 90%;
+        max-width: 760px;
+        display: flex;
+        flex-direction: column;
+        gap :20px;
+    }
+
+      /* Default shadow for the sticky div */
+      .detail-info.box-shadow {
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Inset shadow */
+    }
+
+  /* Outset shadow */
+  .detail-info.outset-shadow {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+  }
+
+  .image {
+    width: 100%;
+    max-height: 450px;
+    border: solid 1px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0.3, 0.6);
+  }
+
+  .description-div {
+    height: 100%;
+
+    background-color: brown;
+  }
+
+    .description-section {
+    padding: 30px;
+    text-align: right;
+    background: linear-gradient(135deg, #ffffff, #e8eaf6);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Hover effect */
+  .description-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Title styling */
+  .description-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  #root {
+    margin: 0;
+  }
+
+
+  /* Text styling */
+  .description-text {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555;
+  }
+
+  .image-div-event {
+    margin-bottom: 15px;
+  }
+
+  /* Additional accent line */
+  .accent-line {
+    width: 50px;
+    height: 4px;
+    background-color: #673ab7;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .status-circle {  
+    width: 13px; /* Circle width */  
+    height: 13px; /* Circle height */  
+    border-radius: 50%; /* Makes it a circle */  
+    margin-right: 8px; /* Spacing between circle and text */  
+    background-color: #1f2937;
+  }  
+  .status-info-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+
+  /* p {
+    font-family: 'Anjoman-FaNum-Light';
+} */
