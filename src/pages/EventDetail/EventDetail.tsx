@@ -105,14 +105,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
-import { mockEvents } from '../EventsPage/mockEvents';
+import { mockEvent } from '../EventsPage/mockEvents';
 import CommentSection from '../../components/Comment';
 import Popup from '../../components/PopUp/PopUp';
 import axios, { AxiosError } from 'axios';    
 import { useAppContext } from '../../components/AppContext';
 import EventHost from '../../components/EventHost/EventHost';
 
-interface EventDetail {
+export interface EventDetail {
   id: number;
   banner: string;
   name: string;
@@ -135,6 +135,18 @@ const EventDetail: React.FC = () => {
   const { backendUrl, setBackendUrl } = useAppContext();  
   const [event, setEvent] = useState<EventDetail | null>(null);
   let scrollTimeout: NodeJS.Timeout;
+  const statusTranslation: Record<EventDetail['status'], string> = {  
+    draft: 'پیش نویس',  
+    published: 'منتشر شده',  
+    cancelled: 'لغو شده',  
+  };   
+
+  const statusColors: { [key: string]: string } = {  
+    published: 'green',  
+    cancelled: 'red',  
+    draft: 'yellow',  
+  };  
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -152,45 +164,52 @@ const EventDetail: React.FC = () => {
       clearTimeout(scrollTimeout);
     };
   }, []);
+  const backgroundColor =  'gray';
 
-  useEffect(() => {  
-    const fetchEvent = async () => {  
-        setLoading(true);  
-        setError(null);  
+//   useEffect(() => {  
+//     const fetchEvent = async () => {  
+//         setLoading(true);  
+//         setError(null);  
 
-        try {  
-            const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
-              headers: {
-                "ngrok-skip-browser-warning": "69420",
-                'Content-Type': 'application/json', // Example header
+//         try {  
+//             const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
+//               headers: {
+//                 "ngrok-skip-browser-warning": "69420",
+//                 'Content-Type': 'application/json', // Example header
     
-              },
-            });  
-            console.log(response.data.data); 
-            const eventData = response.data.data;
-            setEvent(eventData);
-            console.log(event) 
-        } catch (err) {  
-          if (axios.isAxiosError(err)) {
-            // Handle specific error cases, e.g., 404 for not found  
-            if (err.response && err.response.status === 404) {  
-                setError('Event not found');  
-            } else {  
-                setError('An error occurred while fetching the event');  
-            }  
-          }
-        } finally {  
-            setLoading(false);  
-        }  
-    };  
+//               },
+//             });  
+//             console.log(response.data.data); 
+//             const eventData = response.data.data;
+//             setEvent(eventData);
+//             console.log(event) 
+//         } catch (err) {  
+//           if (axios.isAxiosError(err)) {
+//             // Handle specific error cases, e.g., 404 for not found  
+//             if (err.response && err.response.status === 404) {  
+//                 setError('Event not found');  
+//             } else {  
+//                 setError('An error occurred while fetching the event');  
+//             }  
+//           }
+//         } finally {  
+//             setLoading(false);  
+//         }  
+//     };  
 
-    fetchEvent();  
-}, [id]);  
-  if (loading) {  
-    return <div>Loading event...</div>;  
-  }  
+//     fetchEvent();  
+// }, [id]);  
+  // if (loading) {  
+  //   return <div>Loading event...</div>;  
+  // }  
 
   // If event is not found, display a fallback message
+  if (error || !event) {  
+    // Optionally log the error if you want to debug  
+    console.error(error);  
+    // Set the mock event when there's an error or no event found  
+    setEvent(mockEvent);  // This only sets the event when there's an error, not on every render  
+} 
   if (!event) {
     return (
       <>
@@ -211,9 +230,19 @@ const EventDetail: React.FC = () => {
         {/* Event Info Section */}
 
         {/* Event Description and Image Section */}
+        
         <div className="img-description">
 
           <div className="description-section">
+           <div className='status-info-div'>
+           <span  
+          className="status-circle"   
+          style={{ backgroundColor }} // Inline style for dynamic color 
+        />  
+        <p>
+        رویداد در حالت {statusTranslation[event.status]} است  
+        </p>  
+        </div> 
           <div className="image-div-event">
             <img className="image" src={event.banner} alt={`${event.categories[0]} Thumbnail`} />
           </div>
@@ -239,7 +268,7 @@ const EventDetail: React.FC = () => {
         </div>
         
         <div className={`detail-info box-shadow ${isScrolling ? "outset-shadow" : ""}`} id="stickyDiv">
-          <h2>بلیت رویداد</h2>
+          <h2>جزئیات رویداد</h2>
           
           <div className="info-row">
             <div className="info-label">از تاریخ</div> 

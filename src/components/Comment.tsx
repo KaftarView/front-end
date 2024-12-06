@@ -51,15 +51,8 @@ const CommentSection = () => {
         </div>
       ))}
       <form  className="comment-form">
-        <input
-          type="email"
-          placeholder="Your email"
-          // value={newComment.email}
-          // onChange={(e) => setNewComment({ ...newComment, email: e.target.value })}
-          required
-        />
         <textarea
-          placeholder="Write your comment"
+          placeholder="نظر,انتقادات و پیشنهادات خود را بنویسید "
           // value={newComment.text}
           // onChange={(e) => setNewComment({ ...newComment, text: e.target.value })}
           required

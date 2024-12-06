@@ -63,7 +63,7 @@ const EventsPage: React.FC = () => {
   useEffect(() => {  
     const fetchEvents = async () => {  
       try {  
-        const response = await axios.get(`${backendUrl}/v1/events`, {
+        const response = await axios.get(`${backendUrl}/v1/public/events/published`, {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header

@@ -230,6 +230,20 @@
     margin-bottom: 20px;
   }
 
+  .status-circle {  
+    width: 13px; /* Circle width */  
+    height: 13px; /* Circle height */  
+    border-radius: 50%; /* Makes it a circle */  
+    margin-right: 8px; /* Spacing between circle and text */  
+    background-color: #1f2937;
+  }  
+  .status-info-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
 
   /* p {
     font-family: 'Anjoman-FaNum-Light';
