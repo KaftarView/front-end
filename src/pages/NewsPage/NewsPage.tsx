@@ -5,8 +5,11 @@ import Navbar from '../NavBar/NavBar';
 import Footer from '../Footer/Footer';
 import Modal from '../../components/PopupQuestion/PopopQuestion';
 import PopupQuestion from '../../components/PopupQuestion/PopopQuestion';
+import mockNews from './mockNews';
+import {useAppContext} from '../../components/AppContext'
+import { useNavigate } from 'react-router-dom';
 
-interface NewsOverall {  
+export interface NewsOverall {  
   ID: number;  
   Title: string;  
   Description: string;  
@@ -24,7 +27,8 @@ const NewsPage: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false); 
   const [loading, setLoading] = useState<boolean>(true);  
   const [error, setError] = useState<string | null>(null); 
-
+  const { backendUrl, setBackendUrl } = useAppContext(); 
+  const navigate = useNavigate();
 
   const newList = [
     { id: 1, title: 'اخبار جدید', summary: 'در روزهای آتی برنامه ای...', image: '../../public/news.jpg' ,publishDate: "December 4, 2024", },
@@ -36,7 +40,7 @@ const NewsPage: React.FC = () => {
       try {  
         const categories = filter ? [filter] : []; 
         console.log(categories);  
-        const response = await axios.post('https://2884-2a12-5e40-1-67be-8b92-66b0-e183-2a0c.ngrok-free.app/v1/news/filtered', {  
+        const response = await axios.post(`${backendUrl}/v1/news/filtered`, {  
           categories: categories,
         });  
         console.log(response.data.data);  
@@ -44,11 +48,13 @@ const NewsPage: React.FC = () => {
           setNewsList(response.data.data);  
           console.log(newsList)
         } else {  
-          setError('Failed to fetch news');  
+          setError('Failed to fetch news'); 
+          setNewsList(mockNews);   
         }  
       } catch (err) {  
         console.error(err);
         setError('An error occurred while fetching news');  
+        setNewsList(mockNews);  
       } finally {  
         setLoading(false);  
       }  
@@ -60,8 +66,6 @@ const NewsPage: React.FC = () => {
     try {  
       await axios.delete(`/news/${newsId}`);  
       console.log('News deleted successfully');  
-      
-      // Update the local state to remove the deleted news item  
       setNewsList((prevNewsList) => prevNewsList.filter((news) => news.ID !== newsId));  
       setIsModalVisible(false);  
     } catch (error) {  
@@ -69,7 +73,6 @@ const NewsPage: React.FC = () => {
     }  
   };  
 
-  // Handle delete button click  
   const handleDeleteClick = (newsId: number) => {  
     setCurrentNewsId(newsId);  
     setIsModalVisible(true);  
@@ -104,7 +107,7 @@ const NewsPage: React.FC = () => {
   <div className="search-box">
     <input
       type="text"
-      placeholder="Search..."
+      placeholder="جستجو..."
       value={search}
       onChange={handleSearchChange}
       className="search-input"
@@ -116,19 +119,22 @@ const NewsPage: React.FC = () => {
     </span>
   </div>
   <select value={filter} onChange={handleFilterChange} className="filter-dropdown">
-    <option value="">All</option>
+    <option value="">همه</option>
     <option value="To">Latest</option>
     <option value="public">Popular</option>
   </select>
 </div>
+      <button  className='addnews-button' onClick={() => navigate('/add-news')}>
+      <i className="fa fa-plus"  style={{ color: 'white' }}></i>
+      </button>
         <div className="news-container">
           {newsList.map((news) => (
             <div key={news.ID} className="news-box">
               <div className="news-options">
                 <span className="three-dots">⋮</span>
                 <div className="options-menu">
-                  <button>Edit</button>
-                  <button onClick={() => handleDeleteClick(news.ID)}>Delete</button> 
+                  <button>ویرایش</button>
+                  <button onClick={() => handleDeleteClick(news.ID)}>حذف</button> 
                 </div>
               </div>
                 <img src='../../public/news.jpg' alt={news.Title} className="news-image" />

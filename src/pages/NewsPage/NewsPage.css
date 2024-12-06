@@ -105,7 +105,7 @@
     background: none;
     border: none;
     padding: 5px 10px;
-    text-align: left;
+    text-align: center;
     cursor: pointer;
   }
   
@@ -141,4 +141,21 @@
     border-radius: 4px;
     margin-left: 20px;
   }
+  .addnews-button {  
+    background-color: gray;  
+    border: none;  
+    border-radius: 4px;   
+    width: 35px;  
+    height: 35px;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    cursor: pointer;  
+    outline: none;  
+    margin-bottom: 0.7rem;
+}  
+
+.addnews-button i {
+  font-size: larger;
+}
   
