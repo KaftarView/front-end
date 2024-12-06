@@ -263,7 +263,7 @@ const EventDetail: React.FC = () => {
           <div className='event-details-title'>
           <h2>نظرات</h2>
           </div>
-            <CommentSection />
+            <CommentSection postId={event.id} />
 
         </div>
         

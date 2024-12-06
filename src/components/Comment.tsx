@@ -1,8 +1,12 @@
-import React from 'react';
+import React , {useState} from 'react';
 import './Comment.css'; // Ensure you include the CSS file
 
-const CommentSection = () => {
-  // Mock data for comments
+
+
+  interface CommentSectionProps {  
+    postId: number;
+  }  
+  const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {  
   const comments = [
     {
       username: "احمدقلی",
@@ -23,6 +27,16 @@ const CommentSection = () => {
       text: "خسته نباشید",
     },
   ];
+  const [newComment, setNewComment] = useState<string>(''); 
+  const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {  
+    e.preventDefault();  
+    
+    try {  
+      
+    } catch (error) {  
+      
+    }  
+  };  
 
   return (
     <div className="comment-section">
@@ -30,10 +44,11 @@ const CommentSection = () => {
         <div key={index} className="comment">
           <div className="comment-header">
             <div className="comment-options">
-              <span className="comment-three-dots">...</span>
-              <button className="delete-button-comment">
-                حذف
-              </button>
+            <span className="three-dots">⋮</span>
+                <div className="options-menu">
+                  <button>Edit</button>
+                  <button>Delete</button> 
+                </div>
             </div>
             <img
               src={comment.profilePhoto}
@@ -50,11 +65,11 @@ const CommentSection = () => {
           </div>
         </div>
       ))}
-      <form  className="comment-form">
+      <form  className="comment-form" onSubmit={handleCommentSubmit}>
         <textarea
           placeholder="نظر,انتقادات و پیشنهادات خود را بنویسید "
-          // value={newComment.text}
-          // onChange={(e) => setNewComment({ ...newComment, text: e.target.value })}
+          value={newComment}  
+          onChange={(e) => setNewComment(e.target.value)}  
           required
         ></textarea>
         <button type="submit">ارسال نظر</button>
