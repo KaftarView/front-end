@@ -1,5 +1,8 @@
-import React , {useState} from 'react';
-import './Comment.css'; // Ensure you include the CSS file
+import React , {useState , useEffect} from 'react';
+import './Comment.css'; 
+import {User} from './AuthContext'
+import apiClient from  "../utils/apiClient"
+import axios from 'axios'
 
 
 
@@ -28,13 +31,39 @@ import './Comment.css'; // Ensure you include the CSS file
     },
   ];
   const [newComment, setNewComment] = useState<string>(''); 
+  const [user, setUser] = useState<User | null>(null); 
+  useEffect(() => {  
+    const userData = localStorage.getItem('user');  
+    if (userData) {  
+      const parsedUser: User = JSON.parse(userData);   
+      setUser(parsedUser);   
+    } else {  
+        console.error("No user data found in localStorage.");  
+    }  
+  }, []);
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {  
     e.preventDefault();  
+    const commentData = {  
+      userID: user?.id,  
+      content: newComment, 
+    };  
     
     try {  
-      
+        const res = await apiClient.post(`/v1/comments/post/${postId}`, commentData);  
+        if (res.status === 200) {
+          console.log("Comment submitted successfully:", res.data);  
+          setNewComment('');   
+        } else {  
+            console.error("Error in response: ", res.data); 
+        }  
     } catch (error) {  
-      
+        if (axios.isAxiosError(error)) {  
+            console.error("Axios error while submitting comment:", error.response?.data);  
+            alert(`Error: ${error.response?.data?.message || "An error occurred while submitting your comment."}`);  
+        } else {  
+            console.error("Unexpected error:", error);  
+            alert("An unexpected error occurred. Please try again later.");  
+        }  
     }  
   };  
 
@@ -65,15 +94,19 @@ import './Comment.css'; // Ensure you include the CSS file
           </div>
         </div>
       ))}
-      <form  className="comment-form" onSubmit={handleCommentSubmit}>
-        <textarea
-          placeholder="نظر,انتقادات و پیشنهادات خود را بنویسید "
-          value={newComment}  
-          onChange={(e) => setNewComment(e.target.value)}  
-          required
-        ></textarea>
-        <button type="submit">ارسال نظر</button>
-      </form>
+      {user ? (  
+        <form className="comment-form" onSubmit={handleCommentSubmit}>  
+          <textarea  
+            placeholder="نظر,انتقادات و پیشنهادات خود را بنویسید "  
+            value={newComment}  
+            onChange={(e) => setNewComment(e.target.value)}  
+            required  
+          ></textarea>  
+          <button type="submit">ارسال نظر</button>  
+        </form>  
+      ) : (  
+        <p>لطفاً برای ارسال نظر ابتدا وارد شوید.</p> 
+      )} 
     </div>
   );
       }
