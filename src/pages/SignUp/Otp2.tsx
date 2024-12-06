@@ -97,6 +97,7 @@ import axios from "axios";
 import { useAuth } from "../../components/AuthContext";
 import "./Otp2.css";
 import { useAppContext } from '../../components/AppContext';
+import apiClient from  "../../utils/apiClient"
 
 interface LocationState {
   state: {
@@ -169,8 +170,8 @@ const Otp2: React.FC = () => {
     const payload = { email: email, otp: otpValue };
     console.log(payload)
     try {
-      const response = await axios.post(
-        `${backendUrl}/v1/auth/register/verify`,
+      const response = await apiClient.post(
+        '/v1/auth/register/verify',
         payload
       );
       console.log("Response:", response.data);
@@ -179,7 +180,7 @@ const Otp2: React.FC = () => {
       // setPopupVisible(true);
       if (response.data.statusCode === 200) {
         showAlert();
-        navigate("/");
+        navigate("/login");
       }
 
       // // Optionally navigate to another page after a delay

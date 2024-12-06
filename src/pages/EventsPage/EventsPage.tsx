@@ -6,6 +6,7 @@ import axios from 'axios';
 import Navbar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
 import { useAppContext } from '../../components/AppContext';
+import apiClient from  "../../utils/apiClient"
 // import Navbar from '../NavBar/NavBar';
 
 // interface Event{
@@ -58,18 +59,18 @@ const EventsPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);  
   const [error, setError] = useState<string | null>(null); 
   const { backendUrl, setBackendUrl } = useAppContext();  
-
+  // console.log(localStorage.getItem('user'));
   
   useEffect(() => {  
-    const fetchEvents = async () => {  
+    const fetchEvents = async () => { 
       try {  
-        const response = await axios.get(`${backendUrl}/v1/public/events/published`, {
-          headers: {
-            "ngrok-skip-browser-warning": "69420",
-            'Content-Type': 'application/json', // Example header
-
-          },
-        });
+        const response = await apiClient.get('/v1/events', {  
+          headers: {  
+            "ngrok-skip-browser-warning": "69420",  
+            'Content-Type': 'application/json', // Include any other headers if necessary  
+          },  
+        });  
+    
 
       if (response.status === 200 && response.data) {
         console.log(response.data.data)
@@ -95,7 +96,6 @@ const EventsPage: React.FC = () => {
   if (loading) {  
     return <div>Loading events...</div>;  
   }  
-
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {  
     const selectedFilter = e.target.value;  
     setFilter(selectedFilter);  
