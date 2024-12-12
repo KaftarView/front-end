@@ -97,7 +97,8 @@ const Login = () => {
             <input
               type="text"
               id="username"
-              className="input-field"
+              // className="input-field"
+
               {...register("username", {
                 required: "پرکردن این بخش الزامی است",
               })}
@@ -120,7 +121,7 @@ const Login = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              className="input-field"
+              // className="input-field"
               {...register("password", {
                 required: "پرکردن این بخش الزامی است",
               })}

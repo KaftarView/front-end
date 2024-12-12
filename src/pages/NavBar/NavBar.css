@@ -17,7 +17,7 @@
 .navbar {
     padding: 0;
     padding-top: 0;
-    height:63px;
+    /* height:63px; */
     background-color:rgb(229, 231, 235);
     position: fixed;
     width: 100%;
@@ -29,10 +29,10 @@
   .navbar-container {
     display: flex;
     justify-content: start;
-    align-items: right;
+    align-items: center;
     font-weight: 500;
     flex-direction: row-reverse;
-    height: 90px;
+    /* height: 90px; */
     right:0px;
 
   }
@@ -40,8 +40,8 @@
   .auth-container {
     margin-left: 20px;
     display: none; /* Hidden by default for smaller screens */
-    margin-top: 9px; 
-    padding : -0px 670px 0px 0px;
+    /* margin-top: 9px;  */
+    /* padding : -0px 670px 0px 0px; */
    
    } 
 
@@ -74,6 +74,7 @@
     gap: 24px;
     text-transform: uppercase;
     font-family: 'Anjoman-FaNum-Bold';
+    margin-left: 41%;
 
   }
   
