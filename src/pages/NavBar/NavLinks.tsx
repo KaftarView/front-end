@@ -48,7 +48,7 @@ const NavLinks: React.FC = () => {
               <Link
                 to={link.link || "#"}
 
-                className="px-3 text-black font-bold text-xl hover:text-[#f97316]"
+                className="px-2 text-black font-bold text-xl hover:text-[#f97316]"
 
               >
                 {link.name}
