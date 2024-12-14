@@ -9,6 +9,11 @@ import axios from 'axios'
   interface CommentSectionProps {  
     postId: number;
   }  
+
+  export interface EventComment {  
+    AuthorName: string; // The name of the comment author  
+    Content: string;    // The content of the comment  
+  }  
   const CommentSection: React.FC<CommentSectionProps> = ({ postId }) => {  
   const comments = [
     {
@@ -31,7 +36,29 @@ import axios from 'axios'
     },
   ];
   const [newComment, setNewComment] = useState<string>(''); 
+  const [eventcomments, setComments] = useState<EventComment[]>([]);
+
   const [user, setUser] = useState<User | null>(null); 
+
+  const fetchComments = async () => {  
+    try {  
+      const response = await apiClient.get(`/v1/events/event-details/${postId}`, {  
+        headers: {  
+          "ngrok-skip-browser-warning": "69420",  
+          'Content-Type': 'application/json', // Include any other headers if necessary  
+        },  
+      });  
+      setComments(response.data.data.comments); // Adjust this based on your API response structure  
+    } catch (error) {  
+      console.error("Error fetching comments:", error);  
+    }  
+  };  
+
+  // Fetch comments when the component mounts  
+  useEffect(() => {  
+    fetchComments();  
+  }, [postId]); 
+
   useEffect(() => {  
     const userData = localStorage.getItem('user');  
     if (userData) {  
@@ -43,16 +70,17 @@ import axios from 'axios'
   }, []);
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {  
     e.preventDefault();  
-    const commentData = {  
-      userID: user?.id,  
+    const commentData = {   
       content: newComment, 
     };  
     
     try {  
+        // console.log(`/v1/comments/post/${postId}`);
         const res = await apiClient.post(`/v1/comments/post/${postId}`, commentData);  
         if (res.status === 200) {
           console.log("Comment submitted successfully:", res.data);  
-          setNewComment('');   
+          setNewComment('');  
+          fetchComments(); 
         } else {  
             console.error("Error in response: ", res.data); 
         }  
@@ -67,9 +95,32 @@ import axios from 'axios'
     }  
   };  
 
+  // if(!eventcomments)
+  // {
+  //   return (
+  //     <div className="comment-section">
+  //       {user ? (  
+  //         <form className="comment-form" onSubmit={handleCommentSubmit}>  
+  //           <textarea  
+  //             placeholder="نظر,انتقادات و پیشنهادات خود را بنویسید "  
+  //             value={newComment}  
+  //             onChange={(e) => setNewComment(e.target.value)}  
+  //             required  
+  //           ></textarea>  
+  //           <button type="submit">ارسال نظر</button>  
+  //         </form>  
+  //       ) : (  
+  //         <p>لطفاً برای ارسال نظر ابتدا وارد شوید.</p> 
+  //       )} 
+  //     </div>
+  //   );
+
+  // }
+
   return (
     <div className="comment-section">
-      {comments.map((comment, index) => (
+      {!eventcomments && <p>نظری برای نمایش وجود ندارد</p>}
+      {eventcomments &&eventcomments.map((comment, index) => (
         <div key={index} className="comment">
           <div className="comment-header">
             <div className="comment-options">
@@ -80,17 +131,17 @@ import axios from 'axios'
                 </div>
             </div>
             <img
-              src={comment.profilePhoto}
-              alt={`${comment.username}'s profile`}
+              src="https://via.placeholder.com/40"
+              alt={`${comment.AuthorName}'s profile`}
               className="comment-profile-photo"
             />
             <div className="comment-info">
-              <span className="comment-username">{comment.username}</span>
-              <span className="comment-date">{comment.date}</span>
+              <span className="comment-username">{comment.AuthorName}</span>
+              <span className="comment-date">21 آبان</span>
             </div>
           </div>
           <div className="comment-body">
-            <p>{comment.text}</p>
+            <p>{comment.Content}</p>
           </div>
         </div>
       ))}

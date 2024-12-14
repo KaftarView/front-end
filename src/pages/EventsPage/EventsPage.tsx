@@ -7,6 +7,8 @@ import Navbar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
 import { useAppContext } from '../../components/AppContext';
 import apiClient from  "../../utils/apiClient"
+import { useNavigate } from "react-router-dom";
+import fetchCategories , {Categories} from "../../components/Categories/GetCategories";
 // import Navbar from '../NavBar/NavBar';
 
 // interface Event{
@@ -53,13 +55,35 @@ const EventsPage: React.FC = () => {
 
   const [filter, setFilter] = useState<string>('all'); 
   const [currentPage, setCurrentPage] = useState<number>(1); 
-  const eventsPerPage = 5;
+  const eventsPerPage = 8;
   const [mockEvents, setEvents] = useState<Event[]>([]); 
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents); 
   const [loading, setLoading] = useState<boolean>(true);  
   const [error, setError] = useState<string | null>(null); 
   const { backendUrl, setBackendUrl } = useAppContext();  
+  const [categories , setCategories] = useState<Categories>();
+  const navigate = useNavigate()
   // console.log(localStorage.getItem('user'));
+
+    useEffect(() => {  
+      const loadCategories = async () => {  
+        try {  
+          const data = await fetchCategories();  
+          console.log(data); 
+          if(data.statusCode == 200)
+          {
+            setCategories({ categories: data.data });
+            console.log(categories);
+          } 
+        } catch (error) {  
+          setError('Failed to load user data.');  
+        } finally {  
+          setLoading(false);  
+        }  
+      };  
+  
+      loadCategories();  
+    }, []); 
   
   useEffect(() => {  
     const fetchEvents = async () => { 
@@ -70,13 +94,13 @@ const EventsPage: React.FC = () => {
             'Content-Type': 'application/json', // Include any other headers if necessary  
           },  
         });  
+
     
 
       if (response.status === 200 && response.data) {
         console.log(response.data.data)
         const processedEvents = response.data.data.map((event :Event) => ({
           ...event,
-          VenueType: 'آنلاین'
         }));
         processedEvents.map((event :Event) => (console.log(event.name))) 
         console.log(processedEvents)
@@ -146,11 +170,16 @@ const EventsPage: React.FC = () => {
               value={filter}   
               onChange={handleFilterChange}  
             >  
-            
-              <option value="all">همه</option>  
-              <option value="Online">آنلاین</option>  
-              <option value="physical">حضوری</option>  
-              <option value="hybrid">ترکیبی</option>  
+            <option value=''>همه</option>
+          {categories && categories.categories && categories.categories.length > 0 ? (  
+            categories.categories.map((category) => (  
+              <option key={category} value={category}>  
+                {category}  
+              </option>  
+            ))  
+          ) : (  
+            <option disabled>No categories available</option>  
+          )}  
             </select>  
             </div>
             <button className='add-button'>ایجاد رویداد</button>
@@ -180,12 +209,13 @@ const EventsPage: React.FC = () => {
                       </small>  
                       <h3>{event.name}</h3> 
                       <div className='events-descriptin-div'>
-                      <p>در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی ... </p> 
+                      {/* <p>در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی  </p>  */}
+                      <p>{event.description}</p>
                       </div>
             
                       <div className="icon-div">  
                         <i className="fa fa-money" aria-hidden="true"></i>  
-                        <p>از هزار تومان</p>  
+                        <p>از100  هزار تومان</p>  
                       </div>  
                       <div className="icon-div"> 
                         <i className="fa fa-map-marker" aria-hidden="true"></i>  
