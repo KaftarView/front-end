@@ -170,7 +170,7 @@
 
   .image {
     width: 100%;
-    max-height: 450px;
+    max-height: 420px;
     border: solid 1px;
     border-radius: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0.3, 0.6);
@@ -242,6 +242,15 @@
     flex-direction: row;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .publish-link {
+    font-style: italic; /* Set font to italic */  
+    text-decoration: none; /* Remove default underline */  
+    border-bottom: 1px dashed black;  
+    cursor: pointer;   
+    color: blue; 
   }
 
 
