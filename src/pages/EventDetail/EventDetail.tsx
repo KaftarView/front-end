@@ -113,6 +113,9 @@ import { useAppContext } from '../../components/AppContext';
 import EventHost from '../../components/EventHost/EventHost';
 import apiClient from  "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
+import {User , useAuth} from '../../components/AuthContext'
+
+
 
 export interface EventDetail {
   id: number;
@@ -138,6 +141,7 @@ const EventDetail: React.FC = () => {
   const { backendUrl, setBackendUrl } = useAppContext();  
   const [event, setEvent] = useState<EventDetail | null>(null);
   const navigate = useNavigate();
+  const { getUserRoles } = useAuth();  
   let scrollTimeout: NodeJS.Timeout;
   const statusTranslation: Record<EventDetail['status'], string> = {  
     Draft: 'پیش نویس',  
@@ -151,6 +155,8 @@ const EventDetail: React.FC = () => {
     Draft: 'yellow',  
   };  
   
+  const userRole = getUserRoles()[0];
+  console.log(userRole)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -174,6 +180,7 @@ const EventDetail: React.FC = () => {
     const fetchEvent = async () => {  
         setLoading(true);  
         setError(null);  
+        const path = userRole === "SuperAdmin" ? "/v1/events/event-details/" : "v1/public/events/";
 
         try {  
             // const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
@@ -183,7 +190,7 @@ const EventDetail: React.FC = () => {
     
             //   },
             // });  
-            const response = await apiClient.get(`/v1/events/event-details/${id}`, {  
+            const response = await apiClient.get(`${path}${id}`, {  
               headers: {  
                 "ngrok-skip-browser-warning": "69420",  
                 'Content-Type': 'application/json', 
@@ -275,7 +282,7 @@ const handlePublish = async () => {
 
           <div className="description-section">
             <div>
-           <div className='status-info-div'>
+           {userRole === "SuperAdmin" && <div className='status-info-div'>
            <span  
           className="status-circle"   
           style={{ backgroundColor }}
@@ -284,7 +291,7 @@ const handlePublish = async () => {
         رویداد در حالت {statusTranslation[event.status]} است  
         </p>  
         {event.status == 'Draft' &&<p onClick={handlePublish} className='publish-link'>انتشار</p>}
-        </div>
+        </div>}
         </div> 
           <div className="image-div-event">
             <img className="image" src={event.banner} alt={`${event.categories[0]} Thumbnail`} />
@@ -299,7 +306,10 @@ const handlePublish = async () => {
                     در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی و عملی یاد خواهید گرفت تا چک لیست اجرایی خود را برای برگزاری یک رویداد موفق تهیه و تنظیم کنید */}
             </p>
           </div>
+          {userRole === "SuperAdmin" &&
           <Popup />
+
+          }
           <div className='event-details-title'>
           <h2>برگزار کننده‌گان</h2>
           </div>
@@ -341,7 +351,7 @@ const handlePublish = async () => {
           </div>
           <div className="info-row">
             <div className="info-label">نحوه برگزاری</div>
-            <div className="info-value">  {event.venue_type === "Online" ? "آنلاین" : event.venue_type === "Hybrid" ? "ترکیبی" : "حضوری"}</div>
+            <div className="info-value">  {event.venue_type === "Online" ? "آنلاین" : event.venue_type === "Hybrid" ? "ترکیبی" : "حضوری"} </div>
           </div>
           <div className="info-row">
             <div className="info-label">دسته بندی</div>
@@ -350,10 +360,10 @@ const handlePublish = async () => {
           <div className='buy-button-div'>
           <a href="#" className="buy-button">خرید بلیت</a>
           </div>
-          <div className='edit-delete-buttons'>
+          {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
             <a href="#" className="edit-button">ویرایش رویداد</a>
             <a  onClick={handleDelete} href="#" className="delete-button">حذف رویداد</a>
-          </div>
+          </div>}
         </div>
 
       </div>

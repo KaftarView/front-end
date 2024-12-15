@@ -9,6 +9,7 @@ import { useAppContext } from '../../components/AppContext';
 import apiClient from  "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
 import fetchCategories , {Categories} from "../../components/Categories/GetCategories";
+import {useAuth} from '../../components/AuthContext'
 // import Navbar from '../NavBar/NavBar';
 
 // interface Event{
@@ -62,6 +63,8 @@ const EventsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null); 
   const { backendUrl, setBackendUrl } = useAppContext();  
   const [categories , setCategories] = useState<Categories>();
+  const {getUserRoles} = useAuth();
+  const userRole = getUserRoles()[0];
   const navigate = useNavigate()
   // console.log(localStorage.getItem('user'));
 
@@ -86,12 +89,13 @@ const EventsPage: React.FC = () => {
     }, []); 
   
   useEffect(() => {  
+    const path = userRole === "SuperAdmin" ? "/v1/events" : "v1/public/events/published";
     const fetchEvents = async () => { 
       try {  
-        const response = await apiClient.get('/v1/events', {  
+        const response = await apiClient.get(`${path}`, {  
           headers: {  
             "ngrok-skip-browser-warning": "69420",  
-            'Content-Type': 'application/json', // Include any other headers if necessary  
+            'Content-Type': 'application/json', 
           },  
         });  
 
@@ -115,7 +119,7 @@ const EventsPage: React.FC = () => {
     };  
 
     fetchEvents();  
-  }, []); // Empty dependency array means this runs once on mount  
+  }, []); 
 
   if (loading) {  
     return <div>Loading events...</div>;  
@@ -182,8 +186,9 @@ const EventsPage: React.FC = () => {
           )}  
             </select>  
             </div>
+            {userRole === "SuperAdmin" && 
             <button className='add-button'>ایجاد رویداد</button>
-
+            }
           </nav>  
   
           {/* Render filtered events */}  
