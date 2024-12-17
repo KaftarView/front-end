@@ -1,0 +1,134 @@
+/* General Page Container */
+.podcast-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    /* padding-top: 2rem; */
+  }
+  
+  .podcast-nav {
+    height: 5rem;
+    background-color: gray;
+    align-content: center;
+    justify-content:center ;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .podcast-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    font-family: 'Anjoman-FaNum-Bold';
+  }
+  
+  /* Grid Layout */
+  .podcast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  /* Card Styles */
+  .podcast-card {
+    position: relative;
+    overflow: hidden;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .podcast-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Image */
+  .podcast-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Overlay */
+  .podcast-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .podcast-card:hover .podcast-overlay {
+    opacity: 1;
+  }
+  
+  /* Footer/Title */
+  .podcast-footer {
+    background-color: #fff;
+    height: 2.5rem;
+    padding: 0.75rem 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  .podcast-header {
+    width: 100%;
+    padding-top: 25rem;
+    background-image: url('../../../public/header-podcast.png');
+    background-size:cover;
+  }
+
+  .filter-search-podcast {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 500px;
+  }
+  
+  .search-box-podcast {
+    position: relative;
+    width: 70%;
+  }
+  
+  .search-input-podcast {
+    width: 100%;
+    padding: 8px 12px;
+    padding-right: 40px; /* Reserve space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .search-icon-podcast  {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Make the icon non-interactive */
+    color: #888;
+  }
+  
+  .filter-dropdown-podcast {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+
+  
+  

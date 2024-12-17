@@ -9,7 +9,7 @@ const PATHS ={
     eventdetail:'/event/:id',
     event: '/events',
     course: '/cources',
-    pudcast: '/pudcasts',
+    podcast: '/podcasts',
     magazine: '/magazines',
     pamphlet:'/pamphlets',
     SignUp:'/SignUp',
