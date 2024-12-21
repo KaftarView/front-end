@@ -30,5 +30,6 @@ const PATHS ={
     AddNashriye:'/addnashriye',
     EditEpisode:"EditEpisode/:EpisodeId",
 
+
 }
 export default PATHS
