@@ -59,7 +59,7 @@ const [error, setError] = useState<string>('');
 const [categories, setCategories] = useState<Categories>();
 const [filter, setFilter] = useState<string>('all');
 const [currentPage, setCurrentPage] = useState<number>(1);
-const pageSize = 10;
+const pageSize = 3;
 const [hasMoreEvents, setHasMoreEvents] = useState<boolean>(true);
 const[query , setQuery] = useState<string>('')
 const[podcasts , setPodcasts] = useState<Podcast[]>([])
@@ -192,7 +192,7 @@ const handleSearch = (searchValue: string) => {
       <h1 className="podcast-title">پادکست ها</h1>
 
       <div className="podcast-grid">
-        {podcasts.map((podcast, index) => (
+        {!loading && podcasts.map((podcast, index) => (
         <Link to={`/podcast/${podcast.id}`} key={podcast.id} className="square-link">
           <div key={index} className="podcast-card">
             <img src={podcast.banner} alt={podcast.name} className="podcast-image" />
@@ -205,9 +205,35 @@ const handleSearch = (searchValue: string) => {
           </div>
           </Link>
         ))}
+        
 
       </div>
+      {loading && <div>در حال بارگزاری...</div>}
     </div>
+    <div className="paging-div">
+            <nav aria-label="Page navigation example">
+              <ul className="inline-flex -space-x-px text-sm">
+                <li>
+                  <a
+                    href="#"
+                    className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-900 ${!hasMoreEvents ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={() => hasMoreEvents && handlePageChange(currentPage + 1)}
+                  >
+                    بعد
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-e-0 border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-900 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                  >
+                    قبل
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
     <Footer />
     </>
   );

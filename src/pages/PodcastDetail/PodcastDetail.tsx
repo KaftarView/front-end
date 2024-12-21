@@ -3,6 +3,8 @@ import './PodcastInfo.css';
 import Comments from './Comments'; './Comments'
 import apiClient from '../../utils/apiClient'
 import {User , useAuth} from '../../components/AuthContext'
+import { useParams } from "react-router-dom";
+
 
 
 interface PodcastDetail {
@@ -28,6 +30,7 @@ interface Episode {
 
 const PodcastDetail: React.FC = () => {
   const [podcast, setPodcast] = useState<PodcastDetail | null>(null);
+  const { id } = useParams<{ id: string }>();
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -36,11 +39,11 @@ const PodcastDetail: React.FC = () => {
     const fetchData = async () => {
       try {
         // Replace with your actual API endpoints
-        const podcastResponse = await apiClient.get('/v1/public/podcasts/4' , {
+        const podcastResponse = await apiClient.get(`/v1/public/podcasts/${id}` , {
         headers: {"ngrok-skip-browser-warning": "69420",
         'Content-Type': 'application/json' },}
         );
-        const episodesResponse = await apiClient.get('/v1/public/podcasts/4/episodes' , {
+        const episodesResponse = await apiClient.get(`/v1/public/podcasts/${id}/episodes` , {
           headers: {"ngrok-skip-browser-warning": "69420",
           'Content-Type': 'application/json' },}
           );
@@ -151,6 +154,7 @@ const PodcastDetail: React.FC = () => {
             </div>
           ))}
         </div>
+        
 
         {/* Right Column */}
         <Comments />
