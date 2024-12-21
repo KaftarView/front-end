@@ -7,6 +7,7 @@ interface AuthContextType {
     isAuthenticated: boolean;  
     login: (user : User) => void;  
     logout: () => void;  
+    getUserRoles : () => string[];
 }
 
 export interface User {  
@@ -38,6 +39,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         removeToken() ;
     };  
 
+    const getUserRoles = (): string[] => {  
+        const user = localStorage.getItem('user');  
+        if (user) {  
+            const parsedUser: User = JSON.parse(user);  
+            return parsedUser.roles;
+        }  
+        return [];  
+      }; 
+
     useEffect(() => {  
         const token = localStorage.getItem('token');  
         if (token) {  
@@ -48,7 +58,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const allowAccess = () => setIsAllowed(true);
 
     return (
-        <AuthContext.Provider value={{ isAllowed, allowAccess , isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAllowed, allowAccess , isAuthenticated, login, logout ,getUserRoles}}>
             {children}
         </AuthContext.Provider>
     );
