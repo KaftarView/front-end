@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import "./Tikets.css";
-import { useParams } from "react-router-dom";
-import axios, { CanceledError } from "axios";
-import { useNavigate } from "react-router-dom";
-import apiClient from  "../../utils/apiClient";
-
-
+import { useParams, useNavigate } from "react-router-dom";
+import apiClient from "../../utils/apiClient";
 
 interface Ticket {
   name: string;
@@ -13,7 +9,7 @@ interface Ticket {
   price: number;
   sold: number;
   quantity: number;
-  isAvailable: boolean,
+  isAvailable: boolean;
   availableFrom: string;
   availableUntil: string;
 }
@@ -31,44 +27,51 @@ const Tikets = () => {
     availableFrom: "",
     availableUntil: "",
   });
+  const [errors, setErrors] = useState<Partial<Record<keyof Ticket, string>>>(
+    {}
+  );
 
   const navigate = useNavigate();
 
-  const handleTicketChange = (
-    field: keyof Ticket,
-    value: string | number
-  ) => {
+  const handleTicketChange = (field: keyof Ticket, value: string | number) => {
     setNewTicket({ ...newTicket, [field]: value });
+    setErrors({ ...errors, [field]: "" }); // Clear error for this field
+  };
+
+  const validateFields = (): boolean => {
+    const newErrors: Partial<Record<keyof Ticket, string>> = {};
+
+    if (!newTicket.name.trim()) newErrors.name = "نام الزامی است";
+
+    if (newTicket.price <= 0) newErrors.price = "قیمت باید بزرگتر از 0 باشد";
+    if (newTicket.quantity <= 0)
+      newErrors.quantity = "تعداد باید بزرگتر از 0 باشد";
+    if (!newTicket.availableFrom.trim())
+      newErrors.availableFrom ="تاریخ شروع الزامی است";
+    if (!newTicket.availableUntil.trim())
+      newErrors.availableUntil = "تاریخ پایان الزامی است";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
   };
 
   const onSubmit = async () => {
-    newTicket.availableFrom+=":00Z";
-    newTicket.availableUntil+=":00Z";
-    console.log(newTicket.name);
-    console.log(newTicket.description);
-    console.log(newTicket.price);
-    console.log(newTicket.quantity);
-    console.log(newTicket.sold);
+    if (!validateFields()) return;
 
-    console.log(newTicket.isAvailable);
-    console.log(newTicket.availableFrom);
-    console.log(newTicket.availableUntil);
-    console.log(eventId);
-
-
-
+    const updatedTicket = {
+      ...newTicket,
+      availableFrom: newTicket.availableFrom + ":00Z",
+      availableUntil: newTicket.availableUntil + ":00Z",
+    };
 
     try {
       const res = await apiClient.post(
         `/v1/events/add-ticket/${eventId}`,
-        newTicket,
-        {
-          withCredentials: true,
-        }
+        updatedTicket,
+        { withCredentials: true }
       );
       console.log("Ticket created successfully:", res.data);
 
-      // اضافه کردن بلیت جدید به لیست و بازنشانی فرم
       setTickets([...tickets, newTicket]);
       setNewTicket({
         name: "",
@@ -81,106 +84,120 @@ const Tikets = () => {
         availableUntil: "",
       });
     } catch (err) {
-      if (err instanceof CanceledError) return;
       console.error("Error creating ticket:", err);
     }
   };
 
   const handleNextPage = () => {
     navigate(`/Discount/${eventId}`);
-
   };
 
   return (
-    <html id="ee">
+    <html id="e">
     <div className="eventtik">
-      <form className="event-formtik" encType="multipart/form-data" >
+      <form className="event-formtik" encType="multipart/form-data">
         <h3 className="infotik">مشخصات بلیت</h3>
 
-        {/* <div className="ticket-formtik"> */}
-          <label className="Labeladd" htmlFor="name">عنوان بلیت</label>
-          <input
-            type="text"
-            id="name"
-            value={newTicket.name}
-            onChange={(e) => handleTicketChange("name", e.target.value)}
-            className="addinput-field"
-            required
-          />
+        <label className="Labeladd" htmlFor="name">
+          عنوان بلیت
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={newTicket.name}
+          onChange={(e) => handleTicketChange("name", e.target.value)}
+          className={`addinput-field ${errors.name ? "error-field" : ""}`}
+        />
+        {errors.name && <span className="error-message">{errors.name}</span>}
 
-          <label className="Labeladd" htmlFor="description">توضیحات</label>
-          <textarea
-            id="description"
-            value={newTicket.description}
-            onChange={(e) => handleTicketChange("description", e.target.value)}
-            className="addinput-field textarea-field"
-            required
-          />
+        <label className="Labeladd" htmlFor="description">
+          توضیحات
+        </label>
+        <textarea
+          id="description"
+          value={newTicket.description}
+          onChange={(e) => handleTicketChange("description", e.target.value)}
+          className="addinput-field textarea-field" 
+        />
+        {errors.description && (
+          <span className="error-message">{errors.description}</span>
+        )}
 
-          <label className="Labeladd" htmlFor="price">قیمت</label>
-          <input
-            type="number"
-            id="price"
-            value={newTicket.price}
-            onChange={(e) =>
-              handleTicketChange("price", parseFloat(e.target.value))
-            }
-            className="addinput-field"
-            required
-          />
+        <label className="Labeladd" htmlFor="price">
+          قیمت
+        </label>
+        <input
+          type="number"
+          id="price"
+          value={newTicket.price}
+          onChange={(e) =>
+            handleTicketChange("price", parseFloat(e.target.value))
+          }
+          className={`addinput-field ${errors.price ? "error-field" : ""}`}
+        />
+        {errors.price && <span className="error-message">{errors.price}</span>}
 
-          <label className="Labeladd" htmlFor="quantity">تعداد</label>
-          <input
-            type="number"
-            id="quantity"
-            value={newTicket.quantity}
-            onChange={(e) =>
-              handleTicketChange("quantity", parseInt(e.target.value, 10))
-            }
-            className="addinput-field"
-            required
-          />
+        <label className="Labeladd" htmlFor="quantity">
+          تعداد
+        </label>
+        <input
+          type="number"
+          id="quantity"
+          value={newTicket.quantity}
+          onChange={(e) =>
+            handleTicketChange("quantity", parseInt(e.target.value, 10))
+          }
+          className={`addinput-field ${errors.quantity ? "error-field" : ""}`}
+        />
+        {errors.quantity && (
+          <span className="error-message">{errors.quantity}</span>
+        )}
 
-          <label className="Labeladd" htmlFor="availableFrom">تاریخ شروع فروش</label>
-          <input
-            type="datetime-local"
-            id="availableFrom"
-            value={newTicket.availableFrom}
-            onChange={(e) => handleTicketChange("availableFrom", e.target.value)}
-            className="addinput-field"
-            required
-          />
+        <label className="Labeladd" htmlFor="availableFrom">
+          تاریخ شروع فروش
+        </label>
+        <input
+          type="datetime-local"
+          id="availableFrom"
+          value={newTicket.availableFrom}
+          onChange={(e) => handleTicketChange("availableFrom", e.target.value)}
+          className={`addinput-field ${
+            errors.availableFrom ? "error-field" : ""
+          }`}
+        />
+        {errors.availableFrom && (
+          <span className="error-message">{errors.availableFrom}</span>
+        )}
 
-          <label className="Labeladd" htmlFor="availableUntil">تاریخ پایان فروش</label>
-          <input
-            type="datetime-local"
-            id="availableUntil"
-            value={newTicket.availableUntil}
-            onChange={(e) => handleTicketChange("availableUntil", e.target.value)}
-            className="addinput-field"
-            required
-          />
-    <div className="buttonadd-container">
-          <button
-            type="button"
-            onClick={onSubmit}
-            className="submittik"
-          >
+        <label className="Labeladd" htmlFor="availableUntil">
+          تاریخ پایان فروش
+        </label>
+        <input
+          type="datetime-local"
+          id="availableUntil"
+          value={newTicket.availableUntil}
+          onChange={(e) => handleTicketChange("availableUntil", e.target.value)}
+          className={`addinput-field ${
+            errors.availableUntil ? "error-field" : ""
+          }`}
+        />
+        {errors.availableUntil && (
+          <span className="error-message">{errors.availableUntil}</span>
+        )}
+
+        <div className="buttonadd-container">
+          <button type="button" onClick={onSubmit} className="submittik">
             ثبت بلیت
           </button>
-        {/* </div> */}
-
-
-        <button
-          type="button"
-          onClick={handleNextPage}
-          className="next-page-btntik"
-        >
-           صفحه بعد
-        </button>
+          <button
+            type="button"
+            onClick={handleNextPage}
+            className="next-page-btntik"
+          >
+            صفحه بعد
+          </button>
         </div>
       </form>
-
     </div>
     </html>
   );

@@ -197,3 +197,63 @@ html, body {
   background-color: #555; /* Scrollbar color on hover */
   cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.jalali-calendar {
+  position: relative;
+  display: inline-block;
+}
+
+#gregorian-input {
+  visibility: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.jalali-overlay {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 250px;
+}
+
+#jalali-input {
+  font-family: "Arial", sans-serif;
+  text-align: right;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  direction: rtl;
+}
+
+#jalali-calendar {
+  display: none; /* Initially hidden */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+#jalali-calendar .calendar-day {
+  padding: 5px;
+  cursor: pointer;
+}
+
+#jalali-calendar .calendar-day:hover {
+  background-color: #eee;
+}
