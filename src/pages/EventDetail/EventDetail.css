@@ -184,7 +184,7 @@
         flex-direction: column;
         gap :20px;
     }
-      }
+    }
 
       /* Default shadow for the sticky div */
       .detail-info.box-shadow {

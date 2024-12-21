@@ -8,19 +8,26 @@ import PopupQuestion from '../../components/PopupQuestion/PopopQuestion';
 import mockNews from './mockNews';
 import {useAppContext} from '../../components/AppContext'
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../../utils/apiClient';
+import {useAuth} from '../../components/AuthContext';
+import fetchCategories, { Categories } from "../../components/Categories/GetCategories";
 
 export interface NewsOverall {  
-  ID: number;  
-  Title: string;  
-  Description: string;  
+  id: number;  
+  title: string;  
+  description: string;  
   CreatedAt: string;  
   UpdatedAt: string;  
-  Author: string;  
-  Categories : string[];
+  author: string;  
+  categories : string[];
 }  
 
 const NewsPage: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageSize = 3;
+  const [hasMoreEvents, setHasMoreEvents] = useState<boolean>(true);
   const [filter, setFilter] = useState('');
+  const [query, setQuery] = useState('');
   const [search, setSearch] = useState('');
   const [newsList, setNewsList] = useState<NewsOverall[]>([]); 
   const [currentNewsId , setCurrentNewsId] = useState<number | null>(null); 
@@ -28,45 +35,78 @@ const NewsPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);  
   const [error, setError] = useState<string | null>(null); 
   const { backendUrl, setBackendUrl } = useAppContext(); 
+  const [categories, setCategories] = useState<Categories>();
+  const { getUserRoles } = useAuth();
+  const userRole = getUserRoles()[0];
   const navigate = useNavigate();
 
   const newList = [
     { id: 1, title: 'اخبار جدید', summary: 'در روزهای آتی برنامه ای...', image: '../../public/news.jpg' ,publishDate: "December 4, 2024", },
     { id: 2, title: 'اخبار جدید', summary: 'در روزهای آتی برنامه ای...', image: '../../public/news.jpg' ,publishDate: "December 4, 2024", },
   ];
-  useEffect(() => {  
-    const fetchNews = async () => {  
-      setLoading(true); 
-      try {  
-        const categories = filter ? [filter] : []; 
-        console.log(categories);  
-        const response = await axios.post(`${backendUrl}/v1/news/filtered`, {  
-          categories: categories,
-        });  
-        console.log(response.data.data);  
-        if (response.data.statusCode === 200) {  
-          setNewsList(response.data.data);  
-          console.log(newsList)
-        } else {  
-          setError('Failed to fetch news'); 
-          setNewsList(mockNews);   
-        }  
-      } catch (err) {  
-        console.error(err);
-        setError('An error occurred while fetching news');  
-        setNewsList(mockNews);  
-      } finally {  
-        setLoading(false);  
-      }  
-    };  
 
-    fetchNews();  
-  }, [filter]);  
+  const fetchNews = async (page: number, pageSize: number, searchQuery?: string, filterValue?: string) => {
+    setLoading(true);
+    try {
+      let path = "/v1/public/news";
+
+      if (searchQuery) {
+        path = `/v1/public/news/search?query=${searchQuery}`;
+      }
+
+      else if (filterValue && filterValue !== 'all') {
+        path = `/v1/public/news/filter?categories=${filterValue}`;
+      }
+
+      path += `${path.includes('?') ? '&' : '?'}page=${page}&pageSize=${pageSize}`;
+
+      const response = await apiClient.get(path, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200 && response.data) {
+        const processedNews = response.data.data.map((news: NewsOverall) => ({
+          ...news,
+        }));
+        setNewsList(processedNews);
+        setHasMoreEvents(processedNews.length === pageSize);
+      }
+    } catch (err) {
+      setError('Failed to fetch events');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { 
+    fetchNews(currentPage , pageSize)
+   },[])
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        if (data.statusCode == 200) {
+          setCategories({ categories: data.data });
+        }
+      } catch (error) {
+        setError('Failed to load user data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
   const deleteNewsById = async (newsId: number) => {  
     try {  
       await axios.delete(`/news/${newsId}`);  
       console.log('News deleted successfully');  
-      setNewsList((prevNewsList) => prevNewsList.filter((news) => news.ID !== newsId));  
+      setNewsList((prevNewsList) => prevNewsList.filter((news) => news.id !== newsId));  
       setIsModalVisible(false);  
     } catch (error) {  
       console.error('Error deleting news:', error);  
@@ -89,12 +129,31 @@ const NewsPage: React.FC = () => {
     setCurrentNewsId(null);  
   };  
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleSearch = (searchValue: string) => {
+    setQuery(searchValue);
+    setFilter('all'); 
+    setCurrentPage(1); 
+    if (searchValue) {
+      fetchNews(1, pageSize, searchValue);
+    } else {
+      fetchNews(1, pageSize); 
+    }
   };
 
+  // Handle filter changes
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilter(e.target.value);
+    const selectedFilter = e.target.value;
+    setFilter(selectedFilter);
+    setQuery(''); // Clear search when filtering
+    setCurrentPage(1); // Reset to first page
+    fetchNews(1, pageSize, undefined, selectedFilter);
+  };
+
+  // Handle page changes
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    // Use current search or filter state
+    fetchNews(newPage, pageSize, query || undefined, filter !== 'all' ? filter : undefined);
   };
 
   return (
@@ -104,15 +163,17 @@ const NewsPage: React.FC = () => {
     <div className="news-page">
       <div className="center-div">
       <div className="filter-search">
-          <button  className='addnews-button' onClick={() => navigate('/add-news')}>
+      {userRole === "SuperAdmin" &&
+      <button  className='addnews-button' onClick={() => navigate('/add-news')}>
       <i className="fa fa-plus"  style={{ color: 'white' }}></i>
       </button>
+      }
   <div className="search-box">
     <input
       type="text"
       placeholder="جستجو..."
-      value={search}
-      onChange={handleSearchChange}
+      value={query}
+      onChange={(e) => handleSearch(e.target.value)}
       className="search-input"
     />
     <span className="search-icon">
@@ -122,27 +183,42 @@ const NewsPage: React.FC = () => {
     </span>
     
   </div>
+      <select
+        id="dropdown"
+        name="options"
+        value={filter}
+        onChange={handleFilterChange}
+      >
+        <option value='all'>همه</option>
+        {categories && categories.categories && categories.categories.length > 0 ? (
+          categories.categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))
+        ) : (
+          <option disabled>No categories available</option>
+        )}
+      </select>
 
-  <select value={filter} onChange={handleFilterChange} className="filter-dropdown">
-    <option value="">همه</option>
-    <option value="To">Latest</option>
-    <option value="public">Popular</option>
-  </select>
 </div>
+
         <div className="news-container">
-          {newsList.map((news) => (
-            <div key={news.ID} className="news-box">
+          { !loading && newsList.length > 0 && newsList.map((news) => (
+            <div key={news.id} className="news-box">
+              {userRole === "SuperAdmin" && 
               <div className="news-options">
                 <span className="three-dots">⋮</span>
                 <div className="options-menu">
                   <button>ویرایش</button>
-                  <button onClick={() => handleDeleteClick(news.ID)}>حذف</button> 
+                  <button onClick={() => handleDeleteClick(news.id)}>حذف</button> 
                 </div>
               </div>
-                <img src='../../public/news.jpg' alt={news.Title} className="news-image" />
+              }
+                <img src='../../public/news.jpg' alt={news.title} className="news-image" />
               <div className="news-summary">
-                <h3>{news.Title}</h3>
-                <p>{news.Description}</p>
+                <h3>{news.title}</h3>
+                <p>{news.description}</p>
                 <span className="news-publish-date">انتشار :              
                 {new Date(news.CreatedAt).toLocaleDateString("fa-IR", {
                 weekday: "long",
@@ -153,13 +229,41 @@ const NewsPage: React.FC = () => {
             </div>
 
           ))}
+          {!loading && newsList.length === 0 && 
+          <div>خبری وجود ندارد</div>
+          }
+          {loading && <div>در حال بارگذاری...</div>}
           <PopupQuestion   
                   isVisible={isModalVisible}  
                   message = "آیا از حذف این خبر اطمینان دارید؟"
                   onConfirm={handleConfirmDelete}  
                   onCancel={handleCancelDelete}  
                 />  
-        </div>
+                </div>
+                <div className="paging-div-news">
+            <nav aria-label="Page navigation example">
+              <ul className="inline-flex -space-x-px text-sm">
+                <li>
+                  <a
+                    href="#"
+                    className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-900 ${!hasMoreEvents ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={() => hasMoreEvents && handlePageChange(currentPage + 1)}
+                  >
+                    بعد
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-e-0 border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-900 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                  >
+                    قبل
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
       </div>
     </div>
     </div>

@@ -43,21 +43,21 @@ import axios from 'axios'
   const [user, setUser] = useState<User | null>(null); 
 
   const fetchComments = async () => {  
-    const path = userRole === "SuperAdmin" ? "/v1/events/event-details/" : "/v1/public/events/"
+    const path = userRole === "SuperAdmin" ? "/v1/public/comments/" : "/v1/public/comments/"
     try {  
       const response = await apiClient.get(`${path}${postId}`, {  
         headers: {  
           "ngrok-skip-browser-warning": "69420",  
-          'Content-Type': 'application/json', // Include any other headers if necessary  
+          'Content-Type': 'application/json', 
         },  
       });  
-      setComments(response.data.data.comments); // Adjust this based on your API response structure  
+      console.log(response)
+      setComments(response.data.data); 
     } catch (error) {  
       console.error("Error fetching comments:", error);  
     }  
   };  
 
-  // Fetch comments when the component mounts  
   useEffect(() => {  
     fetchComments();  
   }, [postId]); 
@@ -75,7 +75,6 @@ import axios from 'axios'
     e.preventDefault();  
     const commentData = {   
       content: newComment, 
-      userID : user?.id,
     };  
 
     
