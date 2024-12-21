@@ -1,0 +1,244 @@
+/* General Reset */
+html, body { 
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  /* Background styling */
+  #eeee {
+    background: rgb(74,152,174,1);
+    background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
+    direction: rtl; /* Set text direction to right-to-left */
+  }
+  
+  /* Label styling */
+  .Labeladd {
+    color: rgb(0, 68, 80);
+    font-size: 1.2rem;
+    text-align: right; /* Align text to the right */
+    display: block; /* Full line for the label */
+    width: auto;
+    margin-right:40px;
+  }
+  
+  /* Input fields styling */
+  .addinput-field,
+  .custom-dropdowne {
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right; /* Align text inside input to the right */
+    margin-right: 40px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    width: calc(100% - 80px); 
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+    height: 45px;
+  
+  }
+  
+  .addinput-field:focus,
+  .custom-dropdowne:focus {
+    border-color: rgb(0, 68, 80);
+    outline-color: rgb(0, 67, 80);
+    transition: 0.5s;
+  }
+  
+  /* Dropdown specific styles */
+  .custom-dropdowne {
+    appearance: none; /* Remove default browser styles */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 24px 24px; /* Custom arrow size */
+    cursor: pointer;
+  }
+  
+  /* Form container */
+  .eventadd {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    font-family: 'Anjoman-FaNum-Bold';
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Form styling */
+  .eventadd-form {
+    /* display: flex; */
+    flex-direction: column;
+    /* align-items: flex-end; Align everything to the right */
+    background: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    margin: 20px 50px auto;
+  }
+  
+  /* Error messages */
+  .erroradd {
+    text-align: right;
+    margin-right: 40px;
+    color: rgb(166, 19, 19);
+    font-size: 16px;
+    margin-top: -10px;
+    margin-bottom: 32px;
+  }
+  
+  /* Info heading */
+  .infoadd {
+    /* text-align: center; */
+    font-size: 2.3rem;
+    margin-bottom: 15px;
+    color: rgb(74, 152, 174);
+  }
+  
+  /* File upload field */
+  .L1 {
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right;
+    margin: 20px 40px 30px;
+    padding: 10px;
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+  }
+  
+  /* Buttons container */
+  .buttonadd-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 10px; /* Space between buttons */
+  }
+  
+  /* Submit button */
+  .submitadd {
+    display: block;
+    width: 120px;
+    padding: 10px;
+    font-size: 16px;
+    color: rgb(253, 253, 253);
+    background-color: rgb(74, 152, 174);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  
+  .submitadd:hover {
+    background-color: transparent;
+    color: rgb(74, 152, 174);
+  }
+  
+  .submitadd-disabled {
+    background-color: rgb(0, 68, 80);
+    border: 1px solid rgb(0, 68, 80);
+    color: rgb(0, 68, 80);
+    cursor: not-allowed;
+  }
+  
+  /* Cancel button */
+  .canceladd {
+    display: block;
+    width: 120px;
+    padding: 10px;
+    font-size: 16px;
+    color: rgb(245, 245, 245);
+    background-color: rgb(166, 95, 19);
+    border: 1px solid rgb(166, 95, 19);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  
+  .canceladd:hover {
+    background-color: transparent;
+    color: rgb(166, 95, 19);
+  }
+  
+  .textarea-field {
+    width: 87%; /* Ensure it takes the full width of the container */
+    height: 200px; /* Set a fixed height */
+    font-size: 16px; /* Adjust font size for readability */
+    padding: 8px; /* Add padding for comfortable typing */
+    border: 1px solid #ccc; /* Standard border */
+    border-radius: 4px; /* Add rounded corners */
+    box-sizing: border-box; /* Include padding in width/height calculation */
+    overflow-y: scroll; /* Force vertical scrolling */
+    resize: none; /* Disable manual resizing for consistent behavior */
+  
+  
+  }
+  
+  .textarea-field::-webkit-scrollbar {
+    width: 10px;
+   
+  }
+  
+  .textarea-field::-webkit-scrollbar-thumb {
+    background-color: #888; /* Scrollbar color */
+    border-radius: 4px;
+  
+  }
+  
+  .textarea-field::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Scrollbar color on hover */
+    cursor: pointer;
+  }
+
+  /* Container for writers */
+.writer-field {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between input field and button */
+  }
+  
+  /* Add Writer Button */
+  .add-writer {
+    display: block;
+    margin-right: 40px; /* Align with other input fields */
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    font-size: 14px;
+    color: rgb(253, 253, 253);
+    background-color: rgb(74, 152, 174);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .add-writer:hover {
+    background-color: transparent;
+    color: rgb(74, 152, 174);
+  }
+  
+  /* Remove Writer Button */
+  .remove-writer {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: rgb(245, 245, 245);
+    background-color: rgb(166, 95, 19);
+    border: 1px solid rgb(166, 95, 19);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .remove-writer:hover {
+    background-color: transparent;
+    color: rgb(166, 95, 19);
+  }
