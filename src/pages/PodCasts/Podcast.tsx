@@ -50,7 +50,7 @@ const PodcastPage: React.FC = () => {
   return (
     <>
     <Navbar />
-    <div className="podcast-header">
+    <div className="podcasts-header">
      <nav className="podcast-nav" >
      <div className="filter-search-podcast">
   <div className="search-box-podcast">

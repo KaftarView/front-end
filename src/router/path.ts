@@ -10,6 +10,7 @@ const PATHS ={
     event: '/events',
     course: '/cources',
     podcast: '/podcasts',
+    podcastDetails: '/podcast-detail',
     magazine: '/magazines',
     pamphlet:'/pamphlets',
     SignUp:'/SignUp',
