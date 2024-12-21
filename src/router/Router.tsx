@@ -21,6 +21,7 @@ import NewsPage from "../pages/NewsPage/NewsPage"
 import Addevent from "../pages/AddEvent/addevent"
 import Tikets from "../pages/AddEvent/Tikets"
 import Discount from "../pages/AddEvent/Discount"
+import Organizer from "../pages/AddEvent/addo"
 
 
 
@@ -52,6 +53,7 @@ const Router = () => {
         <Route path={PATHS.AddEvent}  element={<Addevent />} />
         <Route path={PATHS.Tikets} element={<Tikets />} />
         <Route path={PATHS.Discount}  element={<Discount />} />
+        <Route path={PATHS.AddOrganizer}  element={<Organizer />} />
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}
