@@ -16,17 +16,20 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
   
   .filter-search {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    flex-wrap: wrap;
   }
   
   .search-box {
     position: relative;
     width: 70%;
+
   }
   
   .search-input {
@@ -62,6 +65,7 @@
     display: flex;
     align-items: center;
     padding: 16px;
+    flex-wrap: wrap;
     background: #f1f1f1;
     border-radius: 6px;
     position: relative;
@@ -157,5 +161,15 @@
 
 .addnews-button i {
   font-size: larger;
+}
+
+.paging-div-news {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  height: auto;
+  margin-bottom: 20px;
 }
   

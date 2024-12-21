@@ -27,6 +27,10 @@ const PATHS ={
     AddEvent:'/addevent',
     Tikets:'/Tikets/:eventId',
     Discount:'/Discount/:eventId',
+    AddOrganizer:'/Organizer/:eventId',
+    AddNashriye:'/addnashriye',
+    EditEpisode:"EditEpisode/:EpisodeId",
+
 
 }
 export default PATHS

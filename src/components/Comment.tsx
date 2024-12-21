@@ -1,6 +1,6 @@
 import React , {useState , useEffect} from 'react';
 import './Comment.css'; 
-import {User} from './AuthContext'
+import {User , useAuth} from './AuthContext'
 import apiClient from  "../utils/apiClient"
 import axios from 'axios'
 
@@ -37,24 +37,27 @@ import axios from 'axios'
   ];
   const [newComment, setNewComment] = useState<string>(''); 
   const [eventcomments, setComments] = useState<EventComment[]>([]);
+  const {getUserRoles} = useAuth()
+  const userRole = getUserRoles()[0];
 
   const [user, setUser] = useState<User | null>(null); 
 
   const fetchComments = async () => {  
+    const path = userRole === "SuperAdmin" ? "/v1/public/comments/" : "/v1/public/comments/"
     try {  
-      const response = await apiClient.get(`/v1/events/event-details/${postId}`, {  
+      const response = await apiClient.get(`${path}${postId}`, {  
         headers: {  
           "ngrok-skip-browser-warning": "69420",  
-          'Content-Type': 'application/json', // Include any other headers if necessary  
+          'Content-Type': 'application/json', 
         },  
       });  
-      setComments(response.data.data.comments); // Adjust this based on your API response structure  
+      console.log(response)
+      setComments(response.data.data); 
     } catch (error) {  
       console.error("Error fetching comments:", error);  
     }  
   };  
 
-  // Fetch comments when the component mounts  
   useEffect(() => {  
     fetchComments();  
   }, [postId]); 
@@ -73,6 +76,7 @@ import axios from 'axios'
     const commentData = {   
       content: newComment, 
     };  
+
     
     try {  
         // console.log(`/v1/comments/post/${postId}`);
