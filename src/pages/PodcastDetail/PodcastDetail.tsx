@@ -32,7 +32,7 @@ const PodcastDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [user, setUser] = useState<User | null>(null); 
-  useEffect(() => {
+
     const fetchData = async () => {
       try {
         // Replace with your actual API endpoints
@@ -54,6 +54,7 @@ const PodcastDetail: React.FC = () => {
       }
     };
 
+  useEffect(() => {  
     fetchData();
   }, []);
 
