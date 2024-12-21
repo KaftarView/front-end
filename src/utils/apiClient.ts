@@ -12,7 +12,7 @@ const refreshAccessToken = async () => {
     if (!refreshToken) {  
         throw new Error('No refresh token found');  
     }  
-    const response = await axios.post('https://1ac0-212-64-199-253.ngrok-free.app/v1/auth/refresh-token', { refreshToken }); 
+    const response = await axios.post('https://1ac0-212-64-199-253.ngrok-free.app/v1/auth/refresh-token', { refreshToken });  
     const newAccessToken = response.data.data; 
     removeToken(); 
     console.log("Refreshed")

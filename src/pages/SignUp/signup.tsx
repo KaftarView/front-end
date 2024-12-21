@@ -93,7 +93,7 @@ const SignUp = () => {
           <input
             type="text"
             id="username"
-            className="input-field"
+            // className="input-field"
             {...register("username", {
               required: "پرکردن این بخش الزامی است",
             })}
@@ -116,7 +116,7 @@ const SignUp = () => {
             <input
               type={showPassword ? "text" : "password"}
               id="password"
-              className="input-field"
+              // className="input-field"
               {...register("password", { required: "پرکردن این بخش الزامی است" })}
             />
             <i
@@ -144,7 +144,7 @@ const SignUp = () => {
             <input
               type={showPasswordAgain ? "text" : "password"}
               id="passwordagain"
-              className="input-field"
+              // className="input-field"
               {...register("passwordagain", {
                 required: "پرکردن این بخش الزامی است",
               })}
@@ -174,7 +174,7 @@ const SignUp = () => {
           <input
             type="email"
             id="email"
-            className="input-field"
+            // className="input-field"
             {...register("email", { required: "پرکردن این بخش الزامی است" })}
           />
           </div>

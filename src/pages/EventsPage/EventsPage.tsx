@@ -7,6 +7,9 @@ import Navbar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
 import { useAppContext } from '../../components/AppContext';
 import apiClient from  "../../utils/apiClient"
+import { useNavigate } from "react-router-dom";
+import fetchCategories , {Categories} from "../../components/Categories/GetCategories";
+import {useAuth} from '../../components/AuthContext'
 // import Navbar from '../NavBar/NavBar';
 
 // interface Event{
@@ -53,30 +56,55 @@ const EventsPage: React.FC = () => {
 
   const [filter, setFilter] = useState<string>('all'); 
   const [currentPage, setCurrentPage] = useState<number>(1); 
-  const eventsPerPage = 5;
+  const eventsPerPage = 8;
   const [mockEvents, setEvents] = useState<Event[]>([]); 
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents); 
   const [loading, setLoading] = useState<boolean>(true);  
   const [error, setError] = useState<string | null>(null); 
   const { backendUrl, setBackendUrl } = useAppContext();  
+  const [categories , setCategories] = useState<Categories>();
+  const {getUserRoles} = useAuth();
+  const userRole = getUserRoles()[0];
+  const navigate = useNavigate()
   // console.log(localStorage.getItem('user'));
+
+    useEffect(() => {  
+      const loadCategories = async () => {  
+        try {  
+          const data = await fetchCategories();  
+          console.log(data); 
+          if(data.statusCode == 200)
+          {
+            setCategories({ categories: data.data });
+            console.log(categories);
+          } 
+        } catch (error) {  
+          setError('Failed to load user data.');  
+        } finally {  
+          setLoading(false);  
+        }  
+      };  
+  
+      loadCategories();  
+    }, []); 
   
   useEffect(() => {  
+    const path = userRole === "SuperAdmin" ? "/v1/events" : "v1/public/events/published";
     const fetchEvents = async () => { 
       try {  
-        const response = await apiClient.get('/v1/events', {  
+        const response = await apiClient.get(`${path}`, {  
           headers: {  
             "ngrok-skip-browser-warning": "69420",  
-            'Content-Type': 'application/json', // Include any other headers if necessary  
+            'Content-Type': 'application/json', 
           },  
         });  
+
     
 
       if (response.status === 200 && response.data) {
         console.log(response.data.data)
         const processedEvents = response.data.data.map((event :Event) => ({
           ...event,
-          VenueType: 'آنلاین'
         }));
         processedEvents.map((event :Event) => (console.log(event.name))) 
         console.log(processedEvents)
@@ -91,7 +119,7 @@ const EventsPage: React.FC = () => {
     };  
 
     fetchEvents();  
-  }, []); // Empty dependency array means this runs once on mount  
+  }, []); 
 
   if (loading) {  
     return <div>Loading events...</div>;  
@@ -146,15 +174,21 @@ const EventsPage: React.FC = () => {
               value={filter}   
               onChange={handleFilterChange}  
             >  
-            
-              <option value="all">همه</option>  
-              <option value="Online">آنلاین</option>  
-              <option value="physical">حضوری</option>  
-              <option value="hybrid">ترکیبی</option>  
+            <option value=''>همه</option>
+          {categories && categories.categories && categories.categories.length > 0 ? (  
+            categories.categories.map((category) => (  
+              <option key={category} value={category}>  
+                {category}  
+              </option>  
+            ))  
+          ) : (  
+            <option disabled>No categories available</option>  
+          )}  
             </select>  
             </div>
+            {userRole === "SuperAdmin" && 
             <button className='add-button'>ایجاد رویداد</button>
-
+            }
           </nav>  
   
           {/* Render filtered events */}  
@@ -180,12 +214,13 @@ const EventsPage: React.FC = () => {
                       </small>  
                       <h3>{event.name}</h3> 
                       <div className='events-descriptin-div'>
-                      <p>در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی ... </p> 
+                      {/* <p>در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی  </p>  */}
+                      <p>{event.description}</p>
                       </div>
             
                       <div className="icon-div">  
                         <i className="fa fa-money" aria-hidden="true"></i>  
-                        <p>از هزار تومان</p>  
+                        <p>از100  هزار تومان</p>  
                       </div>  
                       <div className="icon-div"> 
                         <i className="fa fa-map-marker" aria-hidden="true"></i>  
