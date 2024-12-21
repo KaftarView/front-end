@@ -181,6 +181,7 @@ const NewsPage: React.FC = () => {
         <path d="M10 18a8 8 0 1 1 5.293-2.707l5.707 5.707-1.414 1.414-5.707-5.707A8 8 0 0 1 10 18zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6z" />
       </svg>
     </span>
+    
   </div>
       <select
         id="dropdown"
