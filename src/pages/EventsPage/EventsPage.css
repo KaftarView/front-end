@@ -165,6 +165,45 @@
       margin-left: 20px;
   }
 
+  .events-search-box {
+    position: relative;
+    width: 70%;
+
+  }
+  
+  .events-search-input {
+    width: 100%;
+    padding: 8px 12px;
+    padding-right: 40px; /* Reserve space for the icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: black;
+  }
+  
+  .events-search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Make the icon non-interactive */
+    color: #888;
+  }
+
+  .events-search-filter-div {
+    display: flex;
+    flex-direction: row; /* Items in a row by default */
+    gap: 20px;  /* Add gap between the items */
+    align-items: center; /* Vertically align items in the center */
+  }
+  
+  @media (max-width: 768px) { /* For mobile devices */
+    .events-search-filter-div {
+      flex-direction: column;  /* Stack items in a column */
+      gap: 10px;  /* Adjust gap for stacked items */
+    }
+  }
+  
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .square {

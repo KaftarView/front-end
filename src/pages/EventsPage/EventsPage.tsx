@@ -1,41 +1,13 @@
 import './EventsPage.css';
-import { useState , useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import { mockEvents, Event } from './mockEvents';
-import axios from 'axios';
 import Navbar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
 import { useAppContext } from '../../components/AppContext';
-import apiClient from  "../../utils/apiClient"
+import apiClient from "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
-import fetchCategories , {Categories} from "../../components/Categories/GetCategories";
-import {useAuth} from '../../components/AuthContext'
-// import Navbar from '../NavBar/NavBar';
-
-// interface Event{
-//   ID: number;  
-//   CreatedAt: string;  
-//   UpdatedAt: string; 
-//   DeletedAt: string | null;  
-//   Name: string;  
-//   Status: number;  
-//   Description: string;  
-//   BasePrice: number;  
-//   FromDate: string;  
-//   ToDate: string;  
-//   MinCapacity: number;  
-//   MaxCapacity: number;  
-//   VenueType: string;  
-//   Location: string;  
-//   Communications: null | any; 
-//   Categories:{
-//     Name : string;
-//   }[];
-//   Commentable: {  
-//     ID: number;  
-//     Comments: null | any;
-//   };  
-// }  
+import fetchCategories, { Categories } from "../../components/Categories/GetCategories";
+import { useAuth } from '../../components/AuthContext'
 
 interface Event {
   id: number;
@@ -49,238 +21,238 @@ interface Event {
   created_at: string;
   from_date: string;
   to_date: string;
+  base_price: number;
 }
 
-
 const EventsPage: React.FC = () => {
-
-  const [filter, setFilter] = useState<string>('all'); 
-  const [currentPage, setCurrentPage] = useState<number>(1); 
-  const eventsPerPage = 8;
-  const [mockEvents, setEvents] = useState<Event[]>([]); 
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents); 
-  const [loading, setLoading] = useState<boolean>(true);  
-  const [error, setError] = useState<string | null>(null); 
-  const { backendUrl, setBackendUrl } = useAppContext();  
-  const [categories , setCategories] = useState<Categories>();
-  const {getUserRoles} = useAuth();
+  const [filter, setFilter] = useState<string>('all');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const pageSize = 10;
+  const [hasMoreEvents, setHasMoreEvents] = useState<boolean>(true);
+  const [mockEvents, setEvents] = useState<Event[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const { backendUrl } = useAppContext();
+  const [categories, setCategories] = useState<Categories>();
+  const { getUserRoles } = useAuth();
+  const [query, setQuery] = useState('');
   const userRole = getUserRoles()[0];
-  const navigate = useNavigate()
-  // console.log(localStorage.getItem('user'));
+  const navigate = useNavigate();
 
-    useEffect(() => {  
-      const loadCategories = async () => {  
-        try {  
-          const data = await fetchCategories();  
-          console.log(data); 
-          if(data.statusCode == 200)
-          {
-            setCategories({ categories: data.data });
-            console.log(categories);
-          } 
-        } catch (error) {  
-          setError('Failed to load user data.');  
-        } finally {  
-          setLoading(false);  
-        }  
-      };  
-  
-      loadCategories();  
-    }, []); 
-  
-  useEffect(() => {  
-    const path = userRole === "SuperAdmin" ? "/v1/events" : "v1/public/events/published";
-    const fetchEvents = async () => { 
-      try {  
-        const response = await apiClient.get(`${path}`, {  
-          headers: {  
-            "ngrok-skip-browser-warning": "69420",  
-            'Content-Type': 'application/json', 
-          },  
-        });  
+  // Load categories on mount
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        if (data.statusCode == 200) {
+          setCategories({ categories: data.data });
+        }
+      } catch (error) {
+        setError('Failed to load user data.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    
+    loadCategories();
+  }, []);
+
+
+  const fetchEvents = async (page: number, pageSize: number, searchQuery?: string, filterValue?: string) => {
+    setLoading(true);
+    try {
+      let path = userRole === "SuperAdmin" ? "/v1/events" : "/v1/public/events/published";
+
+      if (searchQuery) {
+        path = userRole === "SuperAdmin" 
+          ? `/v1/events/search?query=${searchQuery}` 
+          : `/v1/public/events/search?query=${searchQuery}`;
+      }
+
+      else if (filterValue && filterValue !== 'all') {
+        path = userRole === "SuperAdmin"
+          ? `/v1/events/filter?categories=${filterValue}`
+          : `/v1/public/events/filter?categories=${filterValue}`;
+      }
+
+      path += `${path.includes('?') ? '&' : '?'}page=${page}&pageSize=${pageSize}`;
+
+      const response = await apiClient.get(path, {
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (response.status === 200 && response.data) {
-        console.log(response.data.data)
-        const processedEvents = response.data.data.map((event :Event) => ({
+        const processedEvents = response.data.data.map((event: Event) => ({
           ...event,
         }));
-        processedEvents.map((event :Event) => (console.log(event.name))) 
-        console.log(processedEvents)
         setEvents(processedEvents);
-        setFilteredEvents(processedEvents)
+        setFilteredEvents(processedEvents);
+        setHasMoreEvents(processedEvents.length === pageSize);
       }
-      } catch (err) {  
-        setError('Failed to fetch events');  
-      } finally {  
-        setLoading(false);  
-      }  
-    };  
+    } catch (err) {
+      setError('Failed to fetch events');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchEvents();  
-  }, []); 
+  const handleSearch = (searchValue: string) => {
+    setQuery(searchValue);
+    setFilter('all'); 
+    setCurrentPage(1); 
+    if (searchValue) {
+      fetchEvents(1, pageSize, searchValue);
+    } else {
+      fetchEvents(1, pageSize); 
+    }
+  };
 
-  if (loading) {  
-    return <div>Loading events...</div>;  
-  }  
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {  
-    const selectedFilter = e.target.value;  
-    setFilter(selectedFilter);  
-    setCurrentPage(1);  
+  // Handle filter changes
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedFilter = e.target.value;
+    setFilter(selectedFilter);
+    setQuery(''); // Clear search when filtering
+    setCurrentPage(1); // Reset to first page
+    fetchEvents(1, pageSize, undefined, selectedFilter);
+  };
 
-    if (selectedFilter === 'all') {  
-      setFilteredEvents(mockEvents);  
-    } else {  
-      const filtered = mockEvents.filter(event => event.venue_type === selectedFilter);  
-      setFilteredEvents(filtered);  
-    }  
-  };  
+  // Handle page changes
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    // Use current search or filter state
+    fetchEvents(newPage, pageSize, query || undefined, filter !== 'all' ? filter : undefined);
+  };
 
-  const indexOfLastEvent = currentPage * eventsPerPage;  
-  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;  
-  const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);  
+  // Initial load
+  useEffect(() => {
+    fetchEvents(currentPage, pageSize);
+  }, []);
 
-  const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);  
-  
-  const handlePageChange = (pageNumber: number) => {  
-    setCurrentPage(pageNumber);  
-  };  
-  // useEffect(() => {  
-  //   // Get the body element  
-  //   const body = document.body;  
+  // if (loading) {
+  //   return <div>Loading events...</div>;
+  // }
 
-  //   // Add your desired class  
-  //   body.classList.add('event-page-body');  
-
-  //   // Cleanup function to remove the class when the component unmounts  
-  //   return () => {  
-  //       body.classList.remove('event-page-body');  
-  //   };  
-  // });
-
-
-  return (  
-    <>  
-      <Navbar />  
-      <div className="events-page-container">  
-        <div className="events-body">  
-          <nav className="nav-events-page"> 
-          <div className='dropdown-div'>
-          <label htmlFor="dropdown"> دسته بندی :</label>  
-            <select   
-              id="dropdown"   
-              name="options"   
-              value={filter}   
-              onChange={handleFilterChange}  
-            >  
-            <option value=''>همه</option>
-          {categories && categories.categories && categories.categories.length > 0 ? (  
-            categories.categories.map((category) => (  
-              <option key={category} value={category}>  
-                {category}  
-              </option>  
-            ))  
-          ) : (  
-            <option disabled>No categories available</option>  
-          )}  
-            </select>  
+  return (
+    <>
+      <Navbar />
+      <div className="events-page-container">
+        <div className="events-body">
+          <nav className="nav-events-page">
+            <div className='events-search-filter-div'>
+              <div className='dropdown-div'>
+                <select
+                  id="dropdown"
+                  name="options"
+                  value={filter}
+                  onChange={handleFilterChange}
+                >
+                  <option value='all'>همه</option>
+                  {categories && categories.categories && categories.categories.length > 0 ? (
+                    categories.categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>No categories available</option>
+                  )}
+                </select>
+              </div>
+              <div className='events-search-box'>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  placeholder="جستجو..."
+                  className="events-search-input"
+                />
+                <span className="events-search-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                    <path d="M10 18a8 8 0 1 1 5.293-2.707l5.707 5.707-1.414 1.414-5.707-5.707A8 8 0 0 1 10 18zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6z" />
+                  </svg>
+                </span>
+              </div>
             </div>
-            {userRole === "SuperAdmin" && 
-            <button className='add-button'>ایجاد رویداد</button>
+            {userRole === "SuperAdmin" &&
+              <button className='add-button'>ایجاد رویداد</button>
             }
-          </nav>  
-  
-          {/* Render filtered events */}  
-          <div className="square-container">  
-            {currentEvents.length > 0 ? (  
-              currentEvents.map((event) => (  
-                <Link to={`/event/${event.id}`} key={event.id} className="square-link">  
-                  <div className="square">  
-                    <div>  
-                      <img   
-                        className="card-image"   
-                        src={event.banner}   
-                        // alt={`${event.Categories[0].Name} Thumbnail`}   
-                      />  
-                    </div>  
-                    <div className="card-info">  
-                      <small>  
-                        {new Date(event.from_date).toLocaleDateString("fa-IR", {  
-                          weekday: "long",  
-                          day: "numeric",  
-                          month: "long",  
-                        })}  
-                      </small>  
-                      <h3>{event.name}</h3> 
+          </nav>
+          {!loading &&  
+          <div className="square-container">
+            {filteredEvents.length > 0 ? (
+              filteredEvents.map((event) => (
+                <Link to={`/event/${event.id}`} key={event.id} className="square-link">
+                  <div className="square">
+                    <div>
+                      <img
+                        className="card-image"
+                        src={event.banner}
+                      />
+                    </div>
+                    <div className="card-info">
+                      <small>
+                        {new Date(event.from_date).toLocaleDateString("fa-IR", {
+                          weekday: "long",
+                          day: "numeric",
+                          month: "long",
+                        })}
+                      </small>
+                      <h3>{event.name}</h3>
                       <div className='events-descriptin-div'>
-                      {/* <p>در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی  </p>  */}
-                      <p>{event.description}</p>
+                        <p>{event.description}</p>
                       </div>
-            
-                      <div className="icon-div">  
-                        <i className="fa fa-money" aria-hidden="true"></i>  
-                        <p>از100  هزار تومان</p>  
-                      </div>  
-                      <div className="icon-div"> 
-                        <i className="fa fa-map-marker" aria-hidden="true"></i>  
-                        <p>{event.venue_type === "Online" ? "آنلاین" : "حضوری" }</p>  
-                      </div>  
-                    </div>  
-                  </div>  
-                </Link>  
-              ))  
-            ) : (  
-              <p className="no-events">رویدادی یافت نشد</p>  
-            )}  
-          </div>  
-  
-          <div className="paging-div">  
-          <nav aria-label="Page navigation example">
-  <ul className="inline-flex -space-x-px text-sm">
-    {/* Next button should appear first in RTL */}
-    <li>
-      <a
-        href="#"
-        className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-900 ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`}
-        onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
-      >
-       بعد
-      </a>
-    </li>
-    
-    {/* Reverse the page numbers for RTL */}
-    {Array.from({ length: totalPages }, (_, index) => (
-      <li key={index + 1}>
-        <a
-          href="#"
-          className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-900 ${currentPage === totalPages - index ? 'text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700' : ''}`}
-          onClick={() => handlePageChange(totalPages - index)}
-          aria-current={currentPage === totalPages - index ? 'page' : undefined}
-        >
-          {totalPages - index}
-        </a>
-      </li>
-    ))}
-    
-    {/* Previous button should appear last in RTL */}
-    <li>
-      <a
-        href="#"
-        className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-e-0 border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-900 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
-        onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
-      >
-         قبل
-      </a>
-    </li>
-  </ul>
-</nav>
-
-          </div>  
-        </div>  
-      </div>  
-      <Footer/>  
-    </>  
+                      <div className="icon-div">
+                        <i className="fa fa-money" aria-hidden="true"></i>
+                        <p>از{event.base_price} هزار تومان</p>
+                      </div>
+                      <div className="icon-div">
+                        <i className="fa fa-map-marker" aria-hidden="true"></i>
+                        <p>{event.venue_type === "Online" ? "آنلاین" : "حضوری"}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p className="no-events">رویدادی یافت نشد</p>
+            )}
+          </div>
+          }
+          {loading &&
+          <div>Loading events...</div>
+          }
+          <div className="paging-div">
+            <nav aria-label="Page navigation example">
+              <ul className="inline-flex -space-x-px text-sm">
+                <li>
+                  <a
+                    href="#"
+                    className={`flex items-center justify-center px-3 h-8 leading-tight text-gray-700 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-900 ${!hasMoreEvents ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={() => hasMoreEvents && handlePageChange(currentPage + 1)}
+                  >
+                    بعد
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-700 bg-white border border-e-0 border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-900 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                  >
+                    قبل
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 };
 

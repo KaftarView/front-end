@@ -343,7 +343,6 @@ const handlePublish = async () => {
                 month: "long",
               })}
             </div>
-
           </div>
           <div className="info-row">
             <div className="info-label">قیمت بلیت</div> 
