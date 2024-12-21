@@ -21,6 +21,8 @@ import NewsPage from "../pages/NewsPage/NewsPage"
 import Addevent from "../pages/AddEvent/addevent"
 import Tikets from "../pages/AddEvent/Tikets"
 import Discount from "../pages/AddEvent/Discount"
+import PodcastPage from "../pages/PodCasts/Podcast"
+import PodcastDetail from "../pages/PodcastDetail/PodcastDetail"
 import Nashrie from "../pages/nashrie/Nashrie"
 import Organizer from "../pages/AddEvent/addo"
 import EditEpisode from "../pages/EditEpisode/EditEpisode"
@@ -57,6 +59,8 @@ const Router = () => {
         <Route path={PATHS.AddEvent}  element={<Addevent />} />
         <Route path={PATHS.Tikets} element={<Tikets />} />
         <Route path={PATHS.Discount}  element={<Discount />} />
+        <Route path={PATHS.podcast}  element={<PodcastPage />} />
+        <Route path={PATHS.podcastDetails}  element={<PodcastDetail />} />
         <Route path={PATHS.magazine}  element={<Nashrie />} />
         <Route path={PATHS.AddOrganizer}  element={<Organizer />} />
         <Route path={PATHS.AddNashriye} element={< AddNashriye/>} />
