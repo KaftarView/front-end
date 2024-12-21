@@ -9,7 +9,7 @@
   .footer-container {
     max-width: 1240px;
     margin: 0 auto;
-    border-top: 2px solid rgb(96, 96, 96);
+    /* border-top: 2px solid rgb(96, 96, 96); */
     padding: 32px 0;
    
   }
