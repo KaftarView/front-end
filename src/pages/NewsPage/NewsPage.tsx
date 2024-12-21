@@ -104,6 +104,9 @@ const NewsPage: React.FC = () => {
     <div className="news-page">
       <div className="center-div">
       <div className="filter-search">
+          <button  className='addnews-button' onClick={() => navigate('/add-news')}>
+      <i className="fa fa-plus"  style={{ color: 'white' }}></i>
+      </button>
   <div className="search-box">
     <input
       type="text"
@@ -117,16 +120,15 @@ const NewsPage: React.FC = () => {
         <path d="M10 18a8 8 0 1 1 5.293-2.707l5.707 5.707-1.414 1.414-5.707-5.707A8 8 0 0 1 10 18zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6z" />
       </svg>
     </span>
+    
   </div>
+
   <select value={filter} onChange={handleFilterChange} className="filter-dropdown">
     <option value="">همه</option>
     <option value="To">Latest</option>
     <option value="public">Popular</option>
   </select>
 </div>
-      <button  className='addnews-button' onClick={() => navigate('/add-news')}>
-      <i className="fa fa-plus"  style={{ color: 'white' }}></i>
-      </button>
         <div className="news-container">
           {newsList.map((news) => (
             <div key={news.ID} className="news-box">
