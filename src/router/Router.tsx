@@ -23,6 +23,7 @@ import Tikets from "../pages/AddEvent/Tikets"
 import Discount from "../pages/AddEvent/Discount"
 import Nashrie from "../pages/nashrie/Nashrie"
 import Organizer from "../pages/AddEvent/addo"
+import EditEpisode from "../pages/EditEpisode/EditEpisode"
 import AddNashriye from "../pages/AddNashriye/AddNashriye"
 
 
