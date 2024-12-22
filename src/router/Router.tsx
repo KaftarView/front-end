@@ -28,6 +28,7 @@ import Organizer from "../pages/AddEvent/addo"
 import EditEpisode from "../pages/EditEpisode/EditEpisode"
 import AddNashriye from "../pages/AddNashriye/AddNashriye"
 import RoleManagement from "../Pages/AssignRole/assignRole"
+import CreateRole from "../Pages/CreateRole/createRole"
 
 
 
@@ -70,6 +71,7 @@ const Router = () => {
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}
                 <Route path={PATHS.giverole} element={<RoleManagement/>}/>
+                <Route path={PATHS.createrole} element={<CreateRole/>}/>
 
         <Route></Route>
         <Route></Route>
