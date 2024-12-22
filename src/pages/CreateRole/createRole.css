@@ -1,4 +1,19 @@
 
+@font-face {
+    font-family: 'Anjoman-FaNum-Bold';
+    src: url('/src/fonts/Woff/Anjoman-FaNum-Bold.woff') format('woff'),
+         url('/src/fonts/Woff2/Anjoman-FaNum-Bold.woff2') format('woff2');
+  
+  }
+
+
+  @font-face {
+    font-family: 'Anjoman-FaNum-Regular';
+    src: url('/src/fonts/Woff/Anjoman-FaNum-Regular.woff') format('woff'),
+         url('/src/fonts/Woff2/Anjoman-FaNum-Regular.woff2') format('woff2');
+  
+  }
+
 html, body {
     margin: 0;
     padding: 0;
@@ -55,6 +70,7 @@ html, body {
       align-items: flex-start;  }
     
     /* Input Fields */
+    
     .create-roll-form .addinput-field {
       font-family: 'Anjoman-FaNum-Bold';
       display: block;
@@ -85,6 +101,48 @@ html, body {
         outline-color:rgb(0, 67, 80);
         transition: 0.5s;
     }
+
+/* 
+.create-roll-form .checkbox-label{
+    border-bottom: 100px;
+      
+    margin-bottom: 100px;
+   
+    margin-left: 20px;
+} */
+
+
+    .create-roll-form .addinput-field-check {
+        font-family: 'Anjoman-FaNum-Bold';
+        display: block;
+        display: block;
+        text-align: right;
+        width: 50%;
+      
+        padding: 10px;
+      
+        margin-top: 10px;
+       
+        margin-left: 20px;
+
+      
+        border: 1px solid rgb(74, 152, 174);
+        border-radius: 5px;
+        background-color: rgb(230, 230, 230);
+        transition: 0.5s;
+        font-size: 14px;
+        color: rgb(0, 67, 80);
+        text-align: right;
+        }
+      
+        .create-roll-form  .addinput-field-check:focus:disabled  {
+          
+          border-color: rgb(0, 68, 80);
+          color: rgb(0, 67, 80);
+          outline-color:rgb(0, 67, 80);
+          transition: 0.5s;
+      }
+  
     .create-roll-form  select{
         font-family: 'Anjoman-FaNum-Bold';
         display: block;
@@ -106,7 +164,6 @@ html, body {
         position: center;
         appearance: none; /* Remove default browser styles */
         cursor: pointer; /* Add pointer cursor */
-        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
         background-repeat: no-repeat;
         background-position: left 10px center;
         background-size: 24px 24px;/* Size of the custom arrow */
