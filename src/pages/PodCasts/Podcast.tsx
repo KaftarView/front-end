@@ -5,7 +5,8 @@ import Footer from '../Footer/Footer';
 import fetchCategories, { Categories } from "../../components/Categories/GetCategories";
 import apiClient from '../../utils/apiClient'
 import {Link} from 'react-router-dom'
-
+import {useAuth} from '../../components/AuthContext'
+import {useNavigate} from 'react-router-dom'
 interface Podcast {
   id: number;
   name: string;
@@ -63,6 +64,9 @@ const pageSize = 3;
 const [hasMoreEvents, setHasMoreEvents] = useState<boolean>(true);
 const[query , setQuery] = useState<string>('')
 const[podcasts , setPodcasts] = useState<Podcast[]>([])
+const { getUserRoles } = useAuth();
+const userRole = getUserRoles()[0];
+const navigate = useNavigate()
 
 useEffect(() => {
   const loadCategories = async () => {
@@ -185,6 +189,9 @@ const handleSearch = (searchValue: string) => {
     )}
   </select>
 </div>
+{userRole==="ُSuperAdmin"  &&
+              <button className='add-button' onClick={() => navigate('/addpodcast')}>ایجاد پادکست</button>
+            }
      </nav>
     </div>
     <div className="podcast-container">

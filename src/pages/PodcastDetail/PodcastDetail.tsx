@@ -4,6 +4,7 @@ import Comments from './Comments'; './Comments'
 import apiClient from '../../utils/apiClient'
 import {User , useAuth} from '../../components/AuthContext'
 import { useParams } from "react-router-dom";
+import {useNavigate} from 'react-router-dom'
 
 
 
@@ -35,10 +36,12 @@ const PodcastDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [user, setUser] = useState<User | null>(null); 
+  const { getUserRoles } = useAuth();
+  const userRole = getUserRoles()[0];
+  const navigate = useNavigate()
 
     const fetchData = async () => {
       try {
-        // Replace with your actual API endpoints
         const podcastResponse = await apiClient.get(`/v1/public/podcasts/${id}` , {
         headers: {"ngrok-skip-browser-warning": "69420",
         'Content-Type': 'application/json' },}
@@ -107,7 +110,6 @@ const PodcastDetail: React.FC = () => {
   }
   return (
     <div className="podcast-container">
-      {/* Top Section */}
       <div className="podcast-header">
         <div className="podcast-cover">
           <img src={podcast?.banner || 'https://via.placeholder.com/200'} alt="Podcast Cover" />
@@ -130,10 +132,13 @@ const PodcastDetail: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Section */}
       <div className="podcast-content">
-        {/* Left Column */}
         <div className="episodes-list">
+        {userRole === "SuperAdmin" &&
+          <button  className='addnews-button' onClick={() => navigate('/addepisode')}>
+          <i className="fa fa-plus"  style={{ color: 'white' }}></i>
+          </button>
+          }
           {episodes.map((episode) => (
             <div className="episode-card" key={episode.id}>
               <div className="episode-info">

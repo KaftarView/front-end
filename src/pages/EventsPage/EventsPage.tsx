@@ -178,7 +178,7 @@ const EventsPage: React.FC = () => {
               </div>
             </div>
             {userRole === "SuperAdmin" &&
-              <button className='add-button'>ایجاد رویداد</button>
+              <button className='add-button' onClick={()=>navigate('/addevent')} >ایجاد رویداد</button>
             }
           </nav>
           {!loading &&  

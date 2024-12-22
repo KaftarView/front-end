@@ -140,19 +140,16 @@ const NewsPage: React.FC = () => {
     }
   };
 
-  // Handle filter changes
+
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedFilter = e.target.value;
     setFilter(selectedFilter);
-    setQuery(''); // Clear search when filtering
-    setCurrentPage(1); // Reset to first page
+    setQuery('');
+    setCurrentPage(1);
     fetchNews(1, pageSize, undefined, selectedFilter);
   };
-
-  // Handle page changes
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    // Use current search or filter state
     fetchNews(newPage, pageSize, query || undefined, filter !== 'all' ? filter : undefined);
   };
 
@@ -219,12 +216,8 @@ const NewsPage: React.FC = () => {
               <div className="news-summary">
                 <h3>{news.title}</h3>
                 <p>{news.description}</p>
-                <span className="news-publish-date">انتشار :              
-                {new Date(news.CreatedAt).toLocaleDateString("fa-IR", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-              })}</span>
+                <span className="news-publish-date">نویسنده :              
+          {news.author}</span>
               </div>
             </div>
 

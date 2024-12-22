@@ -100,6 +100,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 500px;
+    margin-left:3rem ;
   }
   
   .search-box-podcast {
