@@ -27,6 +27,7 @@ import Nashrie from "../pages/nashrie/Nashrie"
 import Organizer from "../pages/AddEvent/addo"
 import EditEpisode from "../pages/EditEpisode/EditEpisode"
 import AddNashriye from "../pages/AddNashriye/AddNashriye"
+import RoleManagement from "../Pages/AssignRole/assignRole"
 
 
 
@@ -68,6 +69,8 @@ const Router = () => {
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}
+                <Route path={PATHS.giverole} element={<RoleManagement/>}/>
+
         <Route></Route>
         <Route></Route>
         <Route></Route>
