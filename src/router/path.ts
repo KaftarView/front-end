@@ -32,6 +32,7 @@ const PATHS ={
     EditEpisode:"EditEpisode/:EpisodeId",
     giverole:'/giverole',
     createrole:'/createrole',
+    addpodcast:'/addpodcast',
 
 
 }
