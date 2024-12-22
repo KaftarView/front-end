@@ -27,10 +27,10 @@ import Nashrie from "../pages/nashrie/Nashrie"
 import Organizer from "../pages/AddEvent/addo"
 import EditEpisode from "../pages/EditEpisode/EditEpisode"
 import AddNashriye from "../pages/AddNashriye/AddNashriye"
-import RoleManagement from "../Pages/AssignRole/assignRole"
-import CreateRole from "../Pages/CreateRole/createRole"
-import AddPodcast from "../Pages/CreatePodcast/createPodcast"
-import UploadPodcast from "../Pages/CreateEpisode/createEpisode"
+import RoleManagement from "../pages/AssignRole/assignRole"
+import CreateRole from "../pages/CreateRole/createRole"
+import AddPodcast from "../pages/CreatePodcast/createPodcast"
+import UploadPodcast from "../pages/CreateEpisode/createEpisode"
 
 
 

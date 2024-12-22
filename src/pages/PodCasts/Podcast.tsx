@@ -67,6 +67,7 @@ const[podcasts , setPodcasts] = useState<Podcast[]>([])
 const { getUserRoles } = useAuth();
 const userRole = getUserRoles()[0];
 const navigate = useNavigate()
+console.log(userRole)
 
 useEffect(() => {
   const loadCategories = async () => {
@@ -189,7 +190,7 @@ const handleSearch = (searchValue: string) => {
     )}
   </select>
 </div>
-{userRole==="ُSuperAdmin"  &&
+{userRole === "SuperAdmin" &&
               <button className='add-button' onClick={() => navigate('/addpodcast')}>ایجاد پادکست</button>
             }
      </nav>

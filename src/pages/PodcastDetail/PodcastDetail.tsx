@@ -135,7 +135,7 @@ const PodcastDetail: React.FC = () => {
       <div className="podcast-content">
         <div className="episodes-list">
         {userRole === "SuperAdmin" &&
-          <button  className='addnews-button' onClick={() => navigate('/addepisode')}>
+          <button  className='addnews-button' onClick={() => navigate(`/podcasts/${id}/addepisode`)}>
           <i className="fa fa-plus"  style={{ color: 'white' }}></i>
           </button>
           }
