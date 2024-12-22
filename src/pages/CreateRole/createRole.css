@@ -1,0 +1,161 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  #e {
+    background: rgb(74,152,174,1);
+    background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
+    direction: rtl;
+    height: 100vh; /* Specific to this file */
+
+  }
+    
+    /* Upload Podcast Container */
+    .upload-container-create-roll {
+  
+  
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 40px;
+      font-family: 'Anjoman-FaNum-Bold';
+    
+      justify-content: center;
+      align-items: center;
+      /* text-align: center; */
+    }
+    .create-roll-form {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.6);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      margin :20px 50px auto;
+    }
+    
+    .create-roll-form h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: rgb(0, 67, 80);
+    }
+    
+    /* Form Container Styling */
+  
+    /* Labels */
+    .create-roll-form .Labeladd {
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+      margin-top: 8px;
+      color: rgb(0, 67, 80)
+  ;
+      /* text-align: right; */
+      align-items: flex-start;  }
+    
+    /* Input Fields */
+    .create-roll-form .addinput-field {
+      font-family: 'Anjoman-FaNum-Bold';
+      display: block;
+      display: block;
+      text-align: right;
+      width: 50%;
+    
+      padding: 10px;
+    
+      margin-top: 20px;
+      margin-bottom: 30px;
+      margin-left: 40px;
+      margin-right: 150px;
+    
+      border: 1px solid rgb(74, 152, 174);
+      border-radius: 5px;
+      background-color: rgb(230, 230, 230);
+      transition: 0.5s;
+      font-size: 14px;
+      color: rgb(0, 67, 80);
+      text-align: right;
+      }
+    
+      .create-roll-form  .addinput-field:focus:disabled  {
+        
+        border-color: rgb(0, 68, 80);
+        color: rgb(0, 67, 80);
+        outline-color:rgb(0, 67, 80);
+        transition: 0.5s;
+    }
+    .create-roll-form  select{
+        font-family: 'Anjoman-FaNum-Bold';
+        display: block;
+        width: 50%;
+        text-align: right;
+        margin-right: 150px;
+        padding: 10px;
+      
+        margin-top: 20px;
+        margin-bottom: 30px;
+        margin-left: 40px;
+      
+        border: 1px solid rgb(74, 152, 174);
+        border-radius: 5px;
+        background-color: rgb(230, 230, 230);
+        transition: 0.5s;
+        font-size: 14px;
+        color: rgb(0, 67, 80); 
+        position: center;
+        appearance: none; /* Remove default browser styles */
+        cursor: pointer; /* Add pointer cursor */
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+        background-repeat: no-repeat;
+        background-position: left 10px center;
+        background-size: 24px 24px;/* Size of the custom arrow */
+      
+      }
+      .create-roll-form  select:focus:disabled {
+        border-color: rgb(0, 68, 80);
+        color: rgb(0, 67, 80);
+        outline-color:rgb(0, 67, 80);
+        transition: 0.5s;
+      }
+    /* File Upload Input */
+    
+    /* Error and Success Messages */
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    
+    .success {
+      color: green;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    
+    /* Submit Button Styling */
+    .create-roll-form   button {
+      margin: 20px auto;
+      padding: 12px;
+      font-size: 16px;
+      background-color: rgb(74, 152, 174);
+      color: white;
+      border: 1px solid rgb(74, 152, 174);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.5s;
+    }
+    
+    .create-roll-form   button:hover {
+      background-color: transparent;
+      color: rgb(74, 152, 174);
+    }
+    
+    .create-roll-form   button:disabled {
+      color: rgb(74, 152, 174);    border: 1px solid rgb(0, 68, 80);
+      color: rgb(0, 68, 80);
+      cursor: not-allowed;
+    }
+    
+    /* Upload Progress Bar */
+  

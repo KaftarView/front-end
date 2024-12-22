@@ -31,6 +31,7 @@ const PATHS ={
     AddNashriye:'/addnashriye',
     EditEpisode:"EditEpisode/:EpisodeId",
     giverole:'/giverole',
+    createrole:'/createrole',
 
 
 }
