@@ -106,7 +106,7 @@ const CreateRole = () => {
         </div>
 
         <div>
-          <label className='Labeladd' htmlFor="permissions">انتخاب کنید</label>
+          <label className='Labeladd' htmlFor="permissions"> نوع دسترسی را انتخاب کنید</label>
           <div>
             {permissions.map((permission) => (
               <div key={permission}>
@@ -114,10 +114,10 @@ const CreateRole = () => {
                   type="checkbox"
                   id={permission}
                   value={permission}
-                  className='addinput-field'
+                  className='addinput-field-check'
                   {...register("permissions", { required: "انتخاب نوع دسترسی الزامی است" })}
                 />
-                <label htmlFor={permission}>{permission}</label>
+                <label className='checkbox-label' htmlFor={permission}>{permission}</label>
               </div>
             ))}
           </div>
