@@ -33,6 +33,7 @@ const PATHS ={
     giverole:'/giverole',
     createrole:'/createrole',
     addpodcast:'/addpodcast',
+    addepisode:'/podcasts/:id/addepisodes',
 
 
 }
