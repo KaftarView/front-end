@@ -126,7 +126,7 @@ import axios from 'axios'
       {!eventcomments && <p>نظری برای نمایش وجود ندارد</p>}
       {eventcomments &&eventcomments.map((comment, index) => (
         <div key={index} className="comment">
-          <div className="comment-header">
+          <div className="comment-headerr">
             <div className="comment-options">
             <span className="three-dots">⋮</span>
                 <div className="options-menu">

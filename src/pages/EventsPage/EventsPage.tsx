@@ -27,7 +27,7 @@ interface Event {
 const EventsPage: React.FC = () => {
   const [filter, setFilter] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 10;
+  const pageSize = 2;
   const [hasMoreEvents, setHasMoreEvents] = useState<boolean>(true);
   const [mockEvents, setEvents] = useState<Event[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents);

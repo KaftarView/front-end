@@ -4,6 +4,7 @@ import Navbar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
 import apiClient from '../../utils/apiClient'
 import {useAuth} from '../../components/AuthContext'
+import {useNavigate} from 'react-router-dom'
 
 interface Magazine {
   id: number;  
@@ -35,6 +36,7 @@ const MagazineList: React.FC = () => {
   const [error , setError] = useState('');
   const { getUserRoles } = useAuth();
   const userRole = getUserRoles()[0];
+  const navigate = useNavigate()
 
 
   const fetchData = async (page: number, pageSize: number, searchQuery?: string) => {
@@ -59,6 +61,7 @@ const MagazineList: React.FC = () => {
         const processedMagazine = response.data.data.map((magazine: Magazine) => ({
           ...magazine,
         }));
+        console.log(processedMagazine)
         setMagazines(processedMagazine);
         setHasMoreEvents(processedMagazine.length === pageSize);
       }
@@ -116,7 +119,7 @@ const MagazineList: React.FC = () => {
           <div className="mag-center-div">
           <div className="mag-filter-search">
             {userRole === "SuperAdmin" && 
-          <button  className='addmagazine-button'>    
+          <button onClick={() => navigate('/addnashriye')}  className='addmagazine-button'>    
       <i className="fa fa-plus"  style={{ color: 'white' }}></i>
       </button>
       }

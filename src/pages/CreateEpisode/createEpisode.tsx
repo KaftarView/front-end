@@ -31,7 +31,7 @@ const UploadPodcast = () => {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
 
-  const { podcastId } = useParams<{ podcastId: string }>();
+  const { id } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
   const {
@@ -75,9 +75,9 @@ const UploadPodcast = () => {
       setIsUploading(true);
       setUploadProgress(0);
       setUploadSuccess(null);
-
+      console.log(id)
       // Replace this URL with your actual API endpoint
-      const apiUrl = `/v1/podcasts/${podcastId}/episodes`;
+      const apiUrl = `/v1/podcasts/${id}/episodes`;
 
       // Upload the file with progress
       const response=await apiClient.post(apiUrl, formData, {
@@ -102,6 +102,7 @@ const UploadPodcast = () => {
       setIsUploading(false);
       setUploadSuccess('Podcast uploaded successfully!');
       setSelectedFile(null);
+      navigate(`/podcast/${id}`)
     } catch (error) {
       setIsUploading(false);
       setUploadError('An error occurred while uploading the podcast.');

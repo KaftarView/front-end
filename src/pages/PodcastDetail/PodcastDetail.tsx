@@ -17,6 +17,7 @@ interface PodcastDetail {
   publisher: string;
   categories: string[];
   subscribers_count: number;
+  is_subscribed:boolean;
 }
 
 interface Episode {
@@ -76,7 +77,7 @@ const PodcastDetail: React.FC = () => {
   }, []);
 
   const handleSubscribe = async () => {
-    if (isSubscribed) {
+    if (podcast?.is_subscribed) {
       try {
         await apiClient.delete("/v1/podcasts/4");
         setIsSubscribed(false);
@@ -121,10 +122,10 @@ const PodcastDetail: React.FC = () => {
           <div className="podcast-actions">
             {user && 
           <button
-              className={`subscribe-btn ${isSubscribed ? "unsubscribe-btn" : ""}`}
+              className={`subscribe-btn ${podcast?.is_subscribed ? "unsubscribe-btn" : ""}`}
               onClick={handleSubscribe}
             >
-              {isSubscribed ? "لغو دنبال کردن" : "دنبال کردن"}
+              {podcast?.is_subscribed ? "لغو دنبال کردن" : "دنبال کردن"}
             </button>
           } 
             <button className="share-btn">اشتراک</button>
@@ -135,7 +136,7 @@ const PodcastDetail: React.FC = () => {
       <div className="podcast-content">
         <div className="episodes-list">
         {userRole === "SuperAdmin" &&
-          <button  className='addnews-button' onClick={() => navigate(`/podcasts/${id}/addepisode`)}>
+          <button  className='addnews-button' onClick={() => navigate(`/podcasts/${id}/addepisodes`)}>
           <i className="fa fa-plus"  style={{ color: 'white' }}></i>
           </button>
           }

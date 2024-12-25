@@ -111,7 +111,7 @@ const AddPodcast = () => {
       console.log(response);
       const eventId = response.data.data;
       console.log("podcast created successfully. podcast ID:", eventId);
-      navigate(`#`);
+      navigate(`/podcasts`);
 
     } catch (error) {
         if (error instanceof CanceledError) return;

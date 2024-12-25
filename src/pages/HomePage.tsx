@@ -136,7 +136,7 @@ useEffect(
     async function getEvent(){
 
       try {  
-        const response = await apiClient.get('/v1/public/events/published', {
+        const response = await axios.get('https://e082-37-156-54-204.ngrok-free.app/v1/public/events/published', {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header
@@ -166,7 +166,53 @@ useEffect(
   } getEvent()},[])
 
 
+  interface FormData2 {
+    name: string;
+    category: string[];
+    description: string;
+    banner: File;
+    ID:Number;
 
+  }
+  
+  
+  
+  const [initialPodcast, setInitialPodcast] = useState<FormData2[]>([]);
+  
+  useEffect(
+    () => {
+  
+      async function getPod(){
+  
+        try {  
+          const response = await axios.get('https://e082-37-156-54-204.ngrok-free.app/v1/public/podcasts', {
+            headers: {
+              "ngrok-skip-browser-warning": "69420",
+              'Content-Type': 'application/json', // Example header
+    
+            },
+          });
+          
+          if (response.status === 200 && response.data) {
+            console.log(response);
+            console.log("-------------------------response.data-------------------------------------------------");
+            console.log(response.data.data);
+            console.log("--------------------------------respons.data.data------------------------------------------");
+  
+            const sortedData = response.data.data
+              // .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // Sort by date descending
+              .slice(0, 5);
+  
+              console.log(sortedData); // Optionally log the sorted data
+              setInitialPodcast(sortedData); 
+            };
+    
+        } 
+           catch (err) {
+            console.error("Error fetching events:", err);  
+          } finally {  
+          }
+    } getPod()},[])
 
   return (
 
@@ -370,28 +416,18 @@ useEffect(
           <div className='title '><span className='title-name'>جدیدترین پادکست‌ها</span> <button className='title-link  '>رفتن به پادکست‌ها</button></div>
             <div className="lists background-color-orange">
                 
-                    <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 4</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>            
-                      </div>
-                    <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 3</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                    <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 2</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div> 
-                    <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 1</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>                </div> 
-
+            {initialPodcast.length > 0 ? (
+          initialPodcast.map((event, index) => (
+            <div className="box-small" key={index}>
+              <h2 className="product-title">{event.name}</h2> {/* Assuming 'title' is a field */}
+              <button className="my_btn">مشاهده اطلاعات</button>
             </div>
-          </div>
+          ))
+        ) : (
+          <p>هیچ رویدادی موجود نیست.</p>
+        )}
+      </div>
+      </div>
           <div className="magazin-section">
           <div className="about-anjoman-magazin">
         <h1 className="about-anjoman-magazin-titel">
