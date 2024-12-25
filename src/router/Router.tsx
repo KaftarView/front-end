@@ -31,6 +31,7 @@ import RoleManagement from "../pages/AssignRole/assignRole"
 import CreateRole from "../pages/CreateRole/createRole"
 import AddPodcast from "../pages/CreatePodcast/createPodcast"
 import UploadPodcast from "../pages/CreateEpisode/createEpisode"
+import EditEvent from "../Pages/EditEvent/editEvent"
 
 
 
@@ -76,6 +77,7 @@ const Router = () => {
                 <Route path={PATHS.createrole} element={<CreateRole/>}/>
                 <Route path={PATHS.addpodcast} element={<AddPodcast/>}/>
                 <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
+                <Route path={PATHS.editevent} element={<EditEvent/>}/>
 
 
 
