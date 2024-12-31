@@ -1,0 +1,140 @@
+.panel-tickets-container {
+    padding: 20px;
+  }
+  
+  .panel-tickets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .panel-tickets-add-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .panel-tickets-add-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .panel-tickets-table-container {
+    overflow-x: auto; /* Allows horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
+  }
+  
+  .panel-tickets-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensures the table retains a minimum width */
+  }
+  
+  .panel-tickets-table th,
+  .panel-tickets-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .panel-tickets-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .panel-tickets-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .panel-tickets-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .panel-tickets-edit-button,
+  .panel-tickets-delete-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .panel-tickets-edit-button {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .panel-tickets-edit-button:hover {
+    background-color: #218838;
+  }
+  
+  .panel-tickets-delete-button {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .panel-tickets-delete-button:hover {
+    background-color: #c82333;
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 768px) {
+    .panel-tickets-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .panel-tickets-add-button {
+      align-self: flex-end;
+    }
+  }
+
+  .panel-tickets-edit-icon,
+.panel-tickets-delete-icon {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 18px;
+  margin-right: 10px;
+  transition: color 0.3s ease;
+}
+
+.panel-tickets-edit-icon:hover {
+  color: #28a745;
+}
+
+.panel-tickets-delete-icon:hover {
+  color: #dc3545;
+}
+
+@media (max-width: 640px) {
+  .no-padding {
+    padding: 0 !important;
+  }
+}
+
+.add-ticket-panel-button {
+    display: block;
+    width: auto;
+    padding: 12px;
+    background-color: #dc7744;
+    color: #fff;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-family: 'Anjoman-FaNum-Bold';
+    margin-top: 1rem;
+}
+
+
+  
