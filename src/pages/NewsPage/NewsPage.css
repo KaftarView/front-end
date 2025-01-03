@@ -7,6 +7,11 @@
     min-height: 100vh;
   }
   
+  @media (max-width: 768px) {
+    .news-page {
+      padding: 0;
+    }
+  }
 .news-page-container {
   padding-top:5rem ;
 }
@@ -17,6 +22,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
+    padding-bottom: 5rem;
   }
   
   .filter-search {
@@ -24,6 +30,7 @@
     justify-content: space-between;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    gap:5px;
   }
   
   .search-box {
@@ -69,6 +76,12 @@
     background: #f1f1f1;
     border-radius: 6px;
     position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .news-box {
+      justify-content: center;
+    }
   }
   .news-publish-date {
     display: block;
@@ -122,6 +135,13 @@
     justify-items: flex-start;
   }
 
+  @media (max-width: 768px) {
+    .news-summary {
+      justify-items: center;
+    }
+  
+  }
+
 
 .news-box:hover {
     background-color: #eaeaea;
@@ -146,17 +166,18 @@
     margin-left: 20px;
   }
   .addnews-button {  
-    background-color: gray;  
-    border: none;  
-    border-radius: 4px;   
-    width: 35px;  
-    height: 35px;  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    cursor: pointer;  
-    outline: none;  
-    margin-bottom: 0.7rem;
+    display: block;
+    width: auto;
+    padding: 12px;
+    background-color: #dc7744;
+    color: #fff;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-family: 'Anjoman-FaNum-Bold';
 }  
 
 .addnews-button i {
@@ -172,4 +193,10 @@
   height: auto;
   margin-bottom: 20px;
 }
-  
+
+
+#filter-search-news {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

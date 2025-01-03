@@ -154,9 +154,12 @@ const handleSearch = (searchValue: string) => {
   return (
     <>
     <Navbar />
-    <div className="podcasts-header">
-     <nav className="podcast-nav" >
-     <div className="filter-search-podcast">
+    <div className="podcasts-page-container">
+      <div className="podcasts-page">
+    <div className="podcasts-container">
+     
+    <div className="filter-search-podcast">
+       <div id="search-filter-podcasts">
   <div className="search-box-podcast">
   <input
                   type="text"
@@ -189,14 +192,12 @@ const handleSearch = (searchValue: string) => {
         <option disabled>No categories available</option>
     )}
   </select>
-</div>
-{userRole === "SuperAdmin" &&
+  </div>
+  {userRole === "SuperAdmin" &&
               <button className='add-button' onClick={() => navigate('/addpodcast')}>ایجاد پادکست</button>
             }
-     </nav>
-    </div>
-    <div className="podcast-container">
-       
+</div>
+
       <h1 className="podcast-title">پادکست ها</h1>
 
       <div className="podcast-grid">
@@ -217,9 +218,9 @@ const handleSearch = (searchValue: string) => {
 
       </div>
       {loading && <div>در حال بارگزاری...</div>}
-    </div>
-    <div className="paging-div">
-            <nav aria-label="Page navigation example">
+
+    <div className="paging-div-podcasts">
+    <nav aria-label="Page navigation example">
               <ul className="inline-flex -space-x-px text-sm">
                 <li>
                   <a
@@ -241,6 +242,9 @@ const handleSearch = (searchValue: string) => {
                 </li>
               </ul>
             </nav>
+          </div>
+          </div>
+          </div>
           </div>
     <Footer />
     </>
