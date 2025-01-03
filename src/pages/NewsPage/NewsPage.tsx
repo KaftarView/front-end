@@ -160,11 +160,7 @@ const NewsPage: React.FC = () => {
     <div className="news-page">
       <div className="center-div">
       <div className="filter-search">
-      {userRole === "SuperAdmin" &&
-      <button  className='addnews-button' onClick={() => navigate('/add-news')}>
-      <i className="fa fa-plus"  style={{ color: 'white' }}></i>
-      </button>
-      }
+        <div id='filter-search-news'>
   <div className="search-box">
     <input
       type="text"
@@ -197,6 +193,12 @@ const NewsPage: React.FC = () => {
           <option disabled>No categories available</option>
         )}
       </select>
+      </div>
+      {userRole === "SuperAdmin" &&
+      <button  className='addnews-button' onClick={() => navigate('/add-news')}>
+      ایجاد خبر
+      </button>
+      }
 
 </div>
 

@@ -27,7 +27,7 @@ interface Event {
 const EventsPage: React.FC = () => {
   const [filter, setFilter] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 2;
+  const pageSize = 10;
   const [hasMoreEvents, setHasMoreEvents] = useState<boolean>(true);
   const [mockEvents, setEvents] = useState<Event[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(mockEvents);
@@ -62,7 +62,7 @@ const EventsPage: React.FC = () => {
   const fetchEvents = async (page: number, pageSize: number, searchQuery?: string, filterValue?: string) => {
     setLoading(true);
     try {
-      let path = userRole === "SuperAdmin" ? "/v1/events" : "/v1/public/events/published";
+      let path = userRole === "SuperAdmin" ? "/v1/admin/events" : "/v1/public/events/published";
 
       if (searchQuery) {
         path = userRole === "SuperAdmin" 
@@ -72,7 +72,7 @@ const EventsPage: React.FC = () => {
 
       else if (filterValue && filterValue !== 'all') {
         path = userRole === "SuperAdmin"
-          ? `/v1/events/filter?categories=${filterValue}`
+          ? `/v1/admin/events/filter?categories=${filterValue}`
           : `/v1/public/events/filter?categories=${filterValue}`;
       }
 
@@ -89,6 +89,7 @@ const EventsPage: React.FC = () => {
         const processedEvents = response.data.data.map((event: Event) => ({
           ...event,
         }));
+        console.log(response.data.data)
         setEvents(processedEvents);
         setFilteredEvents(processedEvents);
         setHasMoreEvents(processedEvents.length === pageSize);

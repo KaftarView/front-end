@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import './PodcastInfo.css';
-import Comments from './Comments'; './Comments'
+import Comments from './Comments';
 import apiClient from '../../utils/apiClient'
 import {User , useAuth} from '../../components/AuthContext'
 import { useParams } from "react-router-dom";
 import {useNavigate} from 'react-router-dom'
+import Navbar from '../NavBar/NavBar'
+import Footer from '../Footer/Footer'
 
 
 
 interface PodcastDetail {
   id: number;
-  created_at: string;
+  createdAt: string;
   name: string;
   description: string;
   banner: string;
   publisher: string;
   categories: string[];
-  subscribers_count: number;
+  subscribersCount: number;
   is_subscribed:boolean;
 }
 
@@ -52,6 +54,7 @@ const PodcastDetail: React.FC = () => {
           'Content-Type': 'application/json' },}
           );
         setPodcast(podcastResponse.data.data);
+        console.log(podcastResponse.data.data)
         setEpisodes(episodesResponse.data.data);
         console.log(episodes)
       } catch (error) {
@@ -65,6 +68,30 @@ const PodcastDetail: React.FC = () => {
     fetchData();
   }, []);
 
+  
+  const fetchStatus = async() =>
+  {
+    try{
+    const response = await apiClient.get(`/v1/podcasts/${id}/subscribe/status` , {
+      headers: {"ngrok-skip-browser-warning": "69420",
+      'Content-Type': 'application/json' },}
+      );
+      
+    console.log(response.data.data)
+    setIsSubscribed(response.data.data)
+    }
+
+    catch(error)
+    {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  useEffect(() => {  
+    fetchStatus();
+  }, []);
+
+
   useEffect(() => {  
     const userData = localStorage.getItem('user');  
     console.log(user)
@@ -77,14 +104,14 @@ const PodcastDetail: React.FC = () => {
   }, []);
 
   const handleSubscribe = async () => {
-    if (podcast?.is_subscribed) {
+    if (isSubscribed) {
       try {
-        await apiClient.delete("/v1/podcasts/4");
+        await apiClient.delete(`/v1/podcasts/${id}/subscribe`);
         setIsSubscribed(false);
         if (podcast) {
           setPodcast({
             ...podcast,
-            subscribers_count: podcast.subscribers_count - 1,
+            subscribersCount: podcast.subscribersCount - 1,
           });
         }
       } catch (error) {
@@ -92,12 +119,12 @@ const PodcastDetail: React.FC = () => {
       }
     } else {
       try {
-        await apiClient.post("/v1/podcasts/4");
+        await apiClient.post(`/v1/podcasts/${id}/subscribe`);
         setIsSubscribed(true);
         if (podcast) {
           setPodcast({
             ...podcast,
-            subscribers_count: podcast.subscribers_count + 1,
+            subscribersCount: podcast.subscribersCount + 1,
           });
         }
       } catch (error) {
@@ -110,6 +137,8 @@ const PodcastDetail: React.FC = () => {
     return <div>Loading...</div>;
   }
   return (
+    <>
+    <Navbar />
     <div className="podcast-container">
       <div className="podcast-header">
         <div className="podcast-cover">
@@ -118,29 +147,30 @@ const PodcastDetail: React.FC = () => {
         <div className="podcast-details">
           <h1>{podcast?.name}</h1>
           <p className="podcast-author">گوینده: {podcast?.publisher}</p>
-          <p>دنبال کننده‌‌ها: {podcast?.subscribers_count.toLocaleString()} &nbsp;</p>
+          <p>دنبال کننده‌‌ها: {podcast?.subscribersCount.toLocaleString()} &nbsp;</p>
+           <p>توضیحات : {podcast?.description}</p>
           <div className="podcast-actions">
             {user && 
           <button
               className={`subscribe-btn ${podcast?.is_subscribed ? "unsubscribe-btn" : ""}`}
               onClick={handleSubscribe}
             >
-              {podcast?.is_subscribed ? "لغو دنبال کردن" : "دنبال کردن"}
+              {isSubscribed ? "لغو دنبال کردن" : "دنبال کردن"}
             </button>
           } 
             <button className="share-btn">اشتراک</button>
           </div>
         </div>
       </div>
-
+         
       <div className="podcast-content">
         <div className="episodes-list">
         {userRole === "SuperAdmin" &&
-          <button  className='addnews-button' onClick={() => navigate(`/podcasts/${id}/addepisodes`)}>
+          <button  className='addepisode-button' onClick={() => navigate(`/podcasts/${id}/addepisodes`)}>
           <i className="fa fa-plus"  style={{ color: 'white' }}></i>
           </button>
           }
-          {episodes.map((episode) => (
+          {episodes && episodes.map((episode) => (
             <div className="episode-card" key={episode.id}>
               <div className="episode-info">
                 <img src={episode.banner || 'https://via.placeholder.com/60'} alt="Episode Cover" />
@@ -163,9 +193,11 @@ const PodcastDetail: React.FC = () => {
         
 
         {/* Right Column */}
-        <Comments />
+        <Comments postId ={podcast?.id} />
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

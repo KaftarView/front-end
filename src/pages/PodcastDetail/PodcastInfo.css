@@ -5,6 +5,7 @@
   width: 90%;
   margin: 0 auto;
   font-family: Arial, sans-serif;
+  padding-top: 7rem;
 }
 
 /* Top Header Section */
@@ -59,11 +60,40 @@
   background-color: #e33e00;
 }
 
+.addepisode-button {
+  background-color: gray;  
+  border: none;  
+  border-radius: 4px;   
+  width: 35px;  
+  height: 35px;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  cursor: pointer;  
+  outline: none;  
+}
+
 /* Bottom Content Section */
 .podcast-content {
   display: flex;
   gap: 20px;
   margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .podcast-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .podcast-header {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .podcast-details {
+    justify-items: center;
+  }
 }
 
 /* Episodes List (Left Column) */
