@@ -1,0 +1,152 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  #e {
+    background: rgb(74,152,174,1);
+    background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
+    direction: rtl;
+   
+    height: 100%;
+  }
+  
+  /* Upload Podcast Container */
+  .upload-container-episode {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 40px;
+    font-family: 'Anjoman-FaNum-Bold';
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    text-align: right; /* Align the entire form to the right */
+  
+  }
+  
+  .add-episod-form {
+  
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    margin: 20px 20px auto;
+    text-align: right;
+  }
+  
+  .add-episod-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: rgb(0, 67, 80);
+  }
+  
+  /* Labels */
+  .add-episod-form .Labeladd-media {
+    font-size: 1.2rem;
+    text-align: right;
+    margin-bottom: 2px;
+    margin-top: 8px;
+    color: rgb(0, 67, 80);
+    align-items: flex-start;
+    direction: rtl;
+  }
+  
+  /* Input Fields */
+  .add-episod-form .addinput-field {
+    font-family: 'Anjoman-FaNum-Bold';
+    text-align: right;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+  }
+  
+  .add-episod-form .addinput-field:focus {
+    border-color: rgb(0, 68, 80);
+    outline-color: rgb(0, 68, 80);
+    transition: 0.5s;
+  }
+  
+  /* Error and Success Messages */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .success {
+    color: green;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  /* Submit Button Styling */
+  .add-episod-form button {
+    margin: 20px auto;
+    padding: 12px;
+    font-size: 16px;
+    background-color: rgb(74, 152, 174);
+    color: white;
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  
+  .add-episod-form button:hover {
+    background-color: transparent;
+    color: rgb(74, 152, 174);
+  }
+  
+  .add-episod-form button:disabled {
+    border: 1px solid rgb(0, 68, 80);
+    color: rgb(0, 68, 80);
+    cursor: not-allowed;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .upload-container-episode {
+      padding: 20px;
+    }
+    
+    .add-episod-form {
+      padding: 15px;
+    }
+  
+    .add-episod-form h2 {
+      font-size: 20px;
+    }
+  
+    .add-episod-form .addinput-field {
+      width: 100%;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+  
+    .add-episod-form button {
+      width: 30%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .add-episod-form h2 {
+      font-size: 18px;
+    }
+  
+  
+  
+    .add-episod-form button {
+      font-size: 14px;
+    }
+  }
+  
