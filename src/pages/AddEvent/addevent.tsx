@@ -555,7 +555,7 @@ const Event = () => {
     console.log([...formData]);
   
     try {
-      const res = await apiClient.post("/v1/events/create", formData, {
+      const res = await apiClient.post("/v1/admin/events/create", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

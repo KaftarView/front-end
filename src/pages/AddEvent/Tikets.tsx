@@ -66,7 +66,7 @@ const Tikets = () => {
 
     try {
       const res = await apiClient.post(
-        `/v1/events/add-ticket/${eventId}`,
+        `/v1/admin/events/add-ticket/${eventId}`,
         updatedTicket,
         { withCredentials: true }
       );

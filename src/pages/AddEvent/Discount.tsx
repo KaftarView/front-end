@@ -63,7 +63,7 @@ const Discount = () => {
 
     try {
       const res = await apiClient.post(
-        `/v1/events/add-discount/${eventId}`,
+        `/v1/admin/events/add-discount/${eventId}`,
         updatedDiscount,
         { withCredentials: true }
       );

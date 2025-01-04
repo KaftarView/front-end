@@ -46,7 +46,7 @@ const Login = () => {
       console.log(obj.password);
 
       const res = await apiClient.post('/v1/auth/login', obj);  
-      console.log(res);  
+      console.log(res.data.data);  
       if(res.data.statusCode === 200)
         {
             setToken(res.data.data.access_token);
@@ -56,7 +56,7 @@ const Login = () => {
               username: res.data.data.name,  
               email: res.data.data.email,
               roles : res.data.data.roles,
-              permissions: res.data.data.roles,
+              permissions: res.data.data.permissions,
           
             };  
             showAlert();

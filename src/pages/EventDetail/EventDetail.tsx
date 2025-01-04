@@ -115,6 +115,7 @@ import apiClient from  "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
 import {User , useAuth} from '../../components/AuthContext';
 import Comments from '../PodcastDetail/Comments';
+import { FileText, Video, Presentation, Download } from 'lucide-react';
 
 
 
@@ -131,6 +132,14 @@ export interface EventDetail {
   from_date: string;
   to_date: string;
   base_price : number;
+  media?: EventMedia[];
+}
+
+interface EventMedia {
+  id: number;
+  title: string;
+  type: 'pdf' | 'word' | 'pptx' | 'video';
+  url: string;
 }
 
 const EventDetail: React.FC = () => {
@@ -142,7 +151,8 @@ const EventDetail: React.FC = () => {
   const { backendUrl, setBackendUrl } = useAppContext();  
   const [event, setEvent] = useState<EventDetail | null>(null);
   const navigate = useNavigate();
-  const { getUserRoles } = useAuth();  
+  const { getUserRoles , getUserPermissions} = useAuth();  
+  const userPermissions = getUserPermissions();
   let scrollTimeout: NodeJS.Timeout;
   const statusTranslation: Record<EventDetail['status'], string> = {  
     Draft: 'پیش نویس',  
@@ -177,54 +187,67 @@ const EventDetail: React.FC = () => {
   }, []);
   const backgroundColor = event?.status ? statusColors[event?.status] : 'gray';
 
-  useEffect(() => {  
-    const fetchEvent = async () => {  
-        setLoading(true);  
-        setError(null);  
-        const path = userRole === "SuperAdmin" ? "/v1/admin/events/" : "v1/public/events/";
+//   useEffect(() => {  
+//     const fetchEvent = async () => {  
+//         setLoading(true);  
+//         setError(null);  
+//         const path = userRole === "SuperAdmin" ? "/v1/admin/events/" : "v1/public/events/";
 
-        try {  
-            // const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
-            //   headers: {
-            //     "ngrok-skip-browser-warning": "69420",
-            //     'Content-Type': 'application/json', // Example header
+//         try {  
+//             // const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
+//             //   headers: {
+//             //     "ngrok-skip-browser-warning": "69420",
+//             //     'Content-Type': 'application/json', // Example header
     
-            //   },
-            // });  
-            const response = await apiClient.get(`${path}${id}`, {  
-              headers: {  
-                "ngrok-skip-browser-warning": "69420",  
-                'Content-Type': 'application/json', 
-              },  
-            });  
+//             //   },
+//             // });  
+//             const response = await apiClient.get(`${path}${id}`, {  
+//               headers: {  
+//                 "ngrok-skip-browser-warning": "69420",  
+//                 'Content-Type': 'application/json', 
+//               },  
+//             });  
         
-            console.log(response.data.data); 
-            const eventData = response.data.data;
-            setEvent(eventData);
-            if (event) {
-              setEvent({
-                ...event,
-                base_price: 100,
-              });}
-            console.log(event) 
-        } catch (err) {  
-          if (axios.isAxiosError(err)) {
-            if (err.response && err.response.status === 404) {  
-                setError('Event not found');  
-            } else {  
-                setError('An error occurred while fetching the event');  
-            }  
-          }
-        } finally {  
-            setLoading(false);  
-        }  
-    };  
+//             console.log(response.data.data); 
+//             const eventData = response.data.data;
+//             setEvent(eventData);
+//             if (event) {
+//               setEvent({
+//                 ...event,
+//                 base_price: 100,
+//               });}
+//             console.log(event) 
+//         } catch (err) {  
+//           if (axios.isAxiosError(err)) {
+//             if (err.response && err.response.status === 404) {  
+//                 setError('Event not found');  
+//             } else {  
+//                 setError('An error occurred while fetching the event');  
+//             }  
+            
+//           }
+//         } finally {  
+//             setLoading(false);  
+//         }  
+//     };  
 
-    fetchEvent();  
-}, [id]);  
-  if (loading) {  
-    return <div>Loading event...</div>;  
-  }  
+//     fetchEvent();  
+// }, [id]);  
+//   if (loading) {  
+//     return <div>Loading event...</div>;  
+//   }  
+
+    const getMediaIcon = (type: EventMedia['type']) => {
+      switch (type) {
+        case 'pdf':
+        case 'word':
+          return <FileText className="media-icon" />;
+        case 'pptx':
+          return <Presentation className="media-icon" />;
+        case 'video':
+          return <Video className="media-icon" />;
+      }
+    };
 
   const handleDelete = async (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -258,8 +281,8 @@ const handlePublish = async () => {
   }  
 };  
 
-  if (error || !event) {  
-    console.error(error);  
+  if (!event) {  
+    // console.error(error);  
     setEvent(mockEvent);
 } 
   if (!event) {
@@ -307,10 +330,42 @@ const handlePublish = async () => {
                     در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی و عملی یاد خواهید گرفت تا چک لیست اجرایی خود را برای برگزاری یک رویداد موفق تهیه و تنظیم کنید */}
             </p>
           </div>
-          {userRole === "SuperAdmin" &&
+          {/* {userRole === "SuperAdmin" &&
           <Popup />
 
-          }
+          } */}
+                    <div className="media-section">
+            <div className="accent-line"></div>
+            <h2 className="description-title">فایل‌های رویداد</h2>
+            {event.media && !userPermissions.includes("ManageEvent") && event.media.length > 0 ? (
+              <div className="media-grid">
+                {event.media.map((item) => (
+                  <div key={item.id} className="media-item">
+                    {getMediaIcon(item.type)}
+                    <div className="media-details">
+                      <div className="media-title">{item.title}</div>
+                      <div className="media-type">
+                        {item.type.toUpperCase()}
+                      </div>
+                    </div>
+                    <a 
+                      href={item.url}
+                      download
+                      className="download-button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(item.url, '_blank');
+                      }}
+                    >
+                      <Download size={16} />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="description-text">هیچ فایلی برای این رویداد وجود ندارد.</p>
+            )}
+          </div>
           <div className='event-details-title'>
           <h2>برگزار کننده‌گان</h2>
           </div>
@@ -357,13 +412,18 @@ const handlePublish = async () => {
             <div className="info-label">دسته بندی</div>
             <div className="info-value">{event.categories[0] || "عمومی"}</div>
           </div>
+          {userPermissions.includes("ManageEvent") ?
+            <div className='buy-button-div'>
+          <a href="#" className="buy-button">مدیریت رویداد </a>
+          </div> :
           <div className='buy-button-div'>
           <a href="#" className="buy-button">خرید بلیت</a>
           </div>
-          {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
+          }
+          {/* {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
             <a href="#" className="edit-button">ویرایش رویداد</a>
             <a  onClick={handleDelete} href="#" className="delete-button">حذف رویداد</a>
-          </div>}
+          </div>} */}
         </div>
 
       </div>

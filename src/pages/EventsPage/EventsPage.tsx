@@ -16,12 +16,12 @@ interface Event {
   description: string;
   location: string;
   status: string;
-  venue_type: string;
+  venueType: string;
   categories: string[];
-  created_at: string;
-  from_date: string;
-  to_date: string;
-  base_price: number;
+  createdAt: string;
+  fromDate: string;
+  toDate: string;
+  basePrice: number;
 }
 
 const EventsPage: React.FC = () => {
@@ -35,10 +35,13 @@ const EventsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { backendUrl } = useAppContext();
   const [categories, setCategories] = useState<Categories>();
-  const { getUserRoles } = useAuth();
+  const { getUserRoles , getUserPermissions } = useAuth();
   const [query, setQuery] = useState('');
   const userRole = getUserRoles()[0];
   const navigate = useNavigate();
+  const userPermissions = getUserPermissions();
+  console.log(userPermissions)
+  console.log(getUserRoles())
 
   // Load categories on mount
   useEffect(() => {
@@ -66,7 +69,7 @@ const EventsPage: React.FC = () => {
 
       if (searchQuery) {
         path = userRole === "SuperAdmin" 
-          ? `/v1/events/search?query=${searchQuery}` 
+          ? `/v1/admin/events/search?query=${searchQuery}` 
           : `/v1/public/events/search?query=${searchQuery}`;
       }
 
@@ -90,6 +93,7 @@ const EventsPage: React.FC = () => {
           ...event,
         }));
         console.log(response.data.data)
+
         setEvents(processedEvents);
         setFilteredEvents(processedEvents);
         setHasMoreEvents(processedEvents.length === pageSize);
@@ -178,7 +182,7 @@ const EventsPage: React.FC = () => {
                 </span>
               </div>
             </div>
-            {userRole === "SuperAdmin" &&
+            {userPermissions.includes("CreateEvent") &&
               <button className='add-button' onClick={()=>navigate('/addevent')} >ایجاد رویداد</button>
             }
           </nav>
@@ -196,7 +200,7 @@ const EventsPage: React.FC = () => {
                     </div>
                     <div className="card-info">
                       <small>
-                        {new Date(event.from_date).toLocaleDateString("fa-IR", {
+                        {new Date(event.fromDate).toLocaleDateString("fa-IR", {
                           weekday: "long",
                           day: "numeric",
                           month: "long",
@@ -208,11 +212,11 @@ const EventsPage: React.FC = () => {
                       </div>
                       <div className="icon-div">
                         <i className="fa fa-money" aria-hidden="true"></i>
-                        <p>از{event.base_price} هزار تومان</p>
+                        <p>از{event.basePrice} هزار تومان</p>
                       </div>
                       <div className="icon-div">
                         <i className="fa fa-map-marker" aria-hidden="true"></i>
-                        <p>{event.venue_type === "Online" ? "آنلاین" : "حضوری"}</p>
+                        <p>{event.venueType === "Online" ? "آنلاین" : "حضوری"}</p>
                       </div>
                     </div>
                   </div>

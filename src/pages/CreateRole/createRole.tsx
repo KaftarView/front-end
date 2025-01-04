@@ -30,7 +30,7 @@ const CreateRole = () => {
     const fetchPermissions = async () => {
       setLoadingPermissions(true);
       try {
-        const response = await apiClient.get('/v1/permissions', {
+        const response = await apiClient.get('/v1/admin/permissions', {
           headers: {
             'ngrok-skip-browser-warning': '69420',
             'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const CreateRole = () => {
     // formData.append('permissions', selectedPermissions.toString()); // Append selected permissions
 
     try {
-      const response = await apiClient.post('/v1/roles', requestData, {
+      const response = await apiClient.post('/v1/admin/roles', requestData, {
         withCredentials: true,
         headers: {
         //   'ngrok-skip-browser-warning': '69420',
