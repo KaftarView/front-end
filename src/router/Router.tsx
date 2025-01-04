@@ -32,6 +32,7 @@ import CreateRole from "../pages/CreateRole/createRole"
 import AddPodcast from "../pages/CreatePodcast/createPodcast"
 import UploadPodcast from "../pages/CreateEpisode/createEpisode"
 import MembersPage from "../pages/AssocitionMembers/Members"
+import UploadMedia from "../Pages/AddEventMedia/addEventMedia"
 
 
 
@@ -79,11 +80,9 @@ const Router = () => {
                 <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
                 <Route path={PATHS.MembersPage}  element={<MembersPage />} />
 
+                <Route path={PATHS.addmedia}  element={<UploadMedia />} />
 
 
-        <Route></Route>
-        <Route></Route>
-        <Route></Route>
 
     </Routes>
   )

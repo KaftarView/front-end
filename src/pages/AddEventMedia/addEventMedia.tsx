@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios, { AxiosProgressEvent } from 'axios';
 import { register } from 'module';
-import "./addMedia.css"
+import "./addEventMedia.css"
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import apiClient from '../../utils/apiClient';
