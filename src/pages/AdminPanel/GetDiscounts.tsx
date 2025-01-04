@@ -2,47 +2,50 @@
 
 import React, { useState, useEffect } from 'react';  
 import apiClient from '../../utils/apiClient';  
+import PopupQuestion from '../../components/PopupQuestion/PopopQuestion'
+import * as XLSX from 'xlsx';
+import { Download } from 'lucide-react';
 
 interface Discount {  
-  available_from: string;  
-  available_until: string;  
+  availableFrom: string;  
+  availableUntil: string;  
   code: string;  
-  created_at: string;  
+  createdAt: string;  
   id: number;  
-  min_tickets: number;  
+  minTickets: number;  
   quantity: number;  
   type: 'Fixed' | 'Percentage';  
-  used_count: number;  
+  usedCount: number;  
   value: number;  
 }  
 
 const mockDiscounts: Discount[] = [  
   {  
-    available_from: "2024-12-05T16:22:00+03:30",  
-    available_until: "2024-12-21T16:22:00+03:30",  
+    availableFrom: "2024-12-05T16:22:00+03:30",  
+    availableUntil: "2024-12-21T16:22:00+03:30",  
     code: "r4",  
-    created_at: "2024-12-28T12:53:00.569+03:30",  
+    createdAt: "2024-12-28T12:53:00.569+03:30",  
     id: 1,  
-    min_tickets: 1,  
+    minTickets: 1,  
     quantity: 43,  
     type: "Fixed",  
-    used_count: 0,  
+    usedCount: 0,  
     value: 44,  
   },  
   {  
-    available_from: "2024-12-05T16:22:00+03:30",  
-    available_until: "2024-12-21T16:22:00+03:30",  
+    availableFrom: "2024-12-05T16:22:00+03:30",  
+    availableUntil: "2024-12-21T16:22:00+03:30",  
     code: "r4",  
-    created_at: "2024-12-28T12:53:00.569+03:30",  
-    id: 5,  
-    min_tickets: 1,  
-    quantity: 41,  
+    createdAt: "2024-12-28T12:53:00.569+03:30",  
+    id: 2,  
+    minTickets: 1,  
+    quantity: 43,  
     type: "Fixed",  
-    used_count: 0,  
+    usedCount: 0,  
     value: 44,  
   },  
 ];  
-type SortField = 'id'  | 'quantity' | 'type';
+type SortField = 'id'  | 'quantity' | 'type' | 'value' | 'availableFrom' | 'availableUntil' | 'usedCount';
 type SortOrder = 'asc' | 'desc';
 
 function GetDiscounts() {  
@@ -51,6 +54,8 @@ function GetDiscounts() {
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [loading, setLoading] = useState(false);  
   const [error, setError] = useState<string | null>(null);  
+  const [currentDiscountId , setCurrentNewsId] = useState<number | null>(null); 
+  const [isModalVisible, setIsModalVisible] = useState(false); 
 
   useEffect(() => {  
     const fetchDiscounts = async () => {  
@@ -58,13 +63,14 @@ function GetDiscounts() {
       setError(null);  
 
       try {  
-        const response = await apiClient.get('/v1/events/discount-details/18', {  
+        const response = await apiClient.get('/v1/admin/events/7/discounts', {  
           headers: {  
             "ngrok-skip-browser-warning": "69420",  
             'Content-Type': 'application/json',  
           },  
         });  
-        setDiscounts(response.data.data);  
+        setDiscounts(response.data.data); 
+        console.log(response.data.data) 
       } catch (err: any) {  
         setError(err.response?.data?.message || 'An error occurred while fetching discounts.');  
       } finally {  
@@ -106,7 +112,53 @@ function GetDiscounts() {
     setDiscounts(sortedTickets);
   };
 
+  const deleteDiscountById = async (discountId: number) => {  
+    try {  
+      await apiClient.delete(`/v1/admin/events/discount/${discountId}`);  
+      console.log('News deleted successfully'); 
+      alert("تخفیف با موفقیت حذف شد") 
+      setDiscounts((prevDiscountList) => prevDiscountList.filter((discount) => discount.id !== discountId));  
+      setIsModalVisible(false);  
+    } catch (error : any) {  
+      console.error('Error deleting news:', error); 
+      alert(error.response?.data?.message || 'An error occurred while fetching discounts.') 
+    }  
+  };  
+
+  const handleDeleteClick = (discountId: number) => {  
+    setCurrentNewsId(discountId);  
+    setIsModalVisible(true);  
+  };  
+
+  const handleConfirmDelete = () => {  
+    if (currentDiscountId !== null) {  
+      deleteDiscountById(currentDiscountId);  
+    }  
+  };  
+
+  const handleCancelDelete = () => {  
+    setIsModalVisible(false);  
+    setCurrentNewsId(null);  
+  };  
   
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(discounts.map(discount => ({
+      'Discount Code': discount.code,
+      'Type': discount.type,
+      'Value': discount.value,
+      'Minimum Tickets Required': discount.minTickets,
+      'Quantity Available': discount.quantity,
+      'Used Count': discount.usedCount,
+      'Available From': discount.availableFrom,
+      'Available Until': discount.availableUntil,
+      'Created At': discount.createdAt,
+    })));
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendees');
+    XLSX.writeFile(workbook, 'attendees.xlsx');
+  };
+
 
   const getSortIcon = (field: SortField) => {
     if (field !== sortField) return '↕️';
@@ -117,40 +169,76 @@ function GetDiscounts() {
     <div className="min-h-screen bg-white-100 p-8 no-padding">  
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-md">  
         <div className="p-6">  
+        <button
+              onClick={exportToExcel}
+              className="download-excel-button"
+            >
+              <Download size={20} />
+              دانلود گزارش اکسل
+            </button>
           <h2 className="text-2xl font-bold mb-6">تخفیف ها</h2>  
           {loading && <p>Loading discounts...</p>}  
           {error && <p className="text-red-600">{error}</p>}  
           <div className="overflow-x-auto">  
-            <table className="min-w-full divide-y divide-gray-200">  
-              <thead className="bg-gray-50">  
-                <tr>  
-                  <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('id')}>آیدی {getSortIcon('id')}</th>  
-                  <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider">کد</th>  
-                  <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('quantity')}>تعداد {getSortIcon('quantity')}</th>  
-                  <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('type')}>نوع {getSortIcon('type')}</th>  
-                  <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider">عملیات</th>  
-                </tr>  
-              </thead>  
-              <tbody className="bg-white divide-y divide-gray-200">  
-                {discounts.map((discount) => (  
-                  <tr key={discount.id} className="hover:bg-gray-50">  
-                    <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.id}</td>  
-                    <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.code}</td>  
-                    <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.quantity}</td>  
-                    <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.type}</td>  
-                    <td className="px-6 text-center py-4 text-large text-gray-900">  
-                      <i className="fa fa-trash-o text-red-500 cursor-pointer mx-2" aria-hidden="true" />  
-                      <i className="fa fa-pencil-square-o text-blue-500 cursor-pointer mx-2" aria-hidden="true" />  
-                    </td>  
-                  </tr>  
-                ))}  
-              </tbody>  
-            </table>  
+          <table className="min-w-full divide-y divide-gray-200">
+  <thead className="bg-gray-50">
+    <tr>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('id')}>#</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider">کد</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('quantity')}>تعداد {getSortIcon('quantity')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('type')}>نوع {getSortIcon('type')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('value')}>مقدار {getSortIcon('value')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('availableFrom')}>شروع اعتبار {getSortIcon('availableFrom')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('availableUntil')}>پایان اعتبار {getSortIcon('availableUntil')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('usedCount')}>استفاده‌شده {getSortIcon('usedCount')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider">عملیات</th>
+    </tr>
+  </thead>
+  <tbody className="bg-white divide-y divide-gray-200">
+    {discounts.map((discount , index) => (
+      <tr key={discount.id} className="hover:bg-gray-50">
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{index + 1}</td>
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.code}</td>
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.quantity}</td>
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.type === "Percentage" ? "درصدی" : "ثابت"}</td>
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.value}</td>
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">
+        {new Date(discount.availableFrom).toLocaleDateString("fa-IR", {
+                          weekday: "long",
+                          day: "numeric",
+                          month: "long",
+                        })}
+        </td>
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">
+        {new Date(discount.availableUntil).toLocaleDateString("fa-IR", {
+                          weekday: "long",
+                          day: "numeric",
+                          month: "long",
+                        })}
+        </td>
+        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.usedCount}</td>
+        <td className="px-3 text-center py-4 text-large text-gray-900">
+          <i className="fa fa-trash-o text-red-500 cursor-pointer mx-2" aria-hidden="true" onClick={() => handleDeleteClick(discount.id)} />
+          <i className="fa fa-pencil-square-o text-blue-500 cursor-pointer mx-2" aria-hidden="true" />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+
           </div>  
         </div>  
-      </div>  
+      </div> 
+                  <PopupQuestion   
+                  isVisible={isModalVisible}  
+                  message = "آیا از حذف این خبر اطمینان دارید؟"
+                  onConfirm={handleConfirmDelete}  
+                  onCancel={handleCancelDelete}  
+                />  
       <button className='add-ticket-panel-button'>اضافه کردن تخفیف</button>  
     </div>  
+    
   );  
 }  
 

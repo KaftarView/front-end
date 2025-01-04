@@ -5,6 +5,7 @@ import Footer from '../Footer/Footer';
 import ShowTickets from './GetTickets';
 import GetDiscounts from './GetDiscounts';
 import MediaPage from './EventMedia';
+import GetAttendees from './Attendees';
 
 const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -14,7 +15,7 @@ const AdminPanel: React.FC = () => {
     { id: 0, label: 'ویرایش اطلاعات رویداد', content: <EditEventInfo /> },
     { id: 1, label: 'بلیت‌ها', content: <ShowTickets /> },
     { id: 2, label: 'تخفیف‌ها', content: <GetDiscounts /> },
-    { id: 3, label: 'شرکت کننده‌گان', content: <EventSettings /> },
+    { id: 3, label: 'شرکت کننده‌گان', content: <GetAttendees /> },
     { id: 4, label: 'فایل‌های رویداد', content: <MediaPage /> },
   ];
 
