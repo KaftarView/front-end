@@ -10,7 +10,13 @@ interface Attendee
     phoneNumber : string,
     ticketType : string,
     paid : number,
+
 }
+interface SendEmail {
+  eventid: number;
+  email2: string;
+}
+
 
 const attendeesList: Attendee[] = [  
     {  
@@ -52,6 +58,8 @@ const GetAttendees: React.FC = () => {
     const [attendees , setAttendees] = useState<Attendee[]>(attendeesList);
     const [sortField, setSortField] = useState<SortField>('id');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+
+    const [sendEmailData, setSendEmailData] = useState<SendEmail>({ eventid: 0, email2: '' });
 
     const handleSort = (field: SortField) => {
         const newSortOrder = field === sortField && sortOrder === 'asc' ? 'desc' : 'asc';
@@ -105,10 +113,17 @@ const GetAttendees: React.FC = () => {
     const totalPaid = attendees.reduce((total, attendee) => total + attendee.paid, 0);
     const numberOfAttendees = attendees.length;
     
-
+    const handleSendEmail = async () => {
+      const { eventid, email2 } = sendEmailData;
+  
+      if (!eventid || !email2) {
+        alert('Please provide both the event ID and email address.');
+        return;
+      }}
     return (
         <div className="min-h-screen bg-white-100 p-8 no-padding">
-                        <div className='sold-tickets-panel'>
+          
+            <div className='sold-tickets-panel'>
             <h5>وضعیت بلیت های فروش رفته :</h5>
             <h6>تعداد کل شرکت کننده‌گان : {numberOfAttendees}</h6>
             <h6>کل مبلغ دریافتی: {totalPaid} هزار      تومان</h6>
@@ -190,10 +205,32 @@ const GetAttendees: React.FC = () => {
                   </tbody>
                 </table>
               </div>
+
             </div>
+
           </div>
+          <div className='sold-tickets-panel'>
+          <h5>متن ایمیل:</h5>
+          </div>
+          <div className="mb-4">
+
+            <textarea
+              value={sendEmailData.email2}
+              onChange={(e) => setSendEmailData({ ...sendEmailData, email2: e.target.value })}
+              placeholder="Enter Email"
+              className="textarea-fieldevent"
+              
+            />
+
+
+          </div>
+          <button onClick={handleSendEmail} className="event">
+              ارسال به شرکت کنندگان
+            </button>
         </div>
       );
 }
     
 export default GetAttendees
+
+

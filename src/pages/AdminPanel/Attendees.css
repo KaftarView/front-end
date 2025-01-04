@@ -32,3 +32,55 @@
     transition: background-color 0.3s;
     font-family: 'Anjoman-FaNum-Bold';
 }
+.textarea-fieldevent::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .textarea-fieldevent::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  .textarea-fieldevent::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  .textarea-fieldevent {
+    height: 200px;
+    width: 1500px; /* Adjust height for better usability */
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    resize: none; /* Prevent resizing */
+  }
+  
+  
+  .event {
+    display: flex;
+    gap: 4px;
+    width: auto;
+    padding: 12px;
+    background-color: #dc7744;
+    color: #fff;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-family: 'Anjoman-FaNum-Bold';
+  }
+  
+
+  
+  .mb-4 {
+    display: flex;
+    justify-content: flex-start; /* Align content to the left */
+    align-items: center; /* Center vertically */
+    gap: 10px; /* Spacing between items */
+    margin-top: 20px;
+  }
+  
