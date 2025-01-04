@@ -168,3 +168,80 @@ html, body {
   
   
   }  
+
+
+  @media (max-width: 768px) {
+    .upload-container-podcast {
+      margin: 20px auto;
+      width: 95%;
+    }
+  
+    .add-podcast-form {
+      padding: 15px;
+      margin: 10px;
+    }
+  
+    .add-podcast-form h2 {
+      font-size: 20px;
+    }
+  
+    .add-podcast-form .Labeladd {
+      font-size: 1rem;
+    }
+  
+    .add-podcast-form .addinput-field-podcast {
+      font-size: 12px;
+      height: 35px; 
+      padding: 8px;
+    }
+  
+    .add-podcast-form select {
+      font-size: 12px;
+      height: 35px; 
+      padding: 8px;
+    }
+  
+    .add-podcast-form button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  
+  /* For Mobile Devices */
+  @media (max-width: 480px) {
+    .upload-container-podcast {
+      margin: 20px auto;
+      width: 100%;
+    }
+  
+    .add-podcast-form {
+      padding: 10px;
+      margin: 10px;
+    }
+  
+    .add-podcast-form h2 {
+      font-size: 18px;
+    }
+  
+    .add-podcast-form .Labeladd {
+      font-size: 0.9rem;
+    }
+  
+    .add-podcast-form .addinput-field-podcast {
+      font-size: 12px;
+      height: 35px; 
+      padding: 6px;
+    }
+  
+    .add-podcast-form select {
+      font-size: 12px;
+      height: 35px; 
+      padding: 6px;
+    }
+  
+    .add-podcast-form button {
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+  
