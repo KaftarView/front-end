@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios, { CanceledError } from "axios";
 import "./addevent.css";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import apiClient from  "../../utils/apiClient";
+import { useParams, useNavigate } from "react-router-dom";
+import apiClient from "../../utils/apiClient";
+import axios, { CanceledError } from "axios";
 
-interface FormData {
+interface Event {
   name: string;
   status: string;
   description: string;
@@ -13,48 +12,65 @@ interface FormData {
   toDate: string;
   minCapacity: number;
   maxCapacity: number;
-  basePrice:number;
+  basePrice: number;
   venueType: string;
   location: string;
-  banner: FileList; 
-  category: string[];
+  banner: File ;
+  categories: string[] ;
 }
 
-
-
-const Addevent: React.FC = () => {
-  const [eventType, setEventType] = useState<string>("");
-  const [categories, setCategories] = useState<string[]>([]);
-  const [customCategory, setCustomCategory] = useState<string>("");
-  const [isCustomCategory, setIsCustomCategory] = useState(false); 
-  const [loadingCategories, setLoadingCategories] = useState(false);
-
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<FormData>({
-    mode: "onChange",
+const Event = () => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const [Events, setEvents] = useState<Event[]>([]);
+  const [newEvent, setNewEvent] = useState<Event>({
+    name: "",
+    status: "draft",
+    description: "",
+    fromDate: "",
+    toDate: "",
+    minCapacity: 0,
+    maxCapacity: 0,
+    basePrice: 0,
+    venueType: "",
+    location: "",
+    banner: {} as File, 
+    categories: [],
   });
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === "other") {
-      setIsCustomCategory(true);
-    } else {
-      setIsCustomCategory(false);
-    }
-  };
+  const [eventType, setEventType] = useState<string>(""); 
+  const [errors, setErrors] = useState<Partial<Record<keyof Event, string>>>( {});
+  const [categories1, setCategories] = useState<string[]>([]);
+  const [customCategories, setCustomCategories] = useState<string[]>([""]); 
+  const [isCustomCategories, setIsCustomCategories] = useState(false);
+  const [loadingCategories, setLoadingCategories] = useState(false);
+  const navigate = useNavigate();
 
+  const handleEventChange = (field: keyof Event, value: string[] |string | number | File) => {
+    setNewEvent({ ...newEvent, [field]: value });
+    setErrors({ ...errors, [field]: "" });
+    if (field=="categories" )
+      {
+        if(value=="other")
+        {
+          setIsCustomCategories(true);
+        }
+        else{
+          setIsCustomCategories(false);
+
+        }
+      }
+  };
   useEffect(() => {
     const fetchCategories = async () => {
       setLoadingCategories(true);
       try {
         const response = await apiClient.get("/v1/public/categories", {
-          headers: {"ngrok-skip-browser-warning": "69420",
-                'Content-Type': 'application/json' },
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            "Content-Type": "application/json",
+          },
         });
-        console.log(response.data.data); 
-        setCategories(response.data.data); 
+        console.log(response.data.data);
+        setCategories(response.data.data);
       } catch (error) {
         if (error instanceof CanceledError) return;
         console.error("Error fetching categories:", error);
@@ -62,273 +78,348 @@ const Addevent: React.FC = () => {
         setLoadingCategories(false);
       }
     };
-  
+
     fetchCategories();
   }, []);
-
-
-  const handleEventTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setEventType(e.target.value);
+  const handleCategoriesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategory = e.target.value;
+    if (selectedCategory === "other") {
+      setIsCustomCategories(true); 
+    } else {
+      setIsCustomCategories(false);
+      setNewEvent((prevEvent) => ({
+        ...prevEvent,
+        categories: [selectedCategory], 
+      }));
+    }
   };
 
-  const onSubmit = async (data: FormData) => {
-    const formData = new FormData();
-    const selectedCategories = isCustomCategory
-    ? customCategory
-    : data.category;
-    console.log(data.banner[0]);
-    console.log(data.category);
-    console.log(selectedCategories.toString());
-    console.log(data.description);
-    console.log(data.fromDate+":00Z");
-    console.log(data.location);
-    console.log(data.maxCapacity);
-    console.log(data.minCapacity);
-    console.log(data.basePrice);
-    console.log(data.name);
-    console.log(data.status);
-    console.log(data.toDate+":00Z");
-    console.log(data.venueType);
-    // Populate FormData
-    formData.append("name", data.name);
-    formData.append("status", data.status);
-    formData.append("description", data.description);
-    formData.append("fromDate", data.fromDate + ":00Z");
-    formData.append("toDate", data.toDate + ":00Z");
-    formData.append("minCapacity", data.minCapacity.toString());
-    formData.append("maxCapacity", data.maxCapacity.toString());
-    formData.append("venueType", data.venueType);
-    formData.append("location", data.location);
-    formData.append("basePrice", data.basePrice.toString());
+  const handleCustomCategoryChange = (index: number, value: string) => {
+    const newCustomCategories = [...customCategories];
+    newCustomCategories[index] = value;
+    setCustomCategories(newCustomCategories);
+  };
+  const handleAddCategory = () => {
+    setCustomCategories((prev) => [...prev, ""]); 
+  };
+  const validateFields = (): boolean => {
+    const newErrors: Partial<Record<keyof Event, string>> = {};
 
-    formData.append("category", selectedCategories.toString()); // Append categories
+    if (!newEvent.name.trim()) newErrors.name = "نام الزامی است";
+    if (!newEvent.description.trim()) newErrors.description = "توضیحات الزامی است";
+
+
+    if (newEvent.maxCapacity <= 0) newErrors.maxCapacity = "حداکثر ظرفیت باید بزرگتر از 0 باشد";
+    if (newEvent.minCapacity <= 0) newErrors.minCapacity = "حداقل ظرفیت باید بزرگتر از 0 باشد";
+    if (newEvent.basePrice <= 0)
+      newErrors.basePrice = "قیمت باید بزرگتر از 0 باشد";
+    if (!newEvent.fromDate.trim())
+      newErrors.fromDate = "تاریخ شروع الزامی است";
+    if (!newEvent.toDate.trim())
+      newErrors.toDate = "تاریخ پایان الزامی است";
+    if (!newEvent.location.trim()) newErrors.location = "ادرس یا لینک الزامی است";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; 
+  };
+  const handleVenueTypeChange = (value: string) => {
+    setEventType(value);
+    handleEventChange("venueType", value);
+  };
+
+  const onSubmit = async () => {
+    if (!validateFields()) return;
   
-    if (data.banner && data.banner[0]) {
-      formData.append("banner", data.banner[0]);
+
+    let finalCategories: string[] = [];
+  
+    if (isCustomCategories) {
+
+      finalCategories = customCategories.filter((cat) => cat.trim() !== ""); // Remove empty entries
+    } else {
+    
+      newEvent.categories.forEach((category) => {
+        finalCategories = [...finalCategories, ...category.split(",").map((cat) => cat.trim())];
+      });
     }
+  
+    console.log("Final Categories:", finalCategories);
+  
+    const formData = new FormData();
+    formData.append("name", newEvent.name);
+    formData.append("status", newEvent.status);
+    formData.append("description", newEvent.description);
+    formData.append("fromDate", `${newEvent.fromDate}:00Z`);
+    formData.append("toDate", `${newEvent.toDate}:00Z`);
+    formData.append("minCapacity", newEvent.minCapacity.toString());
+    formData.append("maxCapacity", newEvent.maxCapacity.toString());
+    formData.append("basePrice", newEvent.basePrice.toString());
+    formData.append("venueType", newEvent.venueType);
+    formData.append("location", newEvent.location);
+  
+
+    finalCategories.forEach((category) => {
+      formData.append("categories", category);
+    });
+  
+    if (newEvent.banner) formData.append("banner", newEvent.banner);
+  
+    console.log([...formData]);
   
     try {
-      const response = await apiClient.post(
-        "/v1/events/create",
-        formData,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      console.log(response);
-      // Assuming the response contains the event ID in integer format
-      const eventId = response.data.data;
+      const res = await apiClient.post("/v1/admin/events/create", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      });
+      console.log(res);
+    
+      const eventId = res.data.data; 
       console.log("Event created successfully. Event ID:", eventId);
-  
-      // Optionally, navigate to the event details page
-      navigate(`/Tikets/${eventId}`);
-    } catch (error) {
-      if (error instanceof CanceledError) return;
-      console.error("Error creating event:", error);
+      alert("رویداد با موفقیت اضافه شد");
+      navigate(`/Tickets/${eventId}`);
+     } catch (err) {
+      console.error("Error creating Event:", err);
+    
+      if (axios.isAxiosError(err)) {
+        // Log or display the general error message
+        console.error("Axios error message:", err.message);
+    
+        // Check for a server response
+        if (err.response) {
+          console.error("Response status code:", err.response.status);
+          console.error("Response data:", err.response.data);
+    
+          // Extract specific error messages, if available
+          const serverMessages = err.response.data.messages;
+          if (serverMessages) {
+            alert( JSON.stringify(serverMessages));
+          } else {
+            alert("An error occurred: " + err.response.data);
+          }
+        } else {
+          console.error("No response from server:", err.request);
+          alert("No response from server. Please try again later.");
+        }
+      } 
     }
   };
   
+  const resetForm = () => {
+    setNewEvent({
+      name: "",
+      status: "draft",
+      description: "",
+      fromDate: "",
+      toDate: "",
+      minCapacity: 0,
+      maxCapacity: 0,
+      basePrice: 0,
+      venueType: "",
+      location: "",
+      banner: {} as File,
+      categories: [],
+    });
+    setEventType("");
+    setCustomCategories([]);
+  };
+  const handleNextPage = () => {
+    navigate(`/Discount/${eventId}`);
+  };
   return (
-    <html id="eeee">
-    <div className="eventadd">
-      <form
-        className="eventadd-form"
-        encType="multipart/form-data"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <h3 className="infoadd">مشخصات رویداد</h3>
+    <html id="eventa">
+    <div className="addevent">
+      <form className="addevent-form" encType="multipart/form-data">
+        <h3 className="infoevent">مشخصات رویداد</h3>
 
-        {/* نام رویداد */}
-        <label className="Labeladd" htmlFor="name">نام رویداد</label>
+        <label className="Labeladdevent" htmlFor="name">
+          عنوان رویداد
+        </label>
         <input
           type="text"
           id="name"
-          {...register("name", { required: "نام رویداد الزامی است" })}
-          className="addinput-field"
+          value={newEvent.name}
+          onChange={(e) => handleEventChange("name", e.target.value)}
+          className={`addinput-fieldevent ${errors.name ? "error-field" : ""}`}
         />
-        {errors.name && <p className="erroradd">{errors.name.message}</p>}
+        {errors.name && <span className="error-messageevent">{errors.name}</span>}
 
-        {/* وضعیت رویداد */}
-        <label className="Labeladd" htmlFor="status">وضعیت رویداد</label>
+        <label className="Labeladdevent" htmlFor="status">وضعیت رویداد</label>
         <select
           id="status"
-          {...register("status", { required: "وضعیت رویداد الزامی است" })}
-          className="custom-dropdowne"
+          value={newEvent.status}
+          onChange={(e) => handleEventChange("status", e.target.value)}
+          className={`custom-dropdowneevent ${errors.status ? "error-field" : ""}`}
         >
           <option value="">انتخاب کنید</option>
           <option value="published">درحال اجرا</option>
           <option value="completed">اجرا شده</option>
           <option value="draft">پیش نویس</option>
         </select>
-        {errors.status && <p className="erroradd">{errors.status.message}</p>}
+        {errors.status && <span className="error-messageevent">{errors.status}</span>}
 
-          <label className="Labeladd" htmlFor="category">موضوع رویداد</label>
-                  <select
-                    id="category"
-                    {...register("category", { required: "موضوع رویداد الزامی است" })}
-                    onChange={handleCategoryChange}
-                    className="custom-dropdowne"
-                  >
-                    <option value="">انتخاب کنید</option>
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
+
+        <label className="Labeladdevent" htmlFor="categories">موضوع رویداد</label>
+        <select onChange={handleCategoriesChange} className="custom-dropdowneevent">
+          <option>انتخاب کنید</option>
+          {categories1.map((category) => (
+            <option value={category}>{category}</option>
+          ))}
           <option value="other">سایر</option>
         </select>
-        {errors.category && <p className="erroradd">{errors.category.message}</p>}
-        {/* فیلد برای وارد کردن موضوع دلخواه */}
-        {isCustomCategory && (
+
+        {isCustomCategories && (
           <>
-            <label className="Labeladd" htmlFor="category">موضوع دلخواه</label>
-            <input
-              type="text"
-              id="category"
-              value={customCategory}
-              onChange={(e) => setCustomCategory(e.target.value)}
-              className="addinput-field"
-            />
+            <div>
+              {customCategories.map((category, index) => (
+                <div key={index}>
+                  <input
+                    type="text"
+                    value={category}
+                    onChange={(e) => handleCustomCategoryChange(index, e.target.value)}
+                    className="addinput-fieldevent"
+                  />
+                </div>
+              ))}
+                      <div className="buttonadd-containerevent">
+              <button className="submitaddevent" type="button" onClick={handleAddCategory}>
+                افزودن
+              </button>
+              </div>
+            </div>
           </>
-        )}  
-        {/* توضیحات */}
-        <label className="Labeladd" htmlFor="description">توضیحات</label>
-        <textarea
-          id="description"
-          {...register("description", { required: "توضیحات الزامی است" })}
-          className="addinput-field textarea-field"
-        />
-        {errors.description && <p className="erroradd">{errors.description.message}</p>}
-
-        {/* تاریخ و ساعت شروع */}
-        <label className="Labeladd" htmlFor="fromDate">تاریخ و ساعت شروع</label>
-        <input
-          type="datetime-local"
-          id="fromDate"
-          {...register("fromDate", { required: "تاریخ شروع الزامی است" })}
-          className="addinput-field"
-        />
-        {errors.fromDate && <p className="erroradd">{errors.fromDate.message}</p>}
-
-        {/* تاریخ و ساعت پایان */}
-        <label className="Labeladd" htmlFor="toDate">تاریخ و ساعت پایان</label>
-        <input
-          type="datetime-local"
-          id="toDate"
-          {...register("toDate", { required: "تاریخ پایان الزامی است" })}
-          className="addinput-field"
-        />
-        {errors.toDate && <p className="erroradd">{errors.toDate.message}</p>}
-
-        {/* حداقل ظرفیت */}
-        <label className="Labeladd" htmlFor="minCapacity">حداقل ظرفیت</label>
-        <input
-          type="number"
-          id="minCapacity"
-          {...register("minCapacity", { required: "حداقل ظرفیت الزامی است" })}
-          className="addinput-field"
-        />
-        {errors.minCapacity && <p className="erroradd">{errors.minCapacity.message}</p>}
-
-        {/* حداکثر ظرفیت */}
-        <label className="Labeladd" htmlFor="maxCapacity">حداکثر ظرفیت</label>
-        <input
-          type="number"
-          id="maxCapacity"
-          {...register("maxCapacity", { required: "حداکثر ظرفیت الزامی است" })}
-          className="addinput-field"
-        />
-        {errors.maxCapacity && <p className="erroradd">{errors.maxCapacity.message}</p>}
+        )}
         
-        <label className="Labeladd" htmlFor="basePrice">حداقل قیمت</label>
-        <input
-          type="number"
-          id="basePrice"
-          {...register("basePrice", { required: "حداقل قیمت ظرفیت الزامی است" })}
-          className="addinput-field"
-        />
-        {errors.basePrice && <p className="erroradd">{errors.basePrice.message}</p>}
+         <label className="Labeladdevent" htmlFor="description">توضیحات</label>
+         <textarea
+           id="description"
+           onChange={(e) => handleEventChange("description", e.target.value)}
+          className={`addinput-fieldevent textarea-fieldevent ${errors.description ? "error-field" : ""}`}
+
+         />
+         {errors.description && <span className="error-messageevent">{errors.description}</span>}
 
 
-        {/* نوع رویداد */}
-        <label className="Labeladd" htmlFor="venueType">نوع رویداد</label>
-        <select
+         <label className="Labeladdevent" htmlFor="fromDate">تاریخ و ساعت شروع</label>
+         <input
+           type="datetime-local"
+           id="fromDate"
+           onChange={(e) => handleEventChange("fromDate", e.target.value)}
+          className={`addinput-fieldevent  ${errors.fromDate ? "error-field" : ""}`}
+         />
+         {errors.fromDate && <span className="error-messageevent">{errors.fromDate}</span>}
+
+         <label className="Labeladdevent" htmlFor="toDate">تاریخ و ساعت پایان</label>
+         <input
+           type="datetime-local"
+           id="toDate"
+           onChange={(e) => handleEventChange("toDate", e.target.value)}
+          className={`addinput-fieldevent  ${errors.toDate ? "error-field" : ""}`}
+         />
+         {errors.toDate && <span className="error-messageevent">{errors.toDate}</span>}
+
+
+         <label className="Labeladdevent" htmlFor="minCapacity">حداقل ظرفیت</label>
+         <input
+           type="number"
+           id="minCapacity"
+           onChange={(e) => handleEventChange("minCapacity", e.target.value)}
+          className={`addinput-fieldevent ${errors.minCapacity ? "error-field" : ""}`}
+         />
+         {errors.minCapacity && <span className="error-messageevent">{errors.minCapacity}</span>}
+
+         <label className="Labeladdevent" htmlFor="maxCapacity">حداکثر ظرفیت</label>
+         <input
+           type="number"
+           id="maxCapacity"
+           onChange={(e) => handleEventChange("maxCapacity", e.target.value)}
+          className={`addinput-fieldevent  ${errors.maxCapacity ? "error-field" : ""}`}
+         />
+         {errors.maxCapacity && <span className="error-messageevent">{errors.maxCapacity}</span>}
+
+         <label className="Labeladdevent" htmlFor="basePrice">حداقل قیمت</label>
+         <input
+           type="number"
+           id="basePrice"
+           onChange={(e) => handleEventChange("basePrice", e.target.value)}
+          className={`addinput-fieldevent  ${errors.basePrice ? "error-field" : ""}`}
+         />
+         {errors.basePrice && <span className="error-messageevent">{errors.basePrice}</span>}
+
+         <label className="Labeladdevent" htmlFor="venueType">نوع رویداد</label>
+         <select
           id="venueType"
-          {...register("venueType", { required: "نوع رویداد الزامی است" })}
           value={eventType}
-          onChange={handleEventTypeChange}
-          className="custom-dropdowne"
+          onChange={(e) => handleVenueTypeChange(e.target.value)}
+          className={`custom-dropdowneevent ${errors.venueType ? "error-field" : ""}`}
         >
           <option value="">انتخاب کنید</option>
           <option value="online">آنلاین</option>
           <option value="physical">حضوری</option>
         </select>
-        {errors.venueType && <p className="erroradd">{errors.venueType.message}</p>}
+        {errors.venueType && <span className="error-messageevent">{errors.venueType}</span>}
 
+        {eventType === "online" && (
+          <>
+            <label className="Labeladdevent" htmlFor="location">لینک وبینار</label>
+            <input
+              type="text"
+              id="location"
+              value={newEvent.location}
+              onChange={(e) => handleEventChange("location", e.target.value)}
+              className={`addinput-fieldevent ${errors.location ? "error-field" : ""}`}
+            />
+            {errors.location && <span className="error-messageevent">{errors.location}</span>}
+          </>
+        )}
+        {eventType === "physical" && (
+          <>
+            <label className="Labeladdevent" htmlFor="location">آدرس محل برگزاری</label>
+            <input
+              type="text"
+              id="location"
+              value={newEvent.location}
+              onChange={(e) => handleEventChange("location", e.target.value)}
+              className={`addinput-fieldevent ${errors.location ? "error-field" : ""}`}
+            />
+            {errors.location && <span className="error-messageevent">{errors.location}</span>}
+          </>
+        )}
 
-    {/* لینک یا آدرس */}
-    {eventType === "online" && (
-      <>
-        <label className="Labeladd" htmlFor="location">لینک وبینار</label>
-        <input
-          type="text"
-          id="location"
-          {...register("location", { required: "لینک وبینار الزامی است" })}
-          className="addinput-field"
-        />
-        {errors.location && <p className="erroradd">{errors.location.message}</p>}
-      </>
-    )}
+<label className="Labeladdevent" htmlFor="banner">محل بارگزاری عکس</label>
 
-    {eventType === "physical" && (
-      <>
-        <label className="Labeladd" htmlFor="location">آدرس محل برگزاری</label>
-        <input
-          type="text"
-          id="location"
-          {...register("location", { required: "آدرس الزامی است" })}
-          className="addinput-field"
-        />
-        {errors.location && <p className="erroradd">{errors.location.message}</p>}
-      </>
-    )}
-  <label className="Labeladd" htmlFor="banner">محل بارگزاری عکس</label>
-    {/* بارگذاری بنر */}
-    <div className="L1" >
+    <div className="L1event" >
       
-      <input
-        // className="addinput-field"
-        type="file"
-        id="banner"
-        accept="image/*"
-        {...register("banner", { required: "بارگذاری عکس الزامی است" })}
-      />
-      {errors.banner && <p className="erroradd">{errors.banner.message}</p>}
-    </div>
-    
+        <input
+          type="file"
+          id="banner"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0]; 
+            if (file) {
+              handleEventChange("banner", file);
+            }
+          }}
+          className={`a ${errors.banner ? "error-messageevent" : ""}`}
+        />
 
-    {/* دکمه‌ها */}
-    <div className="buttonadd-container">
-      <button
-        type="submit"
-        disabled={!isValid}
-        className={`submitadd ${!isValid ? "submit-disabled" : ""}`}
-      >
-        ثبت
-      </button>
-      <button
+</div>
+
+        <div className="buttonadd-containerevent">
+          <button type="button" onClick={onSubmit} className="submitaddevent">
+            ثبت
+          </button>
+          <button
         type="button"
-        className="canceladd"
+        className="cancelevent"
         onClick={() => navigate("/events")}
       >
         لغو
       </button>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
-</html>
-); };
+    </html>
+  );
+};
 
-
-export default Addevent;
+export default Event;
