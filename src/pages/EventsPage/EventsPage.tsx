@@ -62,7 +62,7 @@ const EventsPage: React.FC = () => {
   const fetchEvents = async (page: number, pageSize: number, searchQuery?: string, filterValue?: string) => {
     setLoading(true);
     try {
-      let path = userRole === "SuperAdmin" ? "/v1/events" : "/v1/public/events/published";
+      let path = userRole === "SuperAdmin" ? "/v1/admin/events" : "/v1/public/events/published";
 
       if (searchQuery) {
         path = userRole === "SuperAdmin" 
