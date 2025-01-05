@@ -1,0 +1,216 @@
+html, body { 
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#tickete {
+  background: rgb(74, 152, 174, 1);
+  background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
+  direction: rtl; 
+}
+
+.eventtik {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  font-family: 'Anjoman-FaNum-Bold';
+  justify-content: center;
+  align-items: center;
+}
+
+.infotik {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  color: rgb(74, 152, 174);
+}
+
+.Labeltik {
+  color: rgb(0, 68, 80);
+  font-size: 1.2rem;
+  text-align: right; 
+  display: block; 
+  width: auto;
+  margin-right: 40px;
+  margin-top: 20px;
+}
+
+.event-formtik {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin: 20px 50px auto;
+}
+
+.addinput-fieldtik{
+
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right;
+    margin-right: 40px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    width: calc(100% - 80px);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+    height: 45px;
+  
+  
+}
+
+.addinput-fieldtik:focus{
+  border-color: rgb(0, 67, 80);
+  outline-color: rgb(0, 67, 80);
+  transition: 0.5s;
+}
+
+
+
+.infotik {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  color: rgb(74, 152, 174);
+}
+
+.error-messagetik{
+  color: red;
+  font-size: 12px;
+  margin: 10px auto;
+  margin-right: 40px;
+  text-align: right;
+  display: block;
+}
+
+
+
+.buttonadd-containertik {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.submittik {
+  display: block;
+  width: 100%;
+  max-width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(253, 253, 253);
+  background-color: rgb(74, 152, 174);
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.submittik:hover {
+  background-color: transparent;
+  color: rgb(74, 152, 174);
+}
+
+.textarea-fieldtik {
+  /* width: calc(100% - 40px);  */
+  height: 200px; 
+  font-size: 16px; 
+  padding: 8px; 
+  border-color: rgb(74, 152, 174); 
+  border-radius: 4px; 
+  box-sizing: border-box;
+  overflow-y: scroll;
+  resize: none;
+}
+.next-page-btntik {
+  display: block;
+  width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(245, 245, 245);
+  background-color: rgb(166, 95, 19);
+  border: 1px solid rgb(166, 95, 19);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.next-page-btntik:hover {
+  background-color: transparent;
+  color: rgb(166, 95, 19);
+}
+.textarea-fieldtik::-webkit-scrollbar {
+  width: 10px;
+}
+
+.textarea-fieldtik::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.textarea-fieldtik::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+.textarea-fieldtik {
+  /* width: calc(100% - 40px);  */
+  height: 200px; 
+  font-size: 16px; 
+  padding: 8px; 
+  border-color: rgb(74, 152, 174); 
+  border-radius: 4px; 
+  box-sizing: border-box;
+  overflow-y: scroll;
+  resize: none;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 480px) {
+  .eventtik {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .infotik{
+    font-size: 1.3rem;
+ 
+  }
+  .Labeltik{
+    font-size: 0.9rem;
+    margin-right: 20px;  
+  }
+ .error-messagetik {
+    font-size: 0.6rem;
+    margin-right: 20px;
+  }
+
+  .event-formtik {
+    margin: 20px;
+  }
+
+  .addinput-fieldtik, .custom-dropdownetik {
+    width: calc(100% - 20px);
+    font-size: 0.6rem;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .buttonadd-containertik {
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.6rem;
+  }
+  .submittik{
+    font-size: 0.6rem;
+
+  }
+  .next-page-btntik{
+    font-size: 0.6rem;
+
+  }
+}
+

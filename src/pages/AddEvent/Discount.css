@@ -1,0 +1,222 @@
+html, body { 
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#discounte {
+  background: rgb(74, 152, 174, 1);
+  background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
+  direction: rtl; 
+}
+
+.eventdis {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 40px;
+  font-family: 'Anjoman-FaNum-Bold';
+  justify-content: center;
+  align-items: center;
+}
+
+.infodis {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  color: rgb(74, 152, 174);
+}
+
+.Labeldis {
+  color: rgb(0, 68, 80);
+  font-size: 1.2rem;
+  text-align: right; 
+  display: block; 
+  width: auto;
+  margin-right: 40px;
+  margin-top: 20px;
+}
+
+.event-formdis {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin: 20px 50px auto;
+}
+
+.addinput-fielddis{
+
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right;
+    margin-right: 40px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    width: calc(100% - 80px);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+    height: 45px;
+  
+  
+}
+
+.addinput-fielddis:focus{
+  border-color: rgb(0, 67, 80);
+  outline-color: rgb(0, 67, 80);
+  transition: 0.5s;
+}
+
+
+
+.infodis {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  color: rgb(74, 152, 174);
+}
+
+.error-messagedis{
+  color: red;
+  font-size: 12px;
+  margin: 10px auto;
+  margin-right: 40px;
+  text-align: right;
+  display: block;
+}
+
+
+
+.buttonadd-containerdis {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.submitdis {
+  display: block;
+  width: 100%;
+  max-width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(253, 253, 253);
+  background-color: rgb(74, 152, 174);
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.submitdis:hover {
+  background-color: transparent;
+  color: rgb(74, 152, 174);
+}
+
+
+.next-page-btndis {
+  display: block;
+  width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(245, 245, 245);
+  background-color: rgb(166, 95, 19);
+  border: 1px solid rgb(166, 95, 19);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.next-page-btndis:hover {
+  background-color: transparent;
+  color: rgb(166, 95, 19);
+}
+
+
+.custom-dropdownedis {
+
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right;
+    margin-right: 40px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    width: calc(100% - 80px);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+    height: 45px;
+  
+  
+}
+
+.custom-dropdownedis:focus {
+  border-color: rgb(0, 67, 80);
+  outline-color: rgb(0, 67, 80);
+  transition: 0.5s;
+}
+
+.custom-dropdownedis {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: left 10px center;
+  background-size: 24px 24px;
+  cursor: pointer;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 480px) {
+  .eventdis {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .infodis{
+    font-size: 1.3rem;
+ 
+  }
+  .Labeldis{
+    font-size: 0.9rem;
+    margin-right: 20px;  
+  }
+ .error-messagedis {
+    font-size: 0.6rem;
+    margin-right: 20px;
+  }
+
+  .event-formdis {
+    margin: 20px;
+  }
+
+  .addinput-fielddis, .custom-dropdownedis {
+    width: calc(100% - 20px);
+    font-size: 0.6rem;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  
+
+  .buttonadd-containerdis {
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.6rem;
+  }
+  .submitdis{
+    font-size: 0.6rem;
+
+  }
+  .next-page-btndis{
+    font-size: 0.6rem;
+
+  }
+}
+
