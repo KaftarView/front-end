@@ -124,7 +124,7 @@ const UploadPodcast = () => {
           id="name"
           {...register("name", { required: "نام اپیزود الزامی است" })}
 
-          className="addinput-field"
+          className="addinput-field-episode"
         />
                 {errors.name && <p className="erroradd">{errors.name.message}</p>}
 
@@ -134,7 +134,7 @@ const UploadPodcast = () => {
         <textarea
         //   type="text"
           id="description"
-          className="addinput-field textarea-field"
+          className="addinput-field-episode textarea-field"
           {...register("description", { required: "توضیحات الزامی است" })}
 
         />
@@ -148,7 +148,7 @@ const UploadPodcast = () => {
       <div className="event-banner">
       <label className="Labeladd" htmlFor="banner">عکس خود را بارگذاری کنید</label>
       <input
-        className="addinput-field"
+        className="addinput-field-episode"
         type="file"
         id="banner"
         accept="image/*"
@@ -167,7 +167,7 @@ const UploadPodcast = () => {
       <div>
       <label className="Labeladd" htmlFor="audio">فایل صوتی خود را بارگذاری کنید</label>
 
-        <input className="addinput-field" type="file" accept="audio/*" onChange={handleFileChange} />
+        <input className="addinput-field-episode" type="file" accept="audio/*" onChange={handleFileChange} />
       </div>
 
       {uploadError && <p className="error">{uploadError}</p>}

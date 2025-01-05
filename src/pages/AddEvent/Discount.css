@@ -1,58 +1,15 @@
-/* General Reset */
 html, body { 
   margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
 
-/* Background styling */
-#e {
-  background: rgb(74,152,174,1);
+#discounte {
+  background: rgb(74, 152, 174, 1);
   background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
-  direction: rtl; /* Set text direction to right-to-left */
+  direction: rtl; 
 }
 
-/* Label styling */
-.Labeladd {
-  color: rgb(0, 68, 80);
-  font-size: 1.2rem;
-  text-align: right; /* Align text to the right */
-  display: block; /* Full line for the label */
-  width: auto;
-  margin-right:40px;
-}
-
-/* Input fields styling */
-.input-field{
-  font-family: 'Anjoman-FaNum-Bold';
-  display: block;
-  text-align: right;
-  margin-right: 40px;
-  padding: 10px;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  margin-left: 20px;
-  width: calc(100% - 80px);
-  border: 1px solid rgb(74, 152, 174);
-  border-radius: 5px;
-  background-color: rgb(230, 230, 230);
-  transition: 0.5s;
-  font-size: 14px;
-  color: rgb(0, 67, 80);
-  height: 45px;
-
-}
-
-.input-fieldtik:focus{
-  border-color: rgb(0, 68, 80);
-  outline-color: rgb(0, 67, 80);
-  transition: 0.5s;
-}
-
-/* Dropdown specific styles */
-
-
-/* Form container */
 .eventdis {
   max-width: 800px;
   margin: 50px auto;
@@ -62,9 +19,23 @@ html, body {
   align-items: center;
 }
 
-/* Form styling */
-.event-formdis {
+.infodis {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  color: rgb(74, 152, 174);
+}
 
+.Labeldis {
+  color: rgb(0, 68, 80);
+  font-size: 1.2rem;
+  text-align: right; 
+  display: block; 
+  width: auto;
+  margin-right: 40px;
+  margin-top: 20px;
+}
+
+.event-formdis {
   background: rgba(255, 255, 255, 0.6);
   padding: 20px;
   border-radius: 8px;
@@ -72,32 +43,64 @@ html, body {
   margin: 20px 50px auto;
 }
 
-/* Error messages */
-.erroradd {
-  text-align: right;
-  margin-right: 40px;
-  color: rgb(166, 19, 19);
-  font-size: 16px;
-  margin-top: -10px;
-  margin-bottom: 32px;
+.addinput-fielddis{
+
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right;
+    margin-right: 40px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    width: calc(100% - 80px);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+    height: 45px;
+  
+  
 }
 
-/* Info heading */
+.addinput-fielddis:focus{
+  border-color: rgb(0, 67, 80);
+  outline-color: rgb(0, 67, 80);
+  transition: 0.5s;
+}
+
+
+
 .infodis {
-  /* text-align: center; */
   font-size: 2.3rem;
   margin-bottom: 15px;
   color: rgb(74, 152, 174);
 }
 
+.error-messagedis{
+  color: red;
+  font-size: 12px;
+  margin: 10px auto;
+  margin-right: 40px;
+  text-align: right;
+  display: block;
+}
 
 
 
+.buttonadd-containerdis {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-/* Submit button */
 .submitdis {
   display: block;
-  width: 120px;
+  width: 100%;
+  max-width: 120px;
   padding: 10px;
   font-size: 16px;
   color: rgb(253, 253, 253);
@@ -113,14 +116,7 @@ html, body {
   color: rgb(74, 152, 174);
 }
 
-.submitdis-disabled {
-  background-color: rgb(0, 68, 80);
-  border: 1px solid rgb(0, 68, 80);
-  color: rgb(0, 68, 80);
-  cursor: not-allowed;
-}
 
-/* Cancel button */
 .next-page-btndis {
   display: block;
   width: 120px;
@@ -138,16 +134,89 @@ html, body {
   background-color: transparent;
   color: rgb(166, 95, 19);
 }
-.error-field {
-  border: 1px solid red;
+
+
+.custom-dropdownedis {
+
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right;
+    margin-right: 40px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    width: calc(100% - 80px);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+    height: 45px;
+  
+  
 }
 
-.error-message {
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
-  text-align: right;
-  margin-right: 40px;
-  margin-bottom: 20px;
-  display: block;
+.custom-dropdownedis:focus {
+  border-color: rgb(0, 67, 80);
+  outline-color: rgb(0, 67, 80);
+  transition: 0.5s;
 }
+
+.custom-dropdownedis {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: left 10px center;
+  background-size: 24px 24px;
+  cursor: pointer;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 480px) {
+  .eventdis {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .infodis{
+    font-size: 1.3rem;
+ 
+  }
+  .Labeldis{
+    font-size: 0.9rem;
+    margin-right: 20px;  
+  }
+ .error-messagedis {
+    font-size: 0.6rem;
+    margin-right: 20px;
+  }
+
+  .event-formdis {
+    margin: 20px;
+  }
+
+  .addinput-fielddis, .custom-dropdownedis {
+    width: calc(100% - 20px);
+    font-size: 0.6rem;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  
+
+  .buttonadd-containerdis {
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.6rem;
+  }
+  .submitdis{
+    font-size: 0.6rem;
+
+  }
+  .next-page-btndis{
+    font-size: 0.6rem;
+
+  }
+}
+

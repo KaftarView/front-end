@@ -134,7 +134,7 @@ const AddPodcast = () => {
           id="name"
           {...register("name", { required: "نام پادکست الزامی است" })}
 
-          className="addinput-field"
+          className="addinput-field-podcast"
         />
          {errors.name && <p className="erroradd">{errors.name.message}</p>}
 
@@ -144,7 +144,7 @@ const AddPodcast = () => {
         <textarea
           //type="text"
           id="description"
-          className="addinput-field textarea-field"
+          className="addinput-field-podcast textarea-field"
           {...register("description", { required: "توضیحات الزامی است" })}
 
         />
@@ -177,7 +177,7 @@ const AddPodcast = () => {
               id="category"
               value={customCategory}
               onChange={(e) => setCustomCategory(e.target.value)}
-              className="addinput-field"
+              className="addinput-field-podcast"
             />
           </>
         )}  
@@ -186,7 +186,7 @@ const AddPodcast = () => {
       <div className="event-banner">
       <label className="Labeladd" htmlFor="banner">عکس خود را بارگذاری کنید</label>
       <input
-        className="addinput-field"
+        className="addinput-field-podcast"
         type="file"
         id="banner"
         accept="image/*"

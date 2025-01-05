@@ -113,9 +113,12 @@ import { useAppContext } from '../../components/AppContext';
 import EventHost from '../../components/EventHost/EventHost';
 import apiClient from  "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
-import {User , useAuth} from '../../components/AuthContext';
+import {User , useAuth} from '../../components/AuthContext'
+import TicketPurchasePopup from '../../components/BuyTicketPopup/BuyTicket';
 import Comments from '../PodcastDetail/Comments';
 import { FileText, Video, Presentation, Download  , AudioLines , Image} from 'lucide-react';
+import AdminPanel from '../AdminPanel/mainPage';
+
 
 
 
@@ -126,13 +129,12 @@ export interface EventDetail {
   description: string;
   location: string;
   status: string;
-  venue_type: string;
+  venueType: string;
   categories: string[];
-  created_at: string;
-  from_date: string;
-  to_date: string;
-  base_price : number;
-  media?: EventMedia[];
+  createdAt: string;
+  fromDate: string;
+  toDate: string;
+  basePrice : number;
 }
 
 interface EventMedia {
@@ -197,6 +199,7 @@ const EventDetail: React.FC = () => {
     };
   }, []);
   const backgroundColor = event?.status ? statusColors[event?.status] : 'gray';
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   useEffect(() => {  
     const fetchEvent = async () => {  
@@ -218,23 +221,13 @@ const EventDetail: React.FC = () => {
                 'Content-Type': 'application/json', 
               },  
             });  
-
-            const res = await apiClient.get('/v1/admin/events/5/media', {  
-              headers: {  
-                "ngrok-skip-browser-warning": "69420",  
-                'Content-Type': 'application/json', 
-              },  
-            });  
-            console.log(res.data.data)
-            setEventMedias(res.data.data)
             console.log(response.data.data); 
             const eventData = response.data.data;
             setEvent(eventData);
-            if (event) {
-              setEvent({
-                ...event,
-                base_price: 100,
-              });}
+            // if (event) {
+            //   setEvent({
+            //     ...event,
+            //   });}
             console.log(event) 
         } catch (err) {  
           if (axios.isAxiosError(err)) {
@@ -251,6 +244,37 @@ const EventDetail: React.FC = () => {
     };  
 
     fetchEvent();  
+}, [id]);  
+
+useEffect(() => {  
+  const fetchEventMedia = async () => {  
+      setLoading(true);  
+      setError(null);  
+
+      try {  
+          const res = await apiClient.get(`/v1/admin/events/${id}/media`, {  
+            headers: {  
+              "ngrok-skip-browser-warning": "69420",  
+              'Content-Type': 'application/json', 
+            },  
+          });  
+          console.log(res.data.data)
+          setEventMedias(res.data.data)
+      } catch (err) {  
+        if (axios.isAxiosError(err)) {
+          if (err.response && err.response.status === 404) {  
+              setError('Event not found');  
+          } else {  
+              setError('An error occurred while fetching the event');  
+          }  
+          
+        }
+      } finally {  
+          setLoading(false);  
+      }  
+  };  
+
+  fetchEventMedia();  
 }, [id]);  
   if (loading) {  
     return <div>Loading event...</div>;  
@@ -324,6 +348,7 @@ const EventDetail: React.FC = () => {
 const handlePublish = async () => {  
   try {  
       const response = await apiClient.post(`/v1/admin/events/${event?.id}/publish`)
+      console.log(response.data)
       if (response.data.statusCode == 200) {  
         window.location.reload();    
       }  
@@ -388,7 +413,7 @@ const handlePublish = async () => {
                     <div className="media-section">
             <div className="accent-line"></div>
             <h2 className="description-title">فایل‌های رویداد</h2>
-            {eventMedias && !userPermissions.includes("ManageEvent") && eventMedias.length > 0 ? (
+            {eventMedias && userRole != "SuperAdmin" && eventMedias.length > 0 ? (
               <div className="media-grid">
                 {eventMedias.map((item) => (
                   <div key={item.id} className="media-item">
@@ -402,7 +427,7 @@ const handlePublish = async () => {
                     <a 
                       href={item.mediaPath}
                       download
-                      className="download-button"
+                      className="download-button-eventdetail"
                       onClick={(e) => {
                         e.preventDefault();
                         window.open(item.mediaPath, '_blank');
@@ -434,7 +459,7 @@ const handlePublish = async () => {
           <div className="info-row">
             <div className="info-label">از تاریخ</div> 
             <div className="info-value">             
-             {new Date(event.from_date).toLocaleDateString("fa-IR", {
+             {new Date(event.fromDate).toLocaleDateString("fa-IR", {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -444,7 +469,7 @@ const handlePublish = async () => {
           <div className="info-row">
             <div className="info-label">تا تاریخ</div>
             <div className="info-value">
-              {new Date(event.to_date).toLocaleDateString("fa-IR", {
+              {new Date(event.toDate).toLocaleDateString("fa-IR", {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -453,24 +478,30 @@ const handlePublish = async () => {
           </div>
           <div className="info-row">
             <div className="info-label">قیمت بلیت</div> 
-            <div className="info-value">100 هزارتومان </div>
+            <div className="info-value">{event.basePrice} هزارتومان </div>
           </div>
           <div className="info-row">
             <div className="info-label">نحوه برگزاری</div>
-            <div className="info-value">  {event.venue_type === "Online" ? "آنلاین" : event.venue_type === "Hybrid" ? "ترکیبی" : "حضوری"} </div>
+            <div className="info-value">  {event.venueType === "Online" ? "آنلاین" : event.venueType === "Hybrid" ? "ترکیبی" : "حضوری"} </div>
           </div>
           <div className="info-row">
             <div className="info-label">دسته بندی</div>
             <div className="info-value">{event.categories[0] || "عمومی"}</div>
           </div>
-          {userPermissions.includes("ManageEvent") ?
-            <div className='buy-button-div'>
-          <a href="#" className="buy-button">مدیریت رویداد </a>
-          </div> :
-          <div className='buy-button-div'>
-          <a href="#" className="buy-button">خرید بلیت</a>
-          </div>
+          {userRole === "SuperAdmin" &&
+              <div className='buy-button-div'>
+              <a onClick={() => navigate(`/admin-panel/${id}`)}  className="buy-button"> مدیریت رویداد</a>
+              </div> 
           }
+          {userRole &&  userRole != "SuperAdmin" && 
+              <div className='buy-button-div'>
+              <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
+              </div>
+          }
+          {/* <div className='buy-button-div'>
+          <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
+          </div> */}
+          {isPopupVisible && <TicketPurchasePopup onClose={() => setPopupVisible(false)}  id={id} />}
           {/* {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
             <a href="#" className="edit-button">ویرایش رویداد</a>
             <a  onClick={handleDelete} href="#" className="delete-button">حذف رویداد</a>

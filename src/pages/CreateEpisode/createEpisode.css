@@ -54,7 +54,7 @@ html, body {
       align-items: flex-start;  }
     
     /* Input Fields */
-    .add-episod-form .addinput-field {
+    .add-episod-form .addinput-field-episode {
       font-family: 'Anjoman-FaNum-Bold';
       display: block;
       display: block;
@@ -77,7 +77,7 @@ html, body {
       text-align: right;
       }
     
-      .add-episod-form .addinput-field:focus:disabled  {
+      .add-episod-form .addinput-field-episode:focus:disabled  {
         
         border-color: rgb(0, 68, 80);
         color: rgb(0, 67, 80);
@@ -136,4 +136,74 @@ html, body {
       
       }  
     /* Upload Progress Bar */
-  
+    @media (max-width: 768px) {
+      .upload-container-episode {
+          padding: 20px;
+          margin: 20px auto;
+      }
+    
+      .add-episod-form {
+          margin: 10px 20px auto;
+          padding: 15px;
+      }
+    
+      .add-episod-form h2 {
+          font-size: 20px;
+      }
+    
+      .add-episod-form .Labeladd {
+          font-size: 1rem;
+      }
+    
+      .add-episod-form .addinput-field-episode {
+          width: 100%;
+          font-size: 14px;
+          margin: 15px 0;
+      }
+    
+      .add-episod-form button {
+          font-size: 14px;
+          padding: 10px;
+      }
+    
+      .add-episod-form .textarea-field {
+          font-size: 14px;
+          height: 40%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .upload-container-episode {
+          margin: 10px auto;
+          padding: 10px;
+      }
+    
+      .add-episod-form {
+          margin: 10px;
+          padding: 10px;
+      }
+    
+      .add-episod-form h2 {
+          font-size: 18px;
+      }
+    
+      .add-episod-form .Labeladd {
+          font-size: 0.9rem;
+      }
+    
+      .add-episod-form .addinput-field-episode {
+          font-size: 12px;
+          padding: 8px;
+      }
+    
+      .add-episod-form button {
+          font-size: 12px;
+          padding: 8px;
+      }
+    
+      .add-episod-form .textarea-field {
+          font-size: 12px;
+          height: 35%;
+      }
+    }
+    

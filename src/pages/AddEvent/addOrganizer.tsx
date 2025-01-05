@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./addo.css";
+import "./addOrganizer.css";
 import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "../../utils/apiClient";
+import axios from "axios";
 
 interface Organizer {
   name: string;
@@ -30,7 +31,7 @@ const Organizer = () => {
     value: string | File | null
   ) => {
     setNewOrganizer({ ...newOrganizer, [field]: value });
-    setErrors({ ...errors, [field]: "" }); // Clear error for this field
+    setErrors({ ...errors, [field]: "" }); 
   };
 
   const validateFields = (): boolean => {
@@ -45,7 +46,7 @@ const Organizer = () => {
     if (!newOrganizer.profile) newErrors.profile = "عکس الزامی است";
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0; 
   };
 
   const onSubmit = async () => {
@@ -66,7 +67,7 @@ const Organizer = () => {
 
     try {
       const res = await apiClient.post(
-        `/v1/events/add-organizer/${eventId}`,
+        `/v1/admin/events/add-organizer/${eventId}`,
         formData,
         {
           withCredentials: true,
@@ -74,6 +75,7 @@ const Organizer = () => {
         }
       );
       console.log("Organizer created successfully:", res.data);
+      alert("برگزارکننده با موفقیت اضافه شد");
 
       setOrganizers([...organizers, newOrganizer]);
       setNewOrganizer({
@@ -83,7 +85,29 @@ const Organizer = () => {
         profile: null,
       });
     } catch (err) {
-      console.error("Error creating Organizer:", err);
+      console.error("Error creating Event:", err);
+    
+      if (axios.isAxiosError(err)) {
+        // Log or display the general error message
+        console.error("Axios error message:", err.message);
+    
+        // Check for a server response
+        if (err.response) {
+          console.error("Response status code:", err.response.status);
+          console.error("Response data:", err.response.data);
+    
+          // Extract specific error messages, if available
+          const serverMessages = err.response.data.messages;
+          if (serverMessages) {
+            alert("Error: " + JSON.stringify(serverMessages));
+          } else {
+            alert("An error occurred: " + err.response.data);
+          }
+        } else {
+          console.error("No response from server:", err.request);
+          alert("No response from server. Please try again later.");
+        }
+      } 
     }
   };
 
@@ -92,12 +116,12 @@ const Organizer = () => {
   };
 
   return (
-    <html id="ee">
-      <div className="eventtik">
-        <form className="event-formtik" encType="multipart/form-data">
-          <h3 className="infotik">مشخصات برگزارکننده</h3>
+    <html id="orge">
+      <div className="eventorg">
+        <form className="event-formorg" encType="multipart/form-data">
+          <h3 className="infoorg">مشخصات برگزارکننده</h3>
 
-          <label className="Labeladd" htmlFor="name">
+          <label className="Labeladdorg" htmlFor="name">
             نام
           </label>
           <input
@@ -105,11 +129,11 @@ const Organizer = () => {
             id="name"
             value={newOrganizer.name}
             onChange={(e) => handleOrganizerChange("name", e.target.value)}
-            className={`addinput-field ${errors.name ? "error-field" : ""}`}
+            className={`addinput-fieldorg ${errors.name ? "error-field" : ""}`}
           />
-          {errors.name && <span className="error-message">{errors.name}</span>}
+          {errors.name && <span className="error-messageorg">{errors.name}</span>}
 
-          <label className="Labeladd" htmlFor="email">
+          <label className="Labeladdorg" htmlFor="email">
             ایمیل
           </label>
           <input
@@ -117,11 +141,11 @@ const Organizer = () => {
             id="email"
             value={newOrganizer.email}
             onChange={(e) => handleOrganizerChange("email", e.target.value)}
-            className={`addinput-field ${errors.email ? "error-field" : ""}`}
+            className={`addinput-fieldorg ${errors.email ? "error-field" : ""}`}
           />
-          {errors.email && <span className="error-message">{errors.email}</span>}
+          {errors.email && <span className="error-messageorg">{errors.email}</span>}
 
-          <label className="Labeladd" htmlFor="description">
+          <label className="Labeladdorg" htmlFor="description">
             توضیحات
           </label>
           <textarea
@@ -130,15 +154,15 @@ const Organizer = () => {
             onChange={(e) =>
               handleOrganizerChange("description", e.target.value)
             }
-            className={`addinput-field textarea-field ${
+            className={`addinput-fieldevent textarea-fieldevent ${
               errors.description ? "error-field" : ""
             }`}
           />
           {errors.description && (
-            <span className="error-message">{errors.description}</span>
+            <span className="error-messageorg">{errors.description}</span>
           )}
 
-          <label className="Labeladd" htmlFor="profile">
+          <label className="Labeladdorg" htmlFor="profile">
             عکس
           </label>
           <input
@@ -148,20 +172,20 @@ const Organizer = () => {
             onChange={(e) =>
               handleOrganizerChange("profile", e.target.files?.[0] || null)
             }
-            className={`addinput-field ${errors.profile ? "error-field" : ""}`}
+            className={`addinput-fieldorg ${errors.profile ? "error-field" : ""}`}
           />
           {errors.profile && (
-            <span className="error-message">{errors.profile}</span>
+            <span className="error-messageorg">{errors.profile}</span>
           )}
 
-          <div className="buttonadd-container">
-            <button type="button" onClick={onSubmit} className="submittik">
+          <div className="buttonadd-containerorg">
+            <button type="button" onClick={onSubmit} className="submitorg">
               ثبت
             </button>
             <button
               type="button"
               onClick={handleNextPage}
-              className="next-page-btntik"
+              className="next-page-btnorg"
             >
               پایان
             </button>

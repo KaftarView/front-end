@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./Tikets.css";
+import "./Tickets.css";
 import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "../../utils/apiClient";
+import axios from "axios";
 
 interface Ticket {
   name: string;
@@ -35,7 +36,7 @@ const Tikets = () => {
 
   const handleTicketChange = (field: keyof Ticket, value: string | number) => {
     setNewTicket({ ...newTicket, [field]: value });
-    setErrors({ ...errors, [field]: "" }); // Clear error for this field
+    setErrors({ ...errors, [field]: "" }); 
   };
 
   const validateFields = (): boolean => {
@@ -52,7 +53,7 @@ const Tikets = () => {
       newErrors.availableUntil = "تاریخ پایان الزامی است";
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0; 
   };
 
   const onSubmit = async () => {
@@ -71,7 +72,7 @@ const Tikets = () => {
         { withCredentials: true }
       );
       console.log("Ticket created successfully:", res.data);
-
+      alert("بلیت با موفقیت اضافه شد");
       setTickets([...tickets, newTicket]);
       setNewTicket({
         name: "",
@@ -84,7 +85,29 @@ const Tikets = () => {
         availableUntil: "",
       });
     } catch (err) {
-      console.error("Error creating ticket:", err);
+      console.error("Error creating Event:", err);
+    
+      if (axios.isAxiosError(err)) {
+        // Log or display the general error message
+        console.error("Axios error message:", err.message);
+    
+        // Check for a server response
+        if (err.response) {
+          console.error("Response status code:", err.response.status);
+          console.error("Response data:", err.response.data);
+    
+          // Extract specific error messages, if available
+          const serverMessages = err.response.data.messages;
+          if (serverMessages) {
+            alert("Error: " + JSON.stringify(serverMessages));
+          } else {
+            alert("An error occurred: " + err.response.data);
+          }
+        } else {
+          console.error("No response from server:", err.request);
+          alert("No response from server. Please try again later.");
+        }
+      } 
     }
   };
 
@@ -93,12 +116,12 @@ const Tikets = () => {
   };
 
   return (
-    <html id="e">
+    <html id="tickete">
     <div className="eventtik">
       <form className="event-formtik" encType="multipart/form-data">
         <h3 className="infotik">مشخصات بلیت</h3>
 
-        <label className="Labeladd" htmlFor="name">
+        <label className="Labeltik" htmlFor="name">
           عنوان بلیت
         </label>
         <input
@@ -106,24 +129,24 @@ const Tikets = () => {
           id="name"
           value={newTicket.name}
           onChange={(e) => handleTicketChange("name", e.target.value)}
-          className={`addinput-field ${errors.name ? "error-field" : ""}`}
+          className={`addinput-fieldtik ${errors.name ? "error-fieldtik" : ""}`}
         />
-        {errors.name && <span className="error-message">{errors.name}</span>}
+        {errors.name && <span className="error-messagetik">{errors.name}</span>}
 
-        <label className="Labeladd" htmlFor="description">
+        <label className="Labeltik" htmlFor="description">
           توضیحات
         </label>
         <textarea
           id="description"
           value={newTicket.description}
           onChange={(e) => handleTicketChange("description", e.target.value)}
-          className="addinput-field textarea-field" 
+          className="addinput-fieldtik textarea-fieldtik" 
         />
         {errors.description && (
-          <span className="error-message">{errors.description}</span>
+          <span className="error-messagetik">{errors.description}</span>
         )}
 
-        <label className="Labeladd" htmlFor="price">
+        <label className="Labeltik" htmlFor="price">
           قیمت
         </label>
         <input
@@ -133,11 +156,11 @@ const Tikets = () => {
           onChange={(e) =>
             handleTicketChange("price", parseFloat(e.target.value))
           }
-          className={`addinput-field ${errors.price ? "error-field" : ""}`}
+          className={`addinput-fieldtik ${errors.price ? "error-fieldtik" : ""}`}
         />
-        {errors.price && <span className="error-message">{errors.price}</span>}
+        {errors.price && <span className="error-messagetik">{errors.price}</span>}
 
-        <label className="Labeladd" htmlFor="quantity">
+        <label className="Labeltik" htmlFor="quantity">
           تعداد
         </label>
         <input
@@ -147,13 +170,13 @@ const Tikets = () => {
           onChange={(e) =>
             handleTicketChange("quantity", parseInt(e.target.value, 10))
           }
-          className={`addinput-field ${errors.quantity ? "error-field" : ""}`}
+          className={`addinput-fieldtik ${errors.quantity ? "error-fieldtik" : ""}`}
         />
         {errors.quantity && (
-          <span className="error-message">{errors.quantity}</span>
+          <span className="error-messagetik">{errors.quantity}</span>
         )}
 
-        <label className="Labeladd" htmlFor="availableFrom">
+        <label className="Labeltik" htmlFor="availableFrom">
           تاریخ شروع فروش
         </label>
         <input
@@ -161,15 +184,15 @@ const Tikets = () => {
           id="availableFrom"
           value={newTicket.availableFrom}
           onChange={(e) => handleTicketChange("availableFrom", e.target.value)}
-          className={`addinput-field ${
-            errors.availableFrom ? "error-field" : ""
+          className={`addinput-fieldtik ${
+            errors.availableFrom ? "error-fieldtik" : ""
           }`}
         />
         {errors.availableFrom && (
-          <span className="error-message">{errors.availableFrom}</span>
+          <span className="error-messagetik">{errors.availableFrom}</span>
         )}
 
-        <label className="Labeladd" htmlFor="availableUntil">
+        <label className="Labeltik" htmlFor="availableUntil">
           تاریخ پایان فروش
         </label>
         <input
@@ -177,22 +200,22 @@ const Tikets = () => {
           id="availableUntil"
           value={newTicket.availableUntil}
           onChange={(e) => handleTicketChange("availableUntil", e.target.value)}
-          className={`addinput-field ${
-            errors.availableUntil ? "error-field" : ""
+          className={`addinput-fieldtik ${
+            errors.availableUntil ? "error-fieldtik" : ""
           }`}
         />
         {errors.availableUntil && (
-          <span className="error-message">{errors.availableUntil}</span>
+          <span className="error-messagetik">{errors.availableUntil}</span>
         )}
 
-        <div className="buttonadd-container">
-          <button type="button" onClick={onSubmit} className="submittik">
-            ثبت بلیت
+        <div className="buttonadd-containerdis">
+          <button type="button" onClick={onSubmit} className="submitdis">
+            ثبت 
           </button>
           <button
             type="button"
             onClick={handleNextPage}
-            className="next-page-btntik"
+            className="next-page-btndis"
           >
             صفحه بعد
           </button>

@@ -1,0 +1,229 @@
+/* General Styles */
+body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9fafb; /* Light gray background */
+}
+
+h2 {
+    color: #374151; /* Dark gray */
+    /* margin-top: 150px; */
+    text-align: right;
+}
+
+/* Layout Styles */
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* Enable wrapping for smaller screens */
+    padding: 20px;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 0 20px;
+    /* display: grid; */
+    gap: 50px;
+}
+
+.grid-container{
+    margin-top: 30px;
+}
+
+/* Event Card Styles */
+.event-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.event-card img {
+    width: 100%;
+    height: auto;
+    max-height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.event-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: right;
+    gap: 5px;
+}
+
+.event-card-content h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #111827;
+    margin: 5px 0;
+}
+
+.event-card-content p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Progress Bar */
+.progress-containerProfile {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.progress-bar-backgroundProfile {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-barProfile {
+    height: 100%;
+    background-color: #f68b18;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 12px;
+    color: #4b5563;
+    margin-left: 10px;
+}
+
+/* Button Styles */
+.buttonE {
+    display: block;
+    margin: 15px auto;
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    color: rgb(253, 253, 253);
+    background-color: rgb(74, 152, 174);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    margin-right: 500px;
+}
+
+.buttonE:hover {
+    background-color: transparent;
+    color: rgb(74, 152, 174);
+}
+
+.lineProfileEvent {
+    position: absolute;
+    top: 180px;
+    left: 50px;
+    right: 400px;
+    height: 5px;
+    background-color: rgb(74, 152, 174);
+    z-index: 1;
+    margin-top: 50px;
+}
+@media (max-width: 1440px)
+{
+    .buttonE {
+        margin: 15px 0;
+        /* left:350px; */
+        margin-right: 340px;
+    }
+}
+
+@media (max-width: 1024px)
+{
+    .buttonE {
+        margin: 15px 0;
+        /* left:350px; */
+        margin-right: 200px;
+    }
+}
+/* Responsive Design */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: row; /* Stack elements */
+        padding: 0px;
+    }
+
+    .event-card {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+
+    .event-card img {
+        max-height: 100px; /* Reduce image height */
+    }
+
+    .buttonE {
+        margin: 15px 0;
+        /* left:350px; */
+        margin-right: 250px;
+    }
+
+    .lineProfileEvent {
+        right: 50px; /* Adjust for smaller screens */
+    }
+
+    h2 {
+        margin-top: 120px;
+        font-size: 20px; /* Adjust heading font size */
+    }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+    .container {
+        flex-direction: column; /* Stack elements */
+    }
+
+    h2 {
+        margin-top: 100px; /* Adjust heading margin */
+        font-size: 18px; /* Smaller font size */
+    }
+
+    .main-content {
+        gap: 20px; /* Reduce gap between elements */
+        padding: 0 10px;
+    }
+
+    .event-card {
+        padding: 10px;
+        width: 100%; /* Full width for cards */
+    }
+
+    .event-card img {
+        max-height: 80px; /* Further reduce image height */
+    }
+
+    .event-card-content h3 {
+        font-size: 16px; /* Smaller font size for titles */
+    }
+
+    .event-card-content p {
+        font-size: 12px; /* Smaller font size for descriptions */
+    }
+
+    .buttonE {
+        width: 100%; /* Full-width buttons */
+        padding: 10px;
+        margin-right: 0;
+    }
+
+    .lineProfileEvent {
+        top: 150px;
+        right: 20px; /* Adjust for smaller screens */
+    }
+}
