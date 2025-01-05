@@ -24,9 +24,9 @@ function carousel(): void {
     slideIndexs = 1;
   }
 
-  x[slideIndexs - 1].style.display = "block";
+  x[slideIndexs - 1].style.display = "flex";
   
-  setTimeout(carousel, 5000); // Change image every 2 seconds
+  setTimeout(carousel, 4000); // Change image every 2 seconds
 }
 useEffect(carousel,[])
 
@@ -35,7 +35,7 @@ useEffect(carousel,[])
 
 const [slideIndex, setSlideIndex] = useState<number>(1);  
   
-const totalSlides = 4; // Update this based on how many images you have  
+const totalSlides = 2; // Update this based on how many images you have  
 
 useEffect(() => {  
   showSlides(slideIndex);  
@@ -63,7 +63,7 @@ const showSlides = (n: number): void => {
   });  
 
   // Show the current slide  
-  (slides[slideIndex - 1] as HTMLElement).style.display = "block";  
+  (slides[slideIndex - 1] as HTMLElement).style.display = "flex";  
 };  
 
 
@@ -175,6 +175,10 @@ useEffect(
 
   }
   
+  const newList = [
+    { id: 1, title: 'دکتر داوودآبادی', summary: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.', image: 'src\\images\\f.jpg' ,publishDate: "December 4, 2024", },
+    { id: 2, title: 'اخبار جدید', summary: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی', image: 'src\\images\\intro.jpg' ,publishDate: "December 4, 2024", },
+  ];
   
   
   const [initialPodcast, setInitialPodcast] = useState<FormData2[]>([]);
@@ -239,7 +243,7 @@ useEffect(
         <p>انجمن علمی مهندسی کامپیوتر با هدف ارتقاء دانش فنی و علمی دانشجویان در زمینه‌های مختلف علوم کامپیوتر و فناوری اطلاعات تأسیس شده است. این انجمن با برگزاری کارگاه‌ها، سمینارها، مسابقات علمی و همکاری‌های بین‌المللی، فرصتی برای اعضا فراهم می‌آورد تا به روزترین مباحث و تکنولوژی‌ها را بشناسند و در پروژه‌های کاربردی مشارکت کنند. هدف نهایی انجمن، پرورش تخصص‌های نوآور و کارآفرین در حوزه‌های مهندسی کامپیوتر است.</p>
         </div>
 
-      <div className="anjoman-gallery">
+      {/* <div className="anjoman-gallery">
         <a className="prev" onClick={()=>{plusSlides(-1)}}>  &#10095;</a>
         <img className="mySlides" src="public\f.jpg" ></img>
         <img className="mySlides" src="public\intro.jpg"></img>
@@ -254,7 +258,35 @@ useEffect(
 
       
         
+      </div> */}
+
+
+<div className="news-carousel">
+  {newList.map((news, index) => (
+    <div
+      key={news.id}
+      className="mySlides"
+      style={{ display: index === 0 ? "flex" : "none" }}
+    >
+              <a className="prev" onClick={()=>{plusSlides(-1)}}>  &#10095;</a>
+
+      {/* News Content Section */}
+      <div className="news-carousel-content">
+        <h3 className="news-carousel-title">{news.title}</h3>
+        <p className="news-carousel-summary">{news.summary.split(" ").slice(0, 50).join(" ")}...</p>
+        <button className="btn news-carousel-button">رفتن به گالری</button>
       </div>
+
+      {/* News Image Section */}
+      <div className="news-carousel-image-container">
+        <img src={news.image} alt={news.title} className="news-carousel-image" />
+      </div>
+      <a className="next" onClick={()=>{plusSlides(1)}}>&#10094;</a>
+
+    </div>
+  ))}
+</div>
+
 
 
        <div className="content">
@@ -331,7 +363,7 @@ useEffect(
       </div>
     </div>
 
-            <div className='title'><span className='title-name'>جدیدترین دوره‌ها</span> <button className='title-link  '>رفتن به دوره‌ها</button> </div>
+            {/* <div className='title'><span className='title-name'>جدیدترین دوره‌ها</span> <button className='title-link  '>رفتن به دوره‌ها</button> </div>
             <div className="lists">
                                 <div className="box">
                     <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
@@ -365,7 +397,7 @@ useEffect(
                     <span className="product-price">790,000 تومان</span>
                     <button className="my_btn">مشاهده اطلاعات</button>
                 </div>
-            </div>
+            </div> */}
         </div>
 
 
@@ -469,7 +501,7 @@ useEffect(
           </div>
 
 
-            <div className="note-section">
+            {/* <div className="note-section">
             <div className="about-anjoman-note">
         <h1 className="about-anjoman-note-titel">
             جزوه‌های شما 
@@ -502,7 +534,7 @@ useEffect(
                 </div>
             </div>
 
-            </div>
+            </div> */}
             
 
 
