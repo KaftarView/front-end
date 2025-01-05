@@ -25,7 +25,7 @@ const PATHS ={
     PersonalInfo:'/personal-info',
     NewsPage : '/news-page',
     AddEvent:'/addevent',
-    Tikets:'/Tikets/:eventId',
+    Tikets:'/Tickets/:eventId',
     Discount:'/Discount/:eventId',
 
     AddOrganizer:'/Organizer/:eventId',
