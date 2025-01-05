@@ -212,7 +212,7 @@ const GetAttendees: React.FC = () => {
           <div className='sold-tickets-panel'>
           <h5>متن ایمیل:</h5>
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
 
             <textarea
               value={sendEmailData.email2}
@@ -226,7 +226,7 @@ const GetAttendees: React.FC = () => {
           </div>
           <button onClick={handleSendEmail} className="event">
               ارسال به شرکت کنندگان
-            </button>
+            </button> */}
         </div>
       );
 }

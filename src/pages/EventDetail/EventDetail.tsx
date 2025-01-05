@@ -127,12 +127,12 @@ export interface EventDetail {
   description: string;
   location: string;
   status: string;
-  venue_type: string;
+  venueType: string;
   categories: string[];
-  created_at: string;
-  from_date: string;
-  to_date: string;
-  base_price : number;
+  createdAt: string;
+  fromDate: string;
+  toDate: string;
+  basePrice : number;
 }
 
 const EventDetail: React.FC = () => {
@@ -207,7 +207,6 @@ const EventDetail: React.FC = () => {
             if (event) {
               setEvent({
                 ...event,
-                base_price: 100,
               });}
             console.log(event) 
         } catch (err) {  
@@ -310,10 +309,10 @@ const handlePublish = async () => {
                     در این دوره با آشنایی با انواع رویداد ها و نحوه برنامه ریزی اختصاصی برای هر کدام از آنها به صورت اصولی و عملی یاد خواهید گرفت تا چک لیست اجرایی خود را برای برگزاری یک رویداد موفق تهیه و تنظیم کنید */}
             </p>
           </div>
-          {userRole === "SuperAdmin" &&
+          {/* {userRole === "SuperAdmin" &&
           <Popup />
 
-          }
+          } */}
           <div className='event-details-title'>
           <h2>برگزار کننده‌گان</h2>
           </div>
@@ -331,7 +330,7 @@ const handlePublish = async () => {
           <div className="info-row">
             <div className="info-label">از تاریخ</div> 
             <div className="info-value">             
-             {new Date(event.from_date).toLocaleDateString("fa-IR", {
+             {new Date(event.fromDate).toLocaleDateString("fa-IR", {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -341,7 +340,7 @@ const handlePublish = async () => {
           <div className="info-row">
             <div className="info-label">تا تاریخ</div>
             <div className="info-value">
-              {new Date(event.to_date).toLocaleDateString("fa-IR", {
+              {new Date(event.toDate).toLocaleDateString("fa-IR", {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -350,24 +349,32 @@ const handlePublish = async () => {
           </div>
           <div className="info-row">
             <div className="info-label">قیمت بلیت</div> 
-            <div className="info-value">100 هزارتومان </div>
+            <div className="info-value">{event.basePrice} هزارتومان </div>
           </div>
           <div className="info-row">
             <div className="info-label">نحوه برگزاری</div>
-            <div className="info-value">  {event.venue_type === "Online" ? "آنلاین" : event.venue_type === "Hybrid" ? "ترکیبی" : "حضوری"} </div>
+            <div className="info-value">  {event.venueType === "Online" ? "آنلاین" : event.venueType === "Hybrid" ? "ترکیبی" : "حضوری"} </div>
           </div>
           <div className="info-row">
             <div className="info-label">دسته بندی</div>
             <div className="info-value">{event.categories[0] || "عمومی"}</div>
           </div>
-          <div className='buy-button-div'>
+          {userRole === "SuperAdmin" ? 
+              <div className='buy-button-div'>
+              <a onClick={() => setPopupVisible(true)}  className="buy-button"> مدیریت رویداد</a>
+              </div> :
+              <div className='buy-button-div'>
+              <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
+              </div>
+          }
+          {/* <div className='buy-button-div'>
           <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
-          </div>
-          {isPopupVisible && <TicketPurchasePopup onClose={() => setPopupVisible(false)} />}
-          {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
+          </div> */}
+          {isPopupVisible && <TicketPurchasePopup onClose={() => setPopupVisible(false)}  id={id} />}
+          {/* {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
             <a href="#" className="edit-button">ویرایش رویداد</a>
             <a  onClick={handleDelete} href="#" className="delete-button">حذف رویداد</a>
-          </div>}
+          </div>} */}
         </div>
 
       </div>

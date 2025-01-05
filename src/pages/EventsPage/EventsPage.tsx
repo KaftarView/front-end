@@ -16,12 +16,12 @@ interface Event {
   description: string;
   location: string;
   status: string;
-  venue_type: string;
+  venueType: string;
   categories: string[];
-  created_at: string;
-  from_date: string;
-  to_date: string;
-  base_price: number;
+  createdAt: string;
+  fromDate: string;
+  toDate: string;
+  basePrice: number;
 }
 
 const EventsPage: React.FC = () => {
@@ -196,7 +196,7 @@ const EventsPage: React.FC = () => {
                     </div>
                     <div className="card-info">
                       <small>
-                        {new Date(event.from_date).toLocaleDateString("fa-IR", {
+                        {new Date(event.fromDate).toLocaleDateString("fa-IR", {
                           weekday: "long",
                           day: "numeric",
                           month: "long",
@@ -208,11 +208,11 @@ const EventsPage: React.FC = () => {
                       </div>
                       <div className="icon-div">
                         <i className="fa fa-money" aria-hidden="true"></i>
-                        <p>از{event.base_price} هزار تومان</p>
+                        <p>از{event.basePrice} هزار تومان</p>
                       </div>
                       <div className="icon-div">
                         <i className="fa fa-map-marker" aria-hidden="true"></i>
-                        <p>{event.venue_type === "Online" ? "آنلاین" : "حضوری"}</p>
+                        <p>{event.venueType === "Online" ? "آنلاین" : "حضوری"}</p>
                       </div>
                     </div>
                   </div>

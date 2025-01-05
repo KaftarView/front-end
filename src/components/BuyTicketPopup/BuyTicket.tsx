@@ -25,7 +25,7 @@ interface payload {
   discountCode : string | null;
 }
 
- const TicketPurchasePopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+ const TicketPurchasePopup: React.FC<{ onClose: () => void ; id:string|undefined }> = ({ onClose  , id}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [tickets, setTickets] = useState<Record<number, number>>({});
   const [ticketTypes, setTicketTypes] = useState<Ticket[]>([]);
@@ -38,7 +38,7 @@ interface payload {
       setLoading(true);
       setError(null);
       try {
-        const response = await apiClient.get('/v1/events/3/tickets', {
+        const response = await apiClient.get(`/v1/events/${id}/tickets`, {
           headers: {
             'ngrok-skip-browser-warning': '69420',
             'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ interface payload {
         ticketID: parseInt(ticketID),
         quantity,
       }));
-      
+
   
     if (formattedTickets.length === 0) {
       setError('Please select at least one ticket to proceed.');
@@ -117,7 +117,7 @@ interface payload {
   
     try {
       
-      const response = await apiClient.post('/v1/events/3/reserve', pay);
+      const response = await apiClient.post(`/v1/events/${id}/reserve`, pay);
       console.log('Purchase successful:', response.data);
       // onClose(); // Close the popup after successful submission
     } catch (err: any) {

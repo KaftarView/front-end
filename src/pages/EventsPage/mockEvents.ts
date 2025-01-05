@@ -7,11 +7,11 @@ export const mockEvent: EventDetail = {
   description: "Join us for a day of music, food, and fun at the annual Spring Music Festival!",  
   location: "Central Park, New York, NY",  
   status: "Published",  
-  venue_type: "outdoor",  
+  venueType: "outdoor",  
   categories: ["Music", "Festival", "Food"],  
-  created_at: "2024-12-05T10:00:00Z",  
-  from_date: "2025-04-15T12:00:00Z",  
-  to_date: "2025-04-15T20:00:00Z",
-  base_price : 20,
+  createdAt: "2024-12-05T10:00:00Z",  
+  fromDate: "2025-04-15T12:00:00Z",  
+  toDate: "2025-04-15T20:00:00Z",
+  basePrice : 20,
 
 };  

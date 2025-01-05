@@ -76,11 +76,3 @@
   
 
   
-  .mb-4 {
-    display: flex;
-    justify-content: flex-start; /* Align content to the left */
-    align-items: center; /* Center vertically */
-    gap: 10px; /* Spacing between items */
-    margin-top: 20px;
-  }
-  
