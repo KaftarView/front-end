@@ -31,9 +31,7 @@ const PATHS ={
     AddOrganizer:'/Organizer/:eventId',
     AddNashriye:'/addnashriye',
     EditEpisode:"EditEpisode/:EpisodeId",
-
-
-    EditEpisode:"EditEpisode/:EpisodeId",
+    EditPodcast:"EditPodcast/:PodcastId",
     giverole:'/giverole',
     createrole:'/createrole',
     addpodcast:'/addpodcast',
