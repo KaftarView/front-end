@@ -3,7 +3,7 @@ import { getToken, getRefreshToken, removeToken, setToken, isTokenExpired } from
 import { useNavigate } from "react-router-dom";
 
 const apiClient = axios.create({  
-    baseURL: 'https://0bee-2-191-171-6.ngrok-free.app', 
+    baseURL: 'https://66e1-212-64-199-253.ngrok-free.app', 
 });  
 
 
@@ -12,7 +12,7 @@ const refreshAccessToken = async () => {
     if (!refreshToken) {  
         throw new Error('No refresh token found');  
     }  
-    const response = await axios.post('https://0bee-2-191-171-6.ngrok-free.app/v1/auth/refresh-token', { refreshToken }); 
+    const response = await axios.post('https://66e1-212-64-199-253.ngrok-free.app/v1/auth/refresh-token', { refreshToken }); 
     const newAccessToken = response.data.data; 
     removeToken(); 
     console.log("Refreshed")

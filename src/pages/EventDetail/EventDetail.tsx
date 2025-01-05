@@ -115,7 +115,7 @@ import apiClient from  "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
 import {User , useAuth} from '../../components/AuthContext';
 import Comments from '../PodcastDetail/Comments';
-import { FileText, Video, Presentation, Download } from 'lucide-react';
+import { FileText, Video, Presentation, Download  , AudioLines , Image} from 'lucide-react';
 
 
 
@@ -142,6 +142,15 @@ interface EventMedia {
   url: string;
 }
 
+interface Media {
+  id: number;
+  mediaType: string;
+  name: string;
+  mediaPath: string;
+  mediaSize: number;
+  createdAt: string;
+}
+
 const EventDetail: React.FC = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const { id } = useParams<{ id: string }>();
@@ -159,6 +168,8 @@ const EventDetail: React.FC = () => {
     Published: 'منتشر شده',  
     Cancelled: 'لغو شده',  
   };   
+
+  const[eventMedias , setEventMedias] = useState<Media[]>([])
 
   const statusColors: { [key: string]: string } = {  
     Published: 'green',  
@@ -187,55 +198,63 @@ const EventDetail: React.FC = () => {
   }, []);
   const backgroundColor = event?.status ? statusColors[event?.status] : 'gray';
 
-//   useEffect(() => {  
-//     const fetchEvent = async () => {  
-//         setLoading(true);  
-//         setError(null);  
-//         const path = userRole === "SuperAdmin" ? "/v1/admin/events/" : "v1/public/events/";
+  useEffect(() => {  
+    const fetchEvent = async () => {  
+        setLoading(true);  
+        setError(null);  
+        const path = userRole === "SuperAdmin" ? "/v1/admin/events/" : "v1/public/events/";
 
-//         try {  
-//             // const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
-//             //   headers: {
-//             //     "ngrok-skip-browser-warning": "69420",
-//             //     'Content-Type': 'application/json', // Example header
+        try {  
+            // const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
+            //   headers: {
+            //     "ngrok-skip-browser-warning": "69420",
+            //     'Content-Type': 'application/json', // Example header
     
-//             //   },
-//             // });  
-//             const response = await apiClient.get(`${path}${id}`, {  
-//               headers: {  
-//                 "ngrok-skip-browser-warning": "69420",  
-//                 'Content-Type': 'application/json', 
-//               },  
-//             });  
-        
-//             console.log(response.data.data); 
-//             const eventData = response.data.data;
-//             setEvent(eventData);
-//             if (event) {
-//               setEvent({
-//                 ...event,
-//                 base_price: 100,
-//               });}
-//             console.log(event) 
-//         } catch (err) {  
-//           if (axios.isAxiosError(err)) {
-//             if (err.response && err.response.status === 404) {  
-//                 setError('Event not found');  
-//             } else {  
-//                 setError('An error occurred while fetching the event');  
-//             }  
-            
-//           }
-//         } finally {  
-//             setLoading(false);  
-//         }  
-//     };  
+            //   },
+            // });  
+            const response = await apiClient.get(`${path}${id}`, {  
+              headers: {  
+                "ngrok-skip-browser-warning": "69420",  
+                'Content-Type': 'application/json', 
+              },  
+            });  
 
-//     fetchEvent();  
-// }, [id]);  
-//   if (loading) {  
-//     return <div>Loading event...</div>;  
-//   }  
+            const res = await apiClient.get('/v1/admin/events/5/media', {  
+              headers: {  
+                "ngrok-skip-browser-warning": "69420",  
+                'Content-Type': 'application/json', 
+              },  
+            });  
+            console.log(res.data.data)
+            setEventMedias(res.data.data)
+            console.log(response.data.data); 
+            const eventData = response.data.data;
+            setEvent(eventData);
+            if (event) {
+              setEvent({
+                ...event,
+                base_price: 100,
+              });}
+            console.log(event) 
+        } catch (err) {  
+          if (axios.isAxiosError(err)) {
+            if (err.response && err.response.status === 404) {  
+                setError('Event not found');  
+            } else {  
+                setError('An error occurred while fetching the event');  
+            }  
+            
+          }
+        } finally {  
+            setLoading(false);  
+        }  
+    };  
+
+    fetchEvent();  
+}, [id]);  
+  if (loading) {  
+    return <div>Loading event...</div>;  
+  }  
 
     const getMediaIcon = (type: EventMedia['type']) => {
       switch (type) {
@@ -247,6 +266,38 @@ const EventDetail: React.FC = () => {
         case 'video':
           return <Video className="media-icon" />;
       }
+    };
+
+    const getMediaIconn = (type : string) => {
+      // switch (type) {
+      //   case 'pdf':
+      //   case 'word':
+      //     return <FileText className="media-icon" />;
+      //   case 'pptx':
+      //     return <Presentation className="media-icon" />;
+      //   case 'video':
+      //     return <Video className="media-icon" />;
+        if (type.startsWith("video/"))
+        {
+            return <Video className="media-icon" />;
+        }
+        if (type.startsWith("audio/"))
+        {
+            return <AudioLines className="media-icon" />;
+        }
+        if (type.startsWith("image/"))
+        {
+            return <Image className="media-icon" />;
+        }
+        if (type.split('/').pop() === "pdf" || type.split('.').pop() === "document")
+        {
+            return <FileText className="media-icon" />;
+        }
+        if(type.split('.').pop() === "presentation")
+        {
+          return <Presentation className="media-icon" />;
+        }
+      
     };
 
   const handleDelete = async (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -337,24 +388,24 @@ const handlePublish = async () => {
                     <div className="media-section">
             <div className="accent-line"></div>
             <h2 className="description-title">فایل‌های رویداد</h2>
-            {event.media && !userPermissions.includes("ManageEvent") && event.media.length > 0 ? (
+            {eventMedias && !userPermissions.includes("ManageEvent") && eventMedias.length > 0 ? (
               <div className="media-grid">
-                {event.media.map((item) => (
+                {eventMedias.map((item) => (
                   <div key={item.id} className="media-item">
-                    {getMediaIcon(item.type)}
+                    {getMediaIconn(item.mediaType)}
                     <div className="media-details">
-                      <div className="media-title">{item.title}</div>
+                      <div className="media-title">{item.name}</div>
                       <div className="media-type">
-                        {item.type.toUpperCase()}
+                        {item.mediaType.toUpperCase()}
                       </div>
                     </div>
                     <a 
-                      href={item.url}
+                      href={item.mediaPath}
                       download
                       className="download-button"
                       onClick={(e) => {
                         e.preventDefault();
-                        window.open(item.url, '_blank');
+                        window.open(item.mediaPath, '_blank');
                       }}
                     >
                       <Download size={16} />
