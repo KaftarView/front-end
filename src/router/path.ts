@@ -30,6 +30,7 @@ const PATHS ={
 
     AddOrganizer:'/Organizer/:eventId',
     AddNashriye:'/addnashriye',
+
     EditEpisode:"EditEpisode/:EpisodeId",
     giverole:'/giverole',
     createrole:'/createrole',
@@ -39,7 +40,6 @@ const PATHS ={
     addmedia:'/events/:Id/addmedia',
     ProfileEvent:'/my-events',
     
-
 
 
 }
