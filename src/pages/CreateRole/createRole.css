@@ -1,0 +1,220 @@
+/* General Styles */
+.upload-container-create-roll html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  overflow-x: hidden;
+  text-align: right; /* Align the entire form to the right */
+  direction: rtl; /* Set the form's direction to RTL */
+
+}
+
+/* Upload Container */
+.upload-container-create-roll {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(39deg, rgba(74, 152, 174, 1) 0%, rgba(228, 127, 18, 1) 100%) fixed;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+.create-roll-form {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.create-roll-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: rgb(0, 67, 80);
+}
+
+.create-roll-form  .Labeladd {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  color: rgb(0, 67, 80);
+}
+
+.create-roll-form .addinput-field-test {
+  width: 100%;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  padding: 10px;
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  background-color: rgb(230, 230, 230);
+  font-size: 14px;
+  color: rgb(0, 67, 80);
+  text-align: right;
+  transition: 0.5s;
+}
+
+.create-roll-form  .addinput-field-test:focus {
+  border-color: rgb(0, 68, 80);
+  outline-color: rgb(0, 67, 80);
+}
+
+.create-roll-form  select {
+  width: 50%;
+  margin: 20px auto 30px auto;
+  padding: 10px;
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  background-color: rgb(230, 230, 230);
+  font-size: 14px;
+  color: rgb(0, 67, 80);
+  text-align: right;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.create-roll-form  select:focus {
+  border-color: rgb(0, 68, 80);
+}
+
+/* Dropdown Checkboxes */
+.upload-container-create-roll .create-roll-form .multiselect {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.create-roll-form  .selectBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-roll-form .dropdown-checkboxes {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  /* flex-wrap: wrap; */
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.upload-container-create-roll .checkbox-item {
+  /* padding: 8px 12px; */
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.upload-container-create-roll .checkbox-item:hover {
+  background-color: #f1f1f1;
+}
+/* 
+.checkbox-item input {
+  margin-right: 10px;
+} */
+
+.upload-container-create-roll .checkbox-item input:checked {
+  accent-color: #007bff;
+}
+
+/* Buttons */
+.upload-container-create-roll .create-roll-form button {
+  margin: 20px 150px 0px 20px;
+  padding: 12px;
+  font-size: 16px;
+  background-color: rgb(74, 152, 174);
+  color: white;
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.upload-container-create-roll button:hover {
+  background-color: transparent;
+  color: rgb(74, 152, 174);
+}
+
+.upload-container-create-roll button:disabled {
+  background-color: #ccc;
+  color: rgb(0, 68, 80);
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .upload-container-create-roll.create-roll-form {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .upload-container-create-roll .addinput-field-test,
+  .create-roll-form select {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .upload-container-create-roll button {
+    font-size: 14px;
+    padding: 10px;
+    margin: 20px 50px 0px 200px;
+
+
+  }
+}
+.upload-container-create-roll .checkbox-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add spacing between rows */
+  font-size: 14px; /* Adjust font size for better readability */
+}
+
+
+
+.upload-container-create-roll .create-roll-form .dropdown-checkboxes {
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Ensure text alignment is correct */
+  padding: 10px;
+  border: 1px solid rgb(74, 152, 174); /* Optional: Border for dropdown */
+  background: rgb(244, 241, 241); /* Background for better visibility */
+  border-radius: 5px; /* Rounded corners */
+  max-height: 200px; /* Limit height if there are many items */
+  overflow-y: auto; /* Add scroll for overflow */
+}
+.upload-container-create-roll .create-roll-form .selectBox
+{
+  background-color: rgb(230, 230, 230);
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+}
+.create-roll-form {
+  text-align: right; /* Align the entire form to the right */
+  direction: rtl; /* Set the form's direction to RTL */
+}
+
+.upload-container-create-roll .create-roll-form .addinput-field-test {
+  text-align: right; /* Align input text to the right */
+}

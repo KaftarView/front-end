@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/AuthContext';
 import './forgetpassword.css';
 import { useAppContext } from '../../components/AppContext';
+import apiClient from '../../utils/apiClient';
+import axios  from 'axios';
 
 const ForgetPassword: React.FC = () => {
     const [email, setEmail] = useState<{ email: string }>({ email: '' });
@@ -19,38 +21,30 @@ const ForgetPassword: React.FC = () => {
         setErrMessage('');
 
         try {
-            const response = await fetch(`${backendUrl}/v1/auth/forgot-password`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: email.email }),
-            });
-
+            const response = await apiClient.post(`/v1/auth/forgot-password`, { email: email.email })
             // if (!response.ok) { // Check if the response is not OK
             //     throw new Error(`HTTP error! status: ${response.status}`);
             // }
-
-            const data = await response.json();
-            console.log(data);
-            if (data.statusCode === 200) {
+            console.log(response.data);
+            if (response.data.statusCode=== 200) {
                 allowAccess();
                 navigate('/otp', { state: { email } });
             }
-            if(data.statusCode === 422) {
-                setErrMessage('ایمیل وجود ندارد')
-                setEmail({ email: '' })
-
-            }
         } catch (error) {
-            if (error instanceof Error) {  
-                setErrMessage('مشکلی در ارتباط با سرور وجود دارد. لطفا مجددا تلاش کنید');
-                console.error('Error sending email:', error.message);  
-
-            } else {  
-                console.error('Unexpected error:', error);  
-
-            }  
+            if (axios.isAxiosError(error))
+            {
+                
+                // console.log(re.request.status);
+                if(error.response)
+                {
+                    console.log(error.response)
+                    setErrMessage('ایمیل وجود ندارد')
+                    setEmail({ email: '' })
+                }
+                else {
+                    setErrMessage('مشکلی در ارتباط با سرور وجود دارد. لطفا مجددا تلاش کنید');
+                }
+            }
         }
     };
 

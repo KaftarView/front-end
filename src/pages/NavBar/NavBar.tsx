@@ -1,9 +1,10 @@
+// import React, { useEffect, useState } from "react";
+
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../public/ElmosLogo.png";
 import "./NavBar.css";
-
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();

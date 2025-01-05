@@ -9,7 +9,8 @@ const PATHS ={
     eventdetail:'/event/:id',
     event: '/events',
     course: '/cources',
-    pudcast: '/pudcasts',
+    podcast: '/podcasts',
+    podcastDetails: '/podcast/:id',
     magazine: '/magazines',
     pamphlet:'/pamphlets',
     SignUp:'/SignUp',
@@ -26,9 +27,21 @@ const PATHS ={
     AddEvent:'/addevent',
     Tikets:'/Tikets/:eventId',
     Discount:'/Discount/:eventId',
+
     AddOrganizer:'/Organizer/:eventId',
     AddNashriye:'/addnashriye',
     EditEpisode:"EditEpisode/:EpisodeId",
+
+
+    EditEpisode:"EditEpisode/:EpisodeId",
+    giverole:'/giverole',
+    createrole:'/createrole',
+    addpodcast:'/addpodcast',
+    addepisode:'/podcasts/:id/addepisodes',
+    MembersPage:"/members",
+    addmedia:'/events/:Id/addmedia',
+    ProfileEvent:'/my-events',
+    
 
 
 }

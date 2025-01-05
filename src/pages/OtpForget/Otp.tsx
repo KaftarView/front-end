@@ -5,6 +5,7 @@ import { useAuth } from '../../components/AuthContext';
 import './Otp.css';
 import { Link } from "react-router-dom";
 import {useAppContext} from '../../components/AppContext';
+import apiClient from '../../utils/apiClient'
 
 interface LocationState {
     state: {
@@ -59,7 +60,7 @@ const Otp: React.FC = () => {
         // navigate('/resetPassword' , { state: { email } });
         
         try {
-            const response = await axios.post( `${backendUrl}/v1/auth/confirm-otp`, payload);
+            const response = await apiClient.post( `/v1/auth/confirm-otp`, payload);
             console.log('Response:', response.data);
             if(response.data.statusCode == 200)
             {
@@ -73,6 +74,7 @@ const Otp: React.FC = () => {
                 // console.log(re.request.status);
                 if(error.response)
                 {
+                    console.log(error.response)
                     setErrMessage('کد ورودی اشتباه است')
                 }
                 else {
