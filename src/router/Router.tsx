@@ -33,6 +33,7 @@ import AddPodcast from "../pages/CreatePodcast/createPodcast"
 import UploadPodcast from "../pages/CreateEpisode/createEpisode"
 import MembersPage from "../pages/AssocitionMembers/Members"
 import UploadMedia from "../Pages/AddEventMedia/addEventMedia"
+import EditEvent from "../Pages/EditEvent/editEvent"
 
 
 
@@ -74,13 +75,14 @@ const Router = () => {
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}
-                <Route path={PATHS.giverole} element={<RoleManagement/>}/>
-                <Route path={PATHS.createrole} element={<CreateRole/>}/>
-                <Route path={PATHS.addpodcast} element={<AddPodcast/>}/>
-                <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
-                <Route path={PATHS.MembersPage}  element={<MembersPage />} />
-
-                <Route path={PATHS.addmedia}  element={<UploadMedia />} />
+        <Route path={PATHS.giverole} element={<RoleManagement/>}/>
+        <Route path={PATHS.createrole} element={<CreateRole/>}/>
+        <Route path={PATHS.addpodcast} element={<AddPodcast/>}/>
+        <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
+        <Route path={PATHS.MembersPage}  element={<MembersPage />} />
+        <Route path={PATHS.addmedia}  element={<UploadMedia />} />
+        <Route path={PATHS.editEvent}  element={<EditEvent />} />
+               
 
 
 
