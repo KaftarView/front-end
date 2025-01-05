@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios, { AxiosProgressEvent } from 'axios';
 import { register } from 'module';
-import "./createEpisode.css"
+import "./addEventMedia.css"
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import apiClient from '../../utils/apiClient';
@@ -11,18 +11,13 @@ import apiClient from '../../utils/apiClient';
 
 interface FormData {
     name: string;
-    description: string;
-    banner: FileList;
-    audio:File; // Changed to FileList to handle file inputs properly
+    // banner: FileList;
+    media:File; // Changed to FileList to handle file inputs properly
   }
 
 
 
-
-
-
-
-const UploadPodcast = () => {
+const UploadMedia = () => {
 
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -31,7 +26,7 @@ const UploadPodcast = () => {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
 
-  const { id } = useParams<{ id: string }>();
+  const { Id } = useParams<{ Id: string }>();
 
   const navigate = useNavigate();
   const {
@@ -45,6 +40,21 @@ const UploadPodcast = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+        const allowedTypes = [
+            "audio/*",
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/vnd.ms-powerpoint",
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "image/*",
+            "video/*",
+          ];
+          if (!allowedTypes.some((type) => file.type.match(type))) {
+            setUploadError("Invalid file type. Please upload a valid file.");
+            setSelectedFile(null);
+            return;
+          }
       setSelectedFile(file);
       setUploadError(null); // Reset error when file is selected again
     }
@@ -58,33 +68,31 @@ const UploadPodcast = () => {
       return;
     }
     // console.log(data.audio);
-     console.log(data.banner[0]);
-    console.log(data.description);
+    //  console.log(data.banner[0]);
     console.log(data.name);
     const formData = new FormData();
     formData.append("name", data.name);
-    formData.append("description", data.description);
-    if (data.banner && data.banner[0]) {
-        formData.append("banner", data.banner[0]);
-      }
+    // if (data.banner && data.banner[0]) {
+    //     formData.append("banner", data.banner[0]);
+    //   }
 
-    formData.append('audio', selectedFile);
+    formData.append('media', selectedFile);
     // formData.append('')
 
     try {
       setIsUploading(true);
       setUploadProgress(0);
       setUploadSuccess(null);
-      console.log(id)
+
       // Replace this URL with your actual API endpoint
-      const apiUrl = `/v1/podcasts/${id}/episodes`;
+      const apiUrl = `/v1/events/${Id}/media`;
 
       // Upload the file with progress
       const response=await apiClient.post(apiUrl, formData, {
         withCredentials: true,
 
         headers: {
-            // "ngrok-skip-browser-warning": "69420",
+           // "ngrok-skip-browser-warning": "69420",
           'Content-Type': 'multipart/form-data',
         },
         onUploadProgress: (progressEvent: AxiosProgressEvent) => {
@@ -102,7 +110,6 @@ const UploadPodcast = () => {
       setIsUploading(false);
       setUploadSuccess('Podcast uploaded successfully!');
       setSelectedFile(null);
-      navigate(`/podcast/${id}`)
     } catch (error) {
       setIsUploading(false);
       setUploadError('An error occurred while uploading the podcast.');
@@ -118,37 +125,22 @@ const UploadPodcast = () => {
                encType="multipart/form-data"
                onSubmit={handleSubmit(handleUpload)}>
         <div>
-        <label className="Labeladd" htmlFor="name">نام اپیزود</label>
+        <label className="Labeladd-media" htmlFor="name">نام</label>
         <input
           type="string"
           id="name"
-          {...register("name", { required: "نام اپیزود الزامی است" })}
+          {...register("name", { required: "نام رویداد الزامی است" })}
 
-          className="addinput-field-episode"
+          className="addinput-field"
         />
                 {errors.name && <p className="erroradd">{errors.name.message}</p>}
 
       </div>
-      <div>
-      <label className="Labeladd" htmlFor="description"> توضیحات</label>
-        <textarea
-        //   type="text"
-          id="description"
-          className="addinput-field-episode textarea-field"
-          {...register("description", { required: "توضیحات الزامی است" })}
 
-        />
-                {errors.description && <p className="erroradd">{errors.description.message}</p>}
-
-      </div>
-
-
-
-
-      <div className="event-banner">
+      {/* <div className="event-banner">
       <label className="Labeladd" htmlFor="banner">عکس خود را بارگذاری کنید</label>
       <input
-        className="addinput-field-episode"
+        className="addinput-field"
         type="file"
         id="banner"
         accept="image/*"
@@ -157,17 +149,12 @@ const UploadPodcast = () => {
       />
        {errors.banner && <p className="erroradd">{errors.banner.message}</p>}
 
-    </div>
+    </div> */}
 
+      {/* <div>
+      <label className="Labeladd" htmlFor="audio">فایل خود را بارگذاری کنید</label>
 
-
-
-
-
-      <div>
-      <label className="Labeladd" htmlFor="audio">فایل صوتی خود را بارگذاری کنید</label>
-
-        <input className="addinput-field-episode" type="file" accept="audio/*" onChange={handleFileChange} />
+        <input className="addinput-field" type="file" accept="audio/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/*,video/*" onChange={handleFileChange} />
       </div>
 
       {uploadError && <p className="error">{uploadError}</p>}
@@ -187,7 +174,55 @@ const UploadPodcast = () => {
         <div>
           <p>Uploading... {uploadProgress}%</p>
         </div>
+      )} */}
+      <div>
+  <label className="Labeladd-media" htmlFor="media">فایل خود را بارگذاری کنید</label>
+  <input
+    className="addinput-field"
+    type="file"
+    accept="audio/*,application/pdf,image/*,video/*,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint"
+    onChange={handleFileChange}
+    key={uploadSuccess ? 'new-upload' : undefined} // Reset input on success
+  />
+</div>
+
+{uploadError && <p className="error">{uploadError}</p>}
+{uploadSuccess && <p className="success">{uploadSuccess}</p>}
+
+
+{selectedFile && !isUploading && (
+        <div>
+          <p>Selected file: {selectedFile.name}</p>
+          <button onClick={()=>{
+      navigate("#")
+   }// Reset errors
+        }
+                    disabled={!isValid}
+                    className={`submit-episod ${!isValid ? "submit-disabled" : ""}`}
+            >بارگذاری فایل جدید</button>
+        </div>
       )}
+
+{isUploading && (
+  <div>
+    <p>Uploading... {uploadProgress}%</p>
+  </div>
+)}
+
+{uploadSuccess && (
+    <div
+    onClick={() => {
+      setSelectedFile(null); // Clear file state
+      setUploadSuccess(null); // Hide success message
+      setUploadError(null); // Reset errors
+    }}
+
+
+  >
+
+  </div>
+)}
+
 
         </form>
     </div>
@@ -195,4 +230,4 @@ const UploadPodcast = () => {
   );
 };
 
-export default UploadPodcast;
+export default UploadMedia;

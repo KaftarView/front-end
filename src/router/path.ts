@@ -27,14 +27,20 @@ const PATHS ={
     AddEvent:'/addevent',
     Tikets:'/Tikets/:eventId',
     Discount:'/Discount/:eventId',
+
     AddOrganizer:'/Organizer/:eventId',
     AddNashriye:'/addnashriye',
     EditEpisode:"EditEpisode/:EpisodeId",
+    EditPodcast:"EditPodcast/:PodcastId",
     giverole:'/giverole',
     createrole:'/createrole',
     addpodcast:'/addpodcast',
     addepisode:'/podcasts/:id/addepisodes',
     test: '/test',
+    MembersPage:"/members",
+    addmedia:'/events/:Id/addmedia',
+    ProfileEvent:'/my-events',
+    Addmembers:'/AddMembers',
 
 
 }
