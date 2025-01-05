@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./HomePage.css"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios";
 import apiClient from "../utils/apiClient";
 import Navbar from "./NavBar/NavBar";
@@ -189,11 +189,11 @@ interface FormData {
   description: string;
   fromDate: string;
   toDate: string;
-  ID:Number;
+  id:Number;
   venue_type: string;
   banner:string;
   createdAt: string;
-  base_price:string;
+  basePrice:string;
 }
 
 
@@ -206,7 +206,8 @@ useEffect(
     async function getEvent(){
 
       try {  
-        const response = await axios.get('https://66e1-212-64-199-253.ngrok-free.app/v1/public/events/published', {
+        
+        const response = await apiClient.get('/v1/admin/events', {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header
@@ -215,10 +216,9 @@ useEffect(
         });
         
         if (response.status === 200 && response.data) {
-          console.log(response);
-          console.log("-------------------------response.data-------------------------------------------------");
+          
+          console.log("---------------------EVENT")
           console.log(response.data.data);
-          console.log("--------------------------------respons.data.data------------------------------------------");
 
           const sortedData = response.data.data
             // .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // Sort by date descending
@@ -403,7 +403,7 @@ useEffect(
         } finally {  
         }
   } getMag()},[])
-
+  const navigate = useNavigate();
 
 
   return (
@@ -462,7 +462,7 @@ useEffect(
       <div className="news-carousel-content">
         <h3 className="news-carousel-title">{news.title}</h3>
         <p className="news-carousel-summary">{news.description.split(" ").slice(0, 50).join(" ")||'asdfghjklwertyuiopzxcvbnmdfghjk'}...</p>
-        <button className="btn news-carousel-button">رفتن به خبر</button>
+        <button onClick={() => {navigate("/news-page");}} className="btn news-carousel-button">رفتن به خبر</button>
       </div>
 
       {/* News Image Section */}
@@ -526,7 +526,7 @@ useEffect(
       {/* Section Title */}
       <div className='title'>
         <span className='title-name'>جدیدترین رویداد‌ها</span>
-        <button className='title-link'>رفتن به رویداد‌ها</button>
+        <button onClick={() => {navigate("/events");}} className='title-link'>رفتن به رویداد‌ها</button>
       </div>
 
       {/* Events List */}
@@ -541,8 +541,8 @@ useEffect(
               <h2 className="product-title">{event.name}</h2> {/* Assuming 'title' is a field */}
               <p className="product-description">{event.description||'asdfghjklwertyuiopzxcvbnmdfghjk'}</p> {/* Assuming 'description' is a field */}
               <span className="product-status">{event.venue_type || 'در حال برگزاری'}</span> {/* Assuming 'status' is a field */}
-              <span className="product-price">{event.base_price+"تومان" || 'قیمت ندارد'}</span> 
-              <button className="my_btn">مشاهده اطلاعات</button>
+              <span className="product-price">{event.basePrice+"تومان" || 'قیمت ندارد'}</span> 
+              <button onClick={()=>{navigate('/event/'+event.id)}} className="my_btn">مشاهده اطلاعات</button>
             </div>
           ))
         ) : (
@@ -622,7 +622,7 @@ useEffect(
           <div className="pudcast-section">
           <div className="about-anjoman-pudcast">
         <h1 className="about-anjoman-pudcast-titel">
-            CESA Pudcast
+            CESA Podcast
         
         </h1>
         <br/>
@@ -633,18 +633,19 @@ useEffect(
 هدف اصلی این پادکست، گسترش فرهنگ یادگیری مستمر، الهام‌بخشی برای نوآوری و تشویق به پژوهش‌های کاربردی در زمینه‌های مختلف مهندسی کامپیوتر است.</p>
         </div>
 
-          <div className='title '><span className='title-name'>جدیدترین پادکست‌ها</span> <button className='title-link  '>رفتن به پادکست‌ها</button></div>
+          <div className='title '><span className='title-name'>جدیدترین پادکست‌ها</span> 
+          <button onClick={() => {navigate("/podcasts");}} className='title-link  '>رفتن به پادکست‌ها</button></div>
             <div className="lists background-color-orange">
                 
             {initialPodcast.length > 0 ? (
           initialPodcast.map((event, index) => (
             <div className="box-small" key={index}>
               <h2 className="product-title">{event.name}</h2> {/* Assuming 'title' is a field */}
-              <button className="my_btn">مشاهده اطلاعات</button>
+              <button onClick={() => {navigate('/podcast/'+event.ID);}} className="my_btn">مشاهده اطلاعات</button>
             </div>
           ))
         ) : (
-          <p>هیچ رویدادی موجود نیست.</p>
+          <p>هیچ پادکستی موجود نیست.</p>
         )}
       </div>
       </div>
@@ -661,18 +662,21 @@ useEffect(
 
 هدف اصلی نشریه تورینگ، فراهم کردن بستری برای تبادل نظر و ارائه تحقیقات نوین در این حوزه‌ها و همچنین آشنایی مخاطبان با آخرین دستاوردهای علمی و صنعتی است. این نشریه فرصتی است برای دانشجویان، اساتید و پژوهشگران جوان تا یافته‌های علمی خود را با دیگران به اشتراک بگذارند و در محیطی علمی و پویا به بحث و تبادل اطلاعات بپردازند.</p>
         </div>
-            <div className='title'><span className='title-name'>جدیدترین شماره‌های نشریه</span> <button className='title-link  '>رفتن به نشریه</button></div>
+            <div className='title'><span className='title-name'>جدیدترین شماره‌های نشریه</span>
+             <button onClick={() => {navigate("/magazines");}} className='title-link  '>رفتن به نشریه</button></div>
             <div className="lists background-color-blue">
                   
             {initialMagazine.length > 0 ? (
           initialMagazine.map((mag, index) => (
             <div className="box-small" key={index}>
               <h2 className="product-title">{mag.name}</h2> {/* Assuming 'title' is a field */}
-              <button className="my_btn">مشاهده اطلاعات</button>
+               <a  href={mag.journalFile} className="my_btn_a" download>  
+                        دانلود  
+                    </a> 
             </div>
           ))
         ) : (
-          <p>هیچ رویدادی موجود نیست.</p>
+          <p>هیچ نشریه‌ای موجود نیست.</p>
         )}
       </div>
 

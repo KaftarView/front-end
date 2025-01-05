@@ -141,7 +141,7 @@
 
 /* Buttons */
 .upload-container-create-roll .create-roll-form button {
-  margin: 20px 150px 0px 20px;
+  /* margin: 20px 150px 0px 20px; */
   padding: 12px;
   font-size: 16px;
   background-color: rgb(74, 152, 174);

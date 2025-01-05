@@ -105,12 +105,13 @@ const UploadMedia = () => {
       });
       console.log(response);
       const eventId = response.data.data;
-      console.log("file uploaded successfully. episode ID:", eventId);
+      console.log("file uploaded successfully. file ID:", eventId);
 
 
       setIsUploading(false);
       setUploadSuccess('file uploaded successfully!');
       setSelectedFile(null);
+      navigate('/event/'+Id);
     } catch (error) {
       setIsUploading(false);
       setUploadError('An error occurred while uploading the file.');
@@ -210,18 +211,20 @@ const UploadMedia = () => {
   </div>
 )}
 
-{uploadSuccess && (
+{/* {uploadSuccess && (
     <div
-    onClick={() => {
-      setSelectedFile(null); // Clear file state
-      setUploadSuccess(null); // Hide success message
-      setUploadError(null); // Reset errors
-    }}
+    // onClick={() => {
+      // navigate
+      // setSelectedFile(null); // Clear file state
+      // setUploadSuccess(null); // Hide success message
+      // setUploadError(null); // Reset errors
+    // }
+  // }
 
 
   >
   </div>
-)}
+)} */}
 
 
         </form>

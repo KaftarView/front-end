@@ -534,8 +534,8 @@
         ;
             /* border: 1px solid black; */
             margin-top: 6rem;
-            margin-right: 4rem;
-            padding: 10rem;
+            /* margin-right: 3.5rem; */
+            padding: 13rem;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -795,6 +795,25 @@
     align-items: center;
     
 }
+
+.content .lists .box-small .my_btn_a
+{
+    font-family: 'Anjoman-FaNum-Medium';
+    background-color: rgb(126, 126, 196);
+    border-radius: .7rem;
+
+    font-size: .8rem;
+    position: absolute;
+    bottom: .7rem;
+    left: 7rem;
+    align-items: center;
+    padding: .6rem;
+padding-right: 1.5rem;
+padding-left: 1.5rem;
+    
+}
+
+
 
 .content .lists .box-small .my_btn:hover
 {
@@ -1155,7 +1174,7 @@
   
   @media screen and (max-width: 768px) {
     .transbox {
-      padding: 15px; /* Reduce padding for smaller screens */
+      padding: 19px; /* Reduce padding for smaller screens */
       max-width: 0%; /* Expand transbox width for better fit */
     }
   
@@ -1176,7 +1195,7 @@
   
     .transbox {
       max-width: 30%; /* Utilize full width on mobile */
-      padding: 10px;
+      padding: 18px;
     }
   
     .writing-text {
