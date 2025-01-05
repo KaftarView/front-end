@@ -111,6 +111,7 @@ const UploadMedia = () => {
       setIsUploading(false);
       setUploadSuccess('file uploaded successfully!');
       setSelectedFile(null);
+      navigate('/event/'+eventId);
     } catch (error) {
       setIsUploading(false);
       setUploadError('An error occurred while uploading the file.');
@@ -210,18 +211,20 @@ const UploadMedia = () => {
   </div>
 )}
 
-{uploadSuccess && (
+{/* {uploadSuccess && (
     <div
-    onClick={() => {
-      setSelectedFile(null); // Clear file state
-      setUploadSuccess(null); // Hide success message
-      setUploadError(null); // Reset errors
-    }}
+    // onClick={() => {
+      // navigate
+      // setSelectedFile(null); // Clear file state
+      // setUploadSuccess(null); // Hide success message
+      // setUploadError(null); // Reset errors
+    // }
+  // }
 
 
   >
   </div>
-)}
+)} */}
 
 
         </form>

@@ -8,7 +8,7 @@ body {
 
 h2 {
     color: #374151; /* Dark gray */
-    margin-top: 150px;
+    /* margin-top: 150px; */
     text-align: right;
 }
 
@@ -178,7 +178,7 @@ h2 {
     }
 
     h2 {
-        margin-top: 120px;
+        /* margin-top: 120px; */
         font-size: 20px; /* Adjust heading font size */
     }
 }
@@ -190,7 +190,7 @@ h2 {
     }
 
     h2 {
-        margin-top: 100px; /* Adjust heading margin */
+        /* margin-top: 100px; Adjust heading margin */
         font-size: 18px; /* Smaller font size */
     }
 
