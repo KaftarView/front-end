@@ -135,7 +135,7 @@ const Event = () => {
   
     if (isCustomCategories) {
 
-      finalCategories = customCategories.filter((cat) => cat.trim() !== ""); // Remove empty entries
+      finalCategories = customCategories.filter((cat) => cat.trim() !== ""); 
     } else {
     
       newEvent.categories.forEach((category) => {
