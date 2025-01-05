@@ -5,6 +5,7 @@ import apiClient from '../../utils/apiClient'
 import PopupQuestion from '../../components/PopupQuestion/PopopQuestion'
 import * as XLSX from 'xlsx';
 import { Download } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 
 interface Ticket {
   id: number;
@@ -19,42 +20,43 @@ interface Ticket {
 }
 
 // Mock data
-const mockTickets: Ticket[] = [
-  {
-    id: 1,
-    name: 'VIP Ticket',
-    price: 100,
-    isAvailable: true,
-    availableFrom: '2024-12-27T09:00:00Z',
-    availableUntil: '2025-01-05T23:59:59Z',
-    createdAt: '2024-12-01T12:00:00Z',
-    description: 'Exclusive access to the VIP lounge with complimentary drinks.',
-    quantity: 50,
-  },
-  {
-    id: 2,
-    name: 'Standard Ticket',
-    price: 50,
-    isAvailable: true,
-    availableFrom: '2024-12-27T09:00:00Z',
-    availableUntil: '2025-01-05T23:59:59Z',
-    createdAt: '2024-12-01T12:00:00Z',
-    description: 'Standard access to the event.',
-    quantity: 200,
-  },
-];
+// const mockTickets: Ticket[] = [
+//   {
+//     id: 1,
+//     name: 'VIP Ticket',
+//     price: 100,
+//     isAvailable: true,
+//     availableFrom: '2024-12-27T09:00:00Z',
+//     availableUntil: '2025-01-05T23:59:59Z',
+//     createdAt: '2024-12-01T12:00:00Z',
+//     description: 'Exclusive access to the VIP lounge with complimentary drinks.',
+//     quantity: 50,
+//   },
+//   {
+//     id: 2,
+//     name: 'Standard Ticket',
+//     price: 50,
+//     isAvailable: true,
+//     availableFrom: '2024-12-27T09:00:00Z',
+//     availableUntil: '2025-01-05T23:59:59Z',
+//     createdAt: '2024-12-01T12:00:00Z',
+//     description: 'Standard access to the event.',
+//     quantity: 200,
+//   },
+// ];
 
 type SortField = 'id' | 'name' | 'price' | 'description' | 'isAvailable' | 'quantity' | 'availableFrom'| 'availableUntil';
 type SortOrder = 'asc' | 'desc';
 
 function App() {
-  const [tickets, setTickets] = useState<Ticket[]>(mockTickets);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [sortField, setSortField] = useState<SortField>('id');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentTicketId , setCurrentNewsId] = useState<number | null>(null); 
   const [isModalVisible, setIsModalVisible] = useState(false); 
+  const { id } = useParams();
 
 
   useEffect(() => {
@@ -63,7 +65,7 @@ function App() {
       setError(null);
 
       try {
-        const response = await apiClient.get('/v1/admin/events/7/tickets' , {
+        const response = await apiClient.get(`/v1/admin/events/${id}/tickets` , {
           headers: {  
             "ngrok-skip-browser-warning": "69420",  
             'Content-Type': 'application/json',

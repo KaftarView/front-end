@@ -2,14 +2,16 @@ import React , {useEffect , useState} from 'react'
 import './Attendees.css'
 import * as XLSX from 'xlsx';
 import { Download } from 'lucide-react';
+import { useParams } from 'react-router-dom';  
+import apiClient from '../../utils/apiClient';
 interface Attendee 
 {
     id : number,
     name :string,
     email : string,
-    phoneNumber : string,
-    ticketType : string,
-    paid : number,
+    ticket : string,
+    countTickets : number,
+    price : number,
 
 }
 interface SendEmail {
@@ -18,49 +20,74 @@ interface SendEmail {
 }
 
 
-const attendeesList: Attendee[] = [  
-    {  
-        id : 1,
-        name: "John Doe",  
-        email: "john.doe@example.com",  
-        phoneNumber: "123-456-7890",  
-        ticketType: "VIP",  
-        paid: 150.00  
-    },  
-    {  
-        id: 2,
-        name: "Jane Smith",  
-        email: "jane.smith@example.com",  
-        phoneNumber: "987-654-3210",  
-        ticketType: "General Admission",  
-        paid: 75.00  
-    },  
-    {  
-        id: 3,
-        name: "Alice Johnson",  
-        email: "alice.johnson@example.com",  
-        phoneNumber: "555-123-4567",  
-        ticketType: "Early Bird",  
-        paid: 50.00  
-    },  
-    {  
-        id: 4,
-        name: "Bob Brown",  
-        email: "bob.brown@example.com",  
-        phoneNumber: "555-765-4321",  
-        ticketType: "Student",  
-        paid: 30.00  
-    }  
-];
-type SortField = 'id' | 'name' | 'phoneNumber' | 'email' | 'ticketType' | 'paid';
+// const attendeesList: Attendee[] = [  
+//     {  
+//         id : 1,
+//         name: "John Doe",  
+//         email: "john.doe@example.com",  
+//         phoneNumber: "123-456-7890",  
+//         ticketType: "VIP",  
+//         paid: 150.00  
+//     },  
+//     {  
+//         id: 2,
+//         name: "Jane Smith",  
+//         email: "jane.smith@example.com",  
+//         phoneNumber: "987-654-3210",  
+//         ticketType: "General Admission",  
+//         paid: 75.00  
+//     },  
+//     {  
+//         id: 3,
+//         name: "Alice Johnson",  
+//         email: "alice.johnson@example.com",  
+//         phoneNumber: "555-123-4567",  
+//         ticketType: "Early Bird",  
+//         paid: 50.00  
+//     },  
+//     {  
+//         id: 4,
+//         name: "Bob Brown",  
+//         email: "bob.brown@example.com",  
+//         phoneNumber: "555-765-4321",  
+//         ticketType: "Student",  
+//         paid: 30.00  
+//     }  
+// ];
+type SortField = 'id' | 'name' | 'email' | 'countTickets' | 'price' | 'ticket';
 type SortOrder = 'asc' | 'desc';
 const GetAttendees: React.FC = () => {
-    const [attendees , setAttendees] = useState<Attendee[]>(attendeesList);
+    const [attendees , setAttendees] = useState<Attendee[]>([]);
     const [sortField, setSortField] = useState<SortField>('id');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
-
     const [sendEmailData, setSendEmailData] = useState<SendEmail>({ eventid: 0, email2: '' });
+    const [loading, setLoading] = useState(false);  
+    const [error, setError] = useState<string | null>(null);
+    const { id } = useParams();
 
+    useEffect(() => {  
+      const fetchAttendees = async () => {  
+        setLoading(true);  
+        setError(null);  
+  
+        try {  
+          const response = await apiClient.get(`/v1/admin/events/${id}/attendees`, {  
+            headers: {  
+              "ngrok-skip-browser-warning": "69420",  
+              'Content-Type': 'application/json',  
+            },  
+          });  
+          setAttendees(response.data.data); 
+          console.log(response.data.data) 
+        } catch (err: any) {  
+          setError(err.response?.data?.message || 'An error occurred while fetching discounts.');  
+        } finally {  
+          setLoading(false);  
+        }  
+      };  
+  
+      fetchAttendees();  
+    }, []); 
     const handleSort = (field: SortField) => {
         const newSortOrder = field === sortField && sortOrder === 'asc' ? 'desc' : 'asc';
         setSortField(field);
@@ -100,9 +127,9 @@ const GetAttendees: React.FC = () => {
         const worksheet = XLSX.utils.json_to_sheet(attendees.map(attendee => ({
           'Name': attendee.name,
           'Email': attendee.email,
-          'Phone Number': attendee.phoneNumber,
-          'Ticket Type': attendee.ticketType,
-          'Amount Paid': attendee.paid
+          'ticket count': attendee.countTickets,
+          'Ticket': attendee.ticket,
+          'Amount Paid': attendee.price
         })));
     
         const workbook = XLSX.utils.book_new();
@@ -110,7 +137,7 @@ const GetAttendees: React.FC = () => {
         XLSX.writeFile(workbook, 'attendees.xlsx');
       };
 
-    const totalPaid = attendees.reduce((total, attendee) => total + attendee.paid, 0);
+    const totalPaid = attendees.reduce((total, attendee) => total + attendee.price, 0);
     const numberOfAttendees = attendees.length;
     
     const handleSendEmail = async () => {
@@ -160,9 +187,9 @@ const GetAttendees: React.FC = () => {
                       </th>
                       <th
                         className="px-6 py-3 text-center text-medium font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                        onClick={() => handleSort('phoneNumber')}
+                        onClick={() => handleSort('countTickets')}
                       >
-                        شماره تلفن {getSortIcon('phoneNumber')}
+                      تعداد بلیت ها{getSortIcon('countTickets')}
                       </th>
                       <th
                         className="px-6 py-3 text-center text-medium font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
@@ -172,15 +199,15 @@ const GetAttendees: React.FC = () => {
                       </th>
                       <th
                         className="px-6 py-3 text-center text-medium font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                        onClick={() => handleSort('ticketType')}
+                        onClick={() => handleSort('ticket')}
                       >
-                        بلیت {getSortIcon('ticketType')}
+                        بلیت {getSortIcon('ticket')}
                       </th>
                       <th
                         className="px-6 py-3 text-center text-medium font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
-                        onClick={() => handleSort('paid')}
+                        onClick={() => handleSort('price')}
                       >
-                        پرداختی {getSortIcon('paid')}
+                        پرداختی {getSortIcon('price')}
                       </th>
                       <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 uppercase tracking-wider">
                         عملیات
@@ -192,10 +219,10 @@ const GetAttendees: React.FC = () => {
                       <tr key={attendee.id} className="hover:bg-gray-50">
                         <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{index + 1}</td>
                         <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{attendee.name}</td>
-                        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">${attendee.phoneNumber}</td>
+                        <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{attendee.countTickets}</td>
                         <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.email}</td>
-                        <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.ticketType}</td>
-                        <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.paid}</td>
+                        <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.ticket}</td>
+                        <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.price}</td>
                         <td className="px-3 text-center py-4 text-large text-gray-900">
                           <i className="fa fa-trash-o text-red-500 cursor-pointer mx-2" aria-hidden="true"></i>
                           <i className="fa fa-pencil-square-o text-blue-500 cursor-pointer mx-2" aria-hidden="true"></i>
@@ -209,9 +236,9 @@ const GetAttendees: React.FC = () => {
             </div>
 
           </div>
-          <div className='sold-tickets-panel'>
+          {/* <div className='sold-tickets-panel'>
           <h5>متن ایمیل:</h5>
-          </div>
+          </div> */}
           {/* <div className="mb-4">
 
             <textarea

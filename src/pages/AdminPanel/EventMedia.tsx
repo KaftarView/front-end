@@ -2,6 +2,7 @@ import React , {useEffect , useState} from "react";
 import { FileText, Film, PresentationIcon , Image , AudioLines , Trash , Download} from "lucide-react";
 import apiClient from '../../utils/apiClient'
 import "./EventMedia.css";
+import { useParams } from 'react-router-dom';
 
 interface MediaItem {
   id: number;
@@ -47,12 +48,12 @@ const MediaPage: React.FC = () => {
     },
   ];
   const[medias , setMedias] = useState<Media[]>([]);
-
+  const { id } = useParams();
 
   useEffect(() => {  
     const fetchData = async () => {  
       try {  
-        const response = await apiClient.get('/v1/admin/events/2/media', {  
+        const response = await apiClient.get(`/v1/admin/events/${id}/media`, {  
             headers: {  
               "ngrok-skip-browser-warning": "69420",  
               'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ const MediaPage: React.FC = () => {
         <p>تمام مدیاهای موجود برای این رویداد</p>
       </header>
 
-      <section className="media-section">
+      <section className="admin-media-section">
         <h2>
           <Image className="section-icon" />
           تصاویر
@@ -124,7 +125,7 @@ const MediaPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="media-section">
+      <section className="admin-media-section">
         <h2>
           <Film className="section-icon" />
           ویدیوها
@@ -147,7 +148,7 @@ const MediaPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="media-section">
+      <section className="admin-media-section">
         <h2>
           <AudioLines className="section-icon" />
                 فایل‌های صوتی
@@ -179,7 +180,7 @@ const MediaPage: React.FC = () => {
       </section>
 
 
-      <section className="media-section">
+      <section className="admin-media-section">
         <h2>
           <FileText className="section-icon" />
           فایل‌ها
@@ -206,7 +207,7 @@ const MediaPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="media-section">
+      <section className="admin-media-section">
         <h2>
           <PresentationIcon className="section-icon" />
           پاورپوینت

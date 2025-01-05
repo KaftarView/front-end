@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './BuyTicket.css';
-import ReCAPTCHA from 'react-google-recaptcha';
+// import ReCAPTCHA from 'react-google-recaptcha';
 import apiClient from '../../utils/apiClient';
 
 interface Ticket {
@@ -32,6 +32,7 @@ interface payload {
   const [discountCode, setDiscountCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [finalPrice , setFinalPrice] = useState<number | null >(null);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -118,6 +119,8 @@ interface payload {
     try {
       
       const response = await apiClient.post(`/v1/events/${id}/reserve`, pay);
+      console.log(response.data.data)
+      setFinalPrice(response.data.data.finalPrice)
       console.log('Purchase successful:', response.data);
       // onClose(); // Close the popup after successful submission
     } catch (err: any) {
