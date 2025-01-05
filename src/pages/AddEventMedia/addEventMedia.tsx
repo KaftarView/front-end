@@ -105,13 +105,13 @@ const UploadMedia = () => {
       });
       console.log(response);
       const eventId = response.data.data;
-      console.log("file uploaded successfully. episode ID:", eventId);
+      console.log("file uploaded successfully. file ID:", eventId);
 
 
       setIsUploading(false);
       setUploadSuccess('file uploaded successfully!');
       setSelectedFile(null);
-      navigate('/event/'+eventId);
+      navigate('/event/'+Id);
     } catch (error) {
       setIsUploading(false);
       setUploadError('An error occurred while uploading the file.');

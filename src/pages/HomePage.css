@@ -796,6 +796,25 @@
     
 }
 
+.content .lists .box-small .my_btn_a
+{
+    font-family: 'Anjoman-FaNum-Medium';
+    background-color: rgb(126, 126, 196);
+    border-radius: .7rem;
+
+    font-size: .8rem;
+    position: absolute;
+    bottom: .7rem;
+    left: 7rem;
+    align-items: center;
+    padding: .6rem;
+padding-right: 1.5rem;
+padding-left: 1.5rem;
+    
+}
+
+
+
 .content .lists .box-small .my_btn:hover
 {
     font-family: 'Anjoman-FaNum-Medium';

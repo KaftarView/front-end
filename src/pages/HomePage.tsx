@@ -670,7 +670,9 @@ useEffect(
           initialMagazine.map((mag, index) => (
             <div className="box-small" key={index}>
               <h2 className="product-title">{mag.name}</h2> {/* Assuming 'title' is a field */}
-              <button onClick={() => {navigate('/podcast/'+mag.id);}} className="my_btn">مشاهده اطلاعات</button>
+               <a  href={mag.journalFile} className="my_btn_a" download>  
+                        دانلود  
+                    </a> 
             </div>
           ))
         ) : (
