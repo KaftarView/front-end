@@ -330,13 +330,13 @@ useEffect(
 <div className="eventadd">
 <h3 className="infoadd">مشخصات رویداد</h3>
 
-      <form className="eventadd-form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="eventEdit-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="event-name">
         <label htmlFor="name">نام رویداد</label>
         <input
           id="name"
           // {...register("name")}
-          className="addinput-field "
+          className="addinput-field-edit-event "
           value={newEditEvent.name}
           onChange={(e) => handleEditEvetnChange("name", e.target.value)}
 
@@ -351,7 +351,7 @@ useEffect(
         <select
           id="status"
           // {...register("status")}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           value={newEditEvent.status}
           onChange={(e) => handleEditEvetnChange("status", e.target.value)}
         >
@@ -372,7 +372,7 @@ useEffect(
                 type="text"
                 value={category}
                 onChange={(e) => handleCategoryChange(index, e.target.value)}
-                className="addinput-field"
+                className="addinput-field-edit-event"
                 required
               />
 <button type="button" className="remove-writer" onClick={() => deleteCategory(index)}>
@@ -395,7 +395,7 @@ useEffect(
           id="description"
           
           // {...register("description")}
-          className="addinput-field"
+          className="addinput-field-edit-event"
 
           value={newEditEvent.description}
           onChange={(e) => handleEditEvetnChange("description", e.target.value)}
@@ -411,7 +411,7 @@ useEffect(
           type="datetime-local"
           id="fromDate"
           // {...register("fromDate")}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           value={newEditEvent.fromDate}
           onChange={(e) => handleEditEvetnChange("fromDate", e.target.value)}
 
@@ -427,7 +427,7 @@ useEffect(
           type="datetime-local"
           id="toDate"
           // {...register("toDate")}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           value={newEditEvent.toDate}
           onChange={(e) => handleEditEvetnChange("toDate", e.target.value)}
 
@@ -445,7 +445,7 @@ useEffect(
           // {...register("minCapacity", {
           //   min: { value: 1, message: "حداقل ظرفیت باید حداقل 1 باشد" },
           // })}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           value={newEditEvent.minCapacity}
           onChange={(e) => handleEditEvetnChange("minCapacity", parseInt(e.target.value, 10))}
 
@@ -465,7 +465,7 @@ useEffect(
           //   validate: (value) =>
           //     value > 0
           // })}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           value={newEditEvent.maxCapacity}
           onChange={(e) => handleEditEvetnChange("maxCapacity", parseInt(e.target.value, 10))}
 
@@ -482,7 +482,7 @@ useEffect(
           id="basePrice"
           value={newEditEvent.basePrice}
           // {...register("basePrice", { required: "حداقل قیمت ظرفیت الزامی است" })}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           onChange={(e) => handleEditEvetnChange("basePrice", parseInt(e.target.value, 10))}
 
         />
@@ -503,7 +503,7 @@ useEffect(
             handleEventTypeChange(e); 
             handleEditEvetnChange("venueType", e.target.value)// make sure to also update form state if needed
           }}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           defaultValue={newEditEvent?.venueType}
         >
           <option value="">انتخاب کنید</option>
@@ -523,7 +523,7 @@ useEffect(
           value={newEditEvent.location}
 
           // {...register("location", { required: "لینک وبینار الزامی است" })}
-          className="addinput-field"
+          className="addinput-field-edit-event"
           onChange={(e) => handleEditEvetnChange("location", e.target.value)}
 
         />
@@ -541,7 +541,7 @@ useEffect(
           onChange={(e) => handleEditEvetnChange("location", e.target.value)}
 
           // {...register("location", { required: "آدرس الزامی است" })}
-          className="addinput-field"
+          className="addinput-field-edit-event"
         />
         {errors.location && <p className="erroradd">{errors.location.message}</p>}
       </>
