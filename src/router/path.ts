@@ -27,6 +27,7 @@ const PATHS ={
     AddEvent:'/addevent',
     Tikets:'/Tikets/:eventId',
     Discount:'/Discount/:eventId',
+
     AddOrganizer:'/Organizer/:eventId',
     AddNashriye:'/addnashriye',
     EditEpisode:"EditEpisode/:EpisodeId",
@@ -38,6 +39,7 @@ const PATHS ={
     addmedia:'/events/:Id/addmedia',
     ProfileEvent:'/my-events',
     
+
 
 
 }
