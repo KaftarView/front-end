@@ -6,13 +6,14 @@ import ShowTickets from './GetTickets';
 import GetDiscounts from './GetDiscounts';
 import MediaPage from './EventMedia';
 import GetAttendees from './Attendees';
+import EditEvent from '../EditEvent/editEvent';
 
 const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
   const tabs = [
-    { id: 0, label: 'ویرایش اطلاعات رویداد', content: <EditEventInfo /> },
+    { id: 0, label: 'ویرایش اطلاعات رویداد', content: <EditEvent /> },
     { id: 1, label: 'بلیت‌ها', content: <ShowTickets /> },
     { id: 2, label: 'تخفیف‌ها', content: <GetDiscounts /> },
     { id: 3, label: 'شرکت کننده‌گان', content: <GetAttendees /> },
