@@ -30,6 +30,8 @@ const PATHS ={
 
     AddOrganizer:'/Organizer/:eventId',
     AddNashriye:'/addnashriye',
+    EditEpisode:"EditEpisode/:EpisodeId",
+
 
     EditEpisode:"EditEpisode/:EpisodeId",
     giverole:'/giverole',

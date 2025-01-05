@@ -23,7 +23,7 @@ const EditEpisode: React.FC = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await apiClient.get(`/v1/public/episodes/2`, {
+        const response = await apiClient.get(`/v1/public/episodes/1`, {
           headers: { "ngrok-skip-browser-warning": "69420" },
         });
         const eventData = response.data.data;
@@ -78,11 +78,12 @@ const EditEpisode: React.FC = () => {
         formData.append("audio", newedit.audio); // Append the audio file or URL
       }
 
-      const res = await apiClient.put(`/v1/episodes/2`, formData, {
+      const res = await apiClient.put(`/v1/admin/episodes/1`, formData, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Podcast updated successfully:", res.data);
+      alert("اپیزود با موفقیت ادیت شد");
 
     } catch (err) {
       if (err instanceof CanceledError) return;
@@ -91,24 +92,24 @@ const EditEpisode: React.FC = () => {
   };
 
   return (
-    <html id="ee">
-      <div className="eventtik">
-        <form className="event-formtik">
-          <h3 className="infotik">ویرایش اپیزود</h3>
+    <html id="episodee">
+      <div className="eventepi">
+        <form className="event-formepi">
+          <h3 className="infoepi">ویرایش اپیزود</h3>
 
-          <div className="ticket-formtik">
-            <label className="Labeladd" htmlFor="name">عنوان اپیزود</label>
+          <div className="ticket-formepi">
+            <label className="Labelepi" htmlFor="name">عنوان اپیزود</label>
             <input
               type="text"
               id="name"
               value={newedit.name}
               onChange={(e) => handleTicketChange("name", e.target.value)}
-              className="addinput-field"
+              className="addinput-fieldepi"
               required
             />
 
-                <label className="Labeladd" htmlFor="audio">محل بارگزاری صوت</label>
-                <div className="L1">
+                <label className="Labelepi" htmlFor="audio">محل بارگزاری صوت</label>
+                <div className="L1epi">
                 <input
                     type="file"
                     id="audio"
@@ -128,10 +129,17 @@ const EditEpisode: React.FC = () => {
                 </div>
 
 
-            <div className="buttonadd-container">
-              <button type="button" onClick={onSubmit} className="submittik">
+            <div className="buttonadd-containerepi">
+              <button type="button" onClick={onSubmit} className="submitepi">
                 ثبت
               </button>
+              <button
+        type="button"
+        className="cancelnas"
+        onClick={() => navigate("/Nashriyes")}
+      >
+        لغو
+      </button>
             </div>
           </div>
         </form>
