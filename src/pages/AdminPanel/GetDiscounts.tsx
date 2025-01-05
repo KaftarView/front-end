@@ -5,10 +5,11 @@ import apiClient from '../../utils/apiClient';
 import PopupQuestion from '../../components/PopupQuestion/PopopQuestion'
 import * as XLSX from 'xlsx';
 import { Download } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 
 interface Discount {  
-  availableFrom: string;  
-  availableUntil: string;  
+  validFrom: string;  
+  validUntil: string;  
   code: string;  
   createdAt: string;  
   id: number;  
@@ -19,43 +20,44 @@ interface Discount {
   value: number;  
 }  
 
-const mockDiscounts: Discount[] = [  
-  {  
-    availableFrom: "2024-12-05T16:22:00+03:30",  
-    availableUntil: "2024-12-21T16:22:00+03:30",  
-    code: "r4",  
-    createdAt: "2024-12-28T12:53:00.569+03:30",  
-    id: 1,  
-    minTickets: 1,  
-    quantity: 43,  
-    type: "Fixed",  
-    usedCount: 0,  
-    value: 44,  
-  },  
-  {  
-    availableFrom: "2024-12-05T16:22:00+03:30",  
-    availableUntil: "2024-12-21T16:22:00+03:30",  
-    code: "r4",  
-    createdAt: "2024-12-28T12:53:00.569+03:30",  
-    id: 2,  
-    minTickets: 1,  
-    quantity: 43,  
-    type: "Fixed",  
-    usedCount: 0,  
-    value: 44,  
-  },  
-];  
-type SortField = 'id'  | 'quantity' | 'type' | 'value' | 'availableFrom' | 'availableUntil' | 'usedCount';
+// const mockDiscounts: Discount[] = [  
+//   {  
+//     availableFrom: "2024-12-05T16:22:00+03:30",  
+//     availableUntil: "2024-12-21T16:22:00+03:30",  
+//     code: "r4",  
+//     createdAt: "2024-12-28T12:53:00.569+03:30",  
+//     id: 1,  
+//     minTickets: 1,  
+//     quantity: 43,  
+//     type: "Fixed",  
+//     usedCount: 0,  
+//     value: 44,  
+//   },  
+//   {  
+//     availableFrom: "2024-12-05T16:22:00+03:30",  
+//     availableUntil: "2024-12-21T16:22:00+03:30",  
+//     code: "r4",  
+//     createdAt: "2024-12-28T12:53:00.569+03:30",  
+//     id: 2,  
+//     minTickets: 1,  
+//     quantity: 43,  
+//     type: "Fixed",  
+//     usedCount: 0,  
+//     value: 44,  
+//   },  
+// ];  
+type SortField = 'id'  | 'quantity' | 'type' | 'value' | 'validFrom' | 'validUntil' | 'usedCount';
 type SortOrder = 'asc' | 'desc';
 
 function GetDiscounts() {  
-  const [discounts, setDiscounts] = useState<Discount[]>(mockDiscounts);  
+  const [discounts, setDiscounts] = useState<Discount[]>([]);  
   const [sortField, setSortField] = useState<SortField>('id');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [loading, setLoading] = useState(false);  
   const [error, setError] = useState<string | null>(null);  
   const [currentDiscountId , setCurrentNewsId] = useState<number | null>(null); 
   const [isModalVisible, setIsModalVisible] = useState(false); 
+  const { id } = useParams();
 
   useEffect(() => {  
     const fetchDiscounts = async () => {  
@@ -63,7 +65,7 @@ function GetDiscounts() {
       setError(null);  
 
       try {  
-        const response = await apiClient.get('/v1/admin/events/7/discounts', {  
+        const response = await apiClient.get(`/v1/admin/events/${id}/discounts`, {  
           headers: {  
             "ngrok-skip-browser-warning": "69420",  
             'Content-Type': 'application/json',  
@@ -149,8 +151,8 @@ function GetDiscounts() {
       'Minimum Tickets Required': discount.minTickets,
       'Quantity Available': discount.quantity,
       'Used Count': discount.usedCount,
-      'Available From': discount.availableFrom,
-      'Available Until': discount.availableUntil,
+      'Available From': discount.validFrom,
+      'Available Until': discount.validUntil,
       'Created At': discount.createdAt,
     })));
 
@@ -188,8 +190,8 @@ function GetDiscounts() {
       <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('quantity')}>تعداد {getSortIcon('quantity')}</th>
       <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('type')}>نوع {getSortIcon('type')}</th>
       <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('value')}>مقدار {getSortIcon('value')}</th>
-      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('availableFrom')}>شروع اعتبار {getSortIcon('availableFrom')}</th>
-      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('availableUntil')}>پایان اعتبار {getSortIcon('availableUntil')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('validFrom')}>شروع اعتبار {getSortIcon('validFrom')}</th>
+      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('validUntil')}>پایان اعتبار {getSortIcon('validUntil')}</th>
       <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider" onClick={() => handleSort('usedCount')}>استفاده‌شده {getSortIcon('usedCount')}</th>
       <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 cursor-pointer uppercase tracking-wider">عملیات</th>
     </tr>
@@ -203,14 +205,14 @@ function GetDiscounts() {
         <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.type === "Percentage" ? "درصدی" : "ثابت"}</td>
         <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.value}</td>
         <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">
-        {new Date(discount.availableFrom).toLocaleDateString("fa-IR", {
+        {new Date(discount.validFrom).toLocaleDateString("fa-IR", {
                           weekday: "long",
                           day: "numeric",
                           month: "long",
                         })}
         </td>
         <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">
-        {new Date(discount.availableUntil).toLocaleDateString("fa-IR", {
+        {new Date(discount.validUntil).toLocaleDateString("fa-IR", {
                           weekday: "long",
                           day: "numeric",
                           month: "long",

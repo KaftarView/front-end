@@ -159,6 +159,7 @@ const EventDetail: React.FC = () => {
   // const event = mockEvents.find((e) => e.ID.toString() === id);
   const [loading, setLoading] = useState(true);  
   const [error, setError] = useState<string | null>(null); 
+  const [isValid , setIsValid] = useState<boolean | null>(false);
   const { backendUrl, setBackendUrl } = useAppContext();  
   const [event, setEvent] = useState<EventDetail | null>(null);
   const navigate = useNavigate();
@@ -260,15 +261,19 @@ useEffect(() => {
           });  
           console.log(res.data.data)
           setEventMedias(res.data.data)
-      } catch (err) {  
-        if (axios.isAxiosError(err)) {
-          if (err.response && err.response.status === 404) {  
-              setError('Event not found');  
-          } else {  
-              setError('An error occurred while fetching the event');  
-          }  
+          setIsValid(true)
+      } catch (err : any) {  
+        // if (axios.isAxiosError(err)) {
+        //   if (err.response && err.response.status === 404) {  
+        //       setError('Event not found');  
+        //   } else {  
+        //       setError('An error occurred while fetching the event');  
+              
+        //   }  
           
-        }
+        // }
+        setError(err.response?.data?.message || 'An error occurred while fetching discounts.') 
+        setIsValid(false)
       } finally {  
           setLoading(false);  
       }  
@@ -410,42 +415,44 @@ const handlePublish = async () => {
           <Popup />
 
           } */}
-                    <div className="media-section">
-            <div className="accent-line"></div>
-            <h2 className="description-title">فایل‌های رویداد</h2>
-            {eventMedias && userRole != "SuperAdmin" && eventMedias.length > 0 ? (
-              <div className="media-grid">
-                {eventMedias.map((item) => (
-                  <div key={item.id} className="media-item">
-                    {getMediaIconn(item.mediaType)}
-                    <div className="media-details">
-                      <div className="media-title">{item.name}</div>
-                      <div className="media-type">
-                        {item.mediaType.toUpperCase()}
-                      </div>
-                    </div>
-                    <a 
-                      href={item.mediaPath}
-                      download
-                      className="download-button-eventdetail"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.open(item.mediaPath, '_blank');
-                      }}
-                    >
-                      <Download size={16} />
-                    </a>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="description-text">هیچ فایلی برای این رویداد وجود ندارد.</p>
-            )}
+          
+          {isValid && userRole && userRole !== "SuperAdmin" && (
+  <div className="media-section">
+    <div className="accent-line"></div>
+    <h2 className="description-title">فایل‌های رویداد</h2>
+    {eventMedias && eventMedias.length > 0 ? (
+      <div className="media-grid">
+        {eventMedias.map((item) => (
+          <div key={item.id} className="media-item">
+            {getMediaIconn(item.mediaType)}
+            <div className="media-details">
+              <div className="media-title">{item.name}</div>
+              {/* <div className="media-type">{item.mediaType.toUpperCase()}</div> */}
+            </div>
+            <a
+              href={item.mediaPath}
+              download
+              className="download-button-eventdetail"
+              onClick={(e) => {
+                e.preventDefault();
+                window.open(item.mediaPath, "_blank");
+              }}
+            >
+              <Download size={16} />
+            </a>
           </div>
+        ))}
+      </div>
+    ) : (
+      <p className="description-text">هیچ فایلی برای این رویداد وجود ندارد.</p>
+    )}
+  </div>
+)}
+
           <div className='event-details-title'>
-          <h2>برگزار کننده‌گان</h2>
+          {/* <h2>برگزار کننده‌گان</h2> */}
           </div>
-          {id && <EventHost eventId={id} />}
+          {/* {id && <EventHost eventId={id} />} */}
           <div className='event-details-title'>
           <h2>نظرات</h2>
           </div>
