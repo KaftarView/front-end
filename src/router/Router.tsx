@@ -33,6 +33,7 @@ import AddPodcast from "../pages/CreatePodcast/createPodcast"
 import UploadPodcast from "../pages/CreateEpisode/createEpisode"
 import MembersPage from "../pages/AssocitionMembers/Members"
 import UploadMedia from "../Pages/AddEventMedia/addEventMedia"
+import ProfileEvent from "../pages/ProfileEvents/ProfileEvent"
 
 
 
@@ -81,6 +82,7 @@ const Router = () => {
                 <Route path={PATHS.MembersPage}  element={<MembersPage />} />
 
                 <Route path={PATHS.addmedia}  element={<UploadMedia />} />
+                <Route path={PATHS.ProfileEvent}  element={<ProfileEvent/>}></Route>
 
 
 
