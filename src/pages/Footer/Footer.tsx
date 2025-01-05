@@ -23,7 +23,7 @@ const section: Section[] = [
   },
   {
     title: "درباره ما",
-    items: ["تاریخچه", "اعضا انجمن"],
+    items: ["تاریخچه"],
   },
 ];
 

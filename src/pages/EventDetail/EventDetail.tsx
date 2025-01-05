@@ -448,6 +448,7 @@ const handlePublish = async () => {
     )}
   </div>
 )}
+
           <div className='event-details-title'>
           {/* <h2>برگزار کننده‌گان</h2> */}
           </div>
