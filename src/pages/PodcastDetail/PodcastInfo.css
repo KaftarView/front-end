@@ -1,0 +1,179 @@
+/* General Container */
+.podcast-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  padding-top: 7rem;
+}
+
+/* Top Header Section */
+.podcast-header {
+  display: flex;
+  padding: 20px;
+  flex-wrap: wrap;
+  gap: 3rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.podcast-cover img {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.podcast-details {
+  margin-left: 20px;
+  flex-grow: 1;
+  justify-items: flex-start;
+}
+
+.podcast-details h1 {
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  font-family: 'Anjoman-FaNum-Bold';
+}
+
+.podcast-author {
+  color: #555;
+}
+
+.podcast-actions {
+  margin-top: 15px;
+}
+
+.subscribe-btn,
+.share-btn {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  color: white;
+  background-color: #ff4500;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Anjoman-FaNum-Light';
+}
+
+.subscribe-btn:hover,
+.share-btn:hover {
+  background-color: #e33e00;
+}
+
+.addepisode-button {
+  background-color: gray;  
+  border: none;  
+  border-radius: 4px;   
+  width: 35px;  
+  height: 35px;  
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  cursor: pointer;  
+  outline: none;  
+}
+
+/* Bottom Content Section */
+.podcast-content {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .podcast-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .podcast-header {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .podcast-details {
+    justify-items: center;
+  }
+}
+
+/* Episodes List (Left Column) */
+.episodes-list {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.episode-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.episode-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.episode-card i {
+  font-size: 2rem;
+  color: #ff4500;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.episode-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+}
+
+.episode-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.episode-card p {
+  margin: 5px 0 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Comments Section (Right Column) */
+.comments-section {
+  flex: 1;
+}
+
+.comments-section h2 {
+  margin-bottom: 10px;
+}
+
+.comment-card {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.comment-card p {
+  margin: 0;
+}
+
+.comment-date {
+  margin-top: 5px;
+  color: #777;
+  font-size: 0.8rem;
+}
+
+.episode-card div {
+  justify-items: flex-start;
+}
+
+.fa-arrow-circle-o-down {
+  font-size: x-large;
+}

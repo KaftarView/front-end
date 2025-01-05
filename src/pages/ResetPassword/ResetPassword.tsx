@@ -2,6 +2,7 @@ import { useState, ChangeEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './resetpasword.css';
+import apiClient from '../../utils/apiClient';
 // import './tooltip.css'
 import { set } from 'react-hook-form';
 import {useAppContext} from '../../components/AppContext'
@@ -60,7 +61,7 @@ function ResetPassword() {
         
         try {
             const obj = {email : email.email , password : newPassword.password , confirmPassword : newPassword.confirmation}
-            const response = await axios.put(`${backendUrl}/v1/auth/reset-password`, obj);
+            const response = await apiClient.put(`/v1/auth/reset-password`, obj);
             console.log('Password reset successful:', response.data);
             if(response.data.statusCode === 200)
             {

@@ -1,21 +1,22 @@
 
-
 import { useState } from "react";
 import "./ChangePassword.css";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import Navbar from "../NavBar/NavBar"; 
 import Footer from "../Footer/Footer";
-import NavbarPersonalInfo from "./NavigationBar";
+import apiClient from "../../utils/apiClient";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 interface NewPasswordState {
   password: string;
-  confirmation: string;
+  confirmPassword: string;
 }
 
 function ChangePassword() {
   const [newPassword, setNewPassword] = useState<NewPasswordState>({
     password: "",
-    confirmation: "",
+    confirmPassword: "",
   });
 
   const [errMessage, setErrMessage] = useState<string>("");
@@ -23,6 +24,7 @@ function ChangePassword() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordAgain, setShowPasswordAgain] = useState(false);
+  const navigate = useNavigate();
 
 
   const showAlert = () => {  
@@ -44,8 +46,8 @@ function ChangePassword() {
   const title = 'پسورد شما باید : شامل حرف بزرگ انگلیسی, حرف کوچک انگلیسی, حداقل 8 کارکتر, عدد و یک کارکتر خاص مانند @ باشد';
 
 
-  const handleSubmit = () => {
-    if (newPassword.password !== newPassword.confirmation) {
+  const handleSubmit = async() => {
+    if (newPassword.password !== newPassword.confirmPassword) {
       setErrMessage("پسورد ها یکسان نیستند");
       setSuccessMessage("");
     } else if (newPassword.password.length < 8) {
@@ -55,24 +57,22 @@ function ChangePassword() {
       setErrMessage("");
       setSuccessMessage("رمز عبور با موفقیت تعوض شد");
     }
-    //try
-      //try catch
-    // try {
-    //     const obj = {  password : newPassword.password , confirmPassword : newPassword.confirmation}
-    //     const response = await axios.put(`${backendUrl}/v1/auth/reset-password`, obj);
-    //     console.log('Password reset successful:', response.data);
-    //     if(response.data.statusCode === 200)
-    //     {
-    //         showAlert();
-    //         navigate('/Profile')
-    //     }
-
-    // } catch (error) {
-    //     if (axios.isAxiosError(error))
-    //     {
-    //         setErrMessage('پسورد شما شروط قید شده را رعایت نمیکند')
-    //         console.error('Error submitting OTP:', error.request.response);
-    //     }
+  
+      
+    try {
+      const obj = {  password : newPassword.password , confirmPassword : newPassword.confirmPassword}
+      const response = await apiClient.put(`/v1/profile/reset-password`, obj);
+      console.log(response)
+      if (response.data.statusCode === 200) {
+        showAlert();
+        
+      }
+  } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error)
+        setErrMessage('پسورد شما شروط قید شده را رعایت نمیکند')
+      }
+  }
     
   };
 
@@ -82,8 +82,8 @@ function ChangePassword() {
 
       <div className="content-wrapperChangePass">
       <ProfilePage />
-        <div className="lineChangePass"></div>
-        <NavbarPersonalInfo/>
+        {/* <div className="lineChangePass"></div> */}
+        {/* <NavbarPersonalInfo/> */}
         <div className="change-passwordChangePass">
           <form className="sign_formChangePass" onSubmit={(e) => e.preventDefault()}>
         
@@ -103,7 +103,9 @@ function ChangePassword() {
                         required
                     />
                      <i  onClick={handleShowPassword} className={`fa fa-fwchange ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} ></i> 
-
+                     <div>
+                     <abbr data-title={title}><i className="fa fa-question-circle changepasstitle" aria-hidden="true" ></i> </abbr>
+                     </div>
                     </div>
                   <label htmlFor="confirmation" className="block text-right">
                     تکرار رمز عبور جدید
@@ -113,8 +115,8 @@ function ChangePassword() {
                         type={`${showPasswordAgain ? 'text' : 'password'}`} 
                         id="passwordagain"
                         name='confirmation'
-                        value={newPassword.confirmation}
-                        onChange={(event) => handleChange(event, 'confirmation')}
+                        value={newPassword.confirmPassword}
+                        onChange={(event) => handleChange(event, 'confirmPassword')}
                         required
                     />
                     <i  onClick={handleShowPasswordAgain} className={`fa fa-fwchange ${showPasswordAgain ? 'fa-eye-slash' : 'fa-eye'}`} ></i> 
@@ -139,6 +141,6 @@ function ChangePassword() {
       <Footer />
     </>
   );
-}
+};
 
-export default ChangePassword;
+export default ChangePassword; 

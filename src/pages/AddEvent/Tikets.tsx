@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import "./Tikets.css";
-import { useParams } from "react-router-dom";
-import axios, { CanceledError } from "axios";
-import { useNavigate } from "react-router-dom";
-import apiClient from  "../../utils/apiClient";
-
-
+import "./Tickets.css";
+import { useParams, useNavigate } from "react-router-dom";
+import apiClient from "../../utils/apiClient";
+import axios from "axios";
 
 interface Ticket {
   name: string;
@@ -13,7 +10,7 @@ interface Ticket {
   price: number;
   sold: number;
   quantity: number;
-  isAvailable: boolean,
+  isAvailable: boolean;
   availableFrom: string;
   availableUntil: string;
 }
@@ -31,44 +28,51 @@ const Tikets = () => {
     availableFrom: "",
     availableUntil: "",
   });
+  const [errors, setErrors] = useState<Partial<Record<keyof Ticket, string>>>(
+    {}
+  );
 
   const navigate = useNavigate();
 
-  const handleTicketChange = (
-    field: keyof Ticket,
-    value: string | number
-  ) => {
+  const handleTicketChange = (field: keyof Ticket, value: string | number) => {
     setNewTicket({ ...newTicket, [field]: value });
+    setErrors({ ...errors, [field]: "" }); 
+  };
+
+  const validateFields = (): boolean => {
+    const newErrors: Partial<Record<keyof Ticket, string>> = {};
+
+    if (!newTicket.name.trim()) newErrors.name = "نام الزامی است";
+
+    if (newTicket.price <= 0) newErrors.price = "قیمت باید بزرگتر از 0 باشد";
+    if (newTicket.quantity <= 0)
+      newErrors.quantity = "تعداد باید بزرگتر از 0 باشد";
+    if (!newTicket.availableFrom.trim())
+      newErrors.availableFrom ="تاریخ شروع الزامی است";
+    if (!newTicket.availableUntil.trim())
+      newErrors.availableUntil = "تاریخ پایان الزامی است";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; 
   };
 
   const onSubmit = async () => {
-    newTicket.availableFrom+=":00Z";
-    newTicket.availableUntil+=":00Z";
-    console.log(newTicket.name);
-    console.log(newTicket.description);
-    console.log(newTicket.price);
-    console.log(newTicket.quantity);
-    console.log(newTicket.sold);
+    if (!validateFields()) return;
 
-    console.log(newTicket.isAvailable);
-    console.log(newTicket.availableFrom);
-    console.log(newTicket.availableUntil);
-    console.log(eventId);
-
-
-
+    const updatedTicket = {
+      ...newTicket,
+      availableFrom: newTicket.availableFrom + ":00Z",
+      availableUntil: newTicket.availableUntil + ":00Z",
+    };
 
     try {
       const res = await apiClient.post(
-        `/v1/events/add-ticket/${eventId}`,
-        newTicket,
-        {
-          withCredentials: true,
-        }
+        `/v1/admin/events/add-ticket/${eventId}`,
+        updatedTicket,
+        { withCredentials: true }
       );
       console.log("Ticket created successfully:", res.data);
-
-      // اضافه کردن بلیت جدید به لیست و بازنشانی فرم
+      alert("بلیت با موفقیت اضافه شد");
       setTickets([...tickets, newTicket]);
       setNewTicket({
         name: "",
@@ -81,106 +85,142 @@ const Tikets = () => {
         availableUntil: "",
       });
     } catch (err) {
-      if (err instanceof CanceledError) return;
-      console.error("Error creating ticket:", err);
+      console.error("Error creating Event:", err);
+    
+      if (axios.isAxiosError(err)) {
+        // Log or display the general error message
+        console.error("Axios error message:", err.message);
+    
+        // Check for a server response
+        if (err.response) {
+          console.error("Response status code:", err.response.status);
+          console.error("Response data:", err.response.data);
+    
+          // Extract specific error messages, if available
+          const serverMessages = err.response.data.messages;
+          if (serverMessages) {
+            alert("Error: " + JSON.stringify(serverMessages));
+          } else {
+            alert("An error occurred: " + err.response.data);
+          }
+        } else {
+          console.error("No response from server:", err.request);
+          alert("No response from server. Please try again later.");
+        }
+      } 
     }
   };
 
   const handleNextPage = () => {
     navigate(`/Discount/${eventId}`);
-
   };
 
   return (
-    <html id="ee">
+    <html id="tickete">
     <div className="eventtik">
-      <form className="event-formtik" encType="multipart/form-data" >
+      <form className="event-formtik" encType="multipart/form-data">
         <h3 className="infotik">مشخصات بلیت</h3>
 
-        {/* <div className="ticket-formtik"> */}
-          <label className="Labeladd" htmlFor="name">عنوان بلیت</label>
-          <input
-            type="text"
-            id="name"
-            value={newTicket.name}
-            onChange={(e) => handleTicketChange("name", e.target.value)}
-            className="addinput-field"
-            required
-          />
+        <label className="Labeltik" htmlFor="name">
+          عنوان بلیت
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={newTicket.name}
+          onChange={(e) => handleTicketChange("name", e.target.value)}
+          className={`addinput-fieldtik ${errors.name ? "error-fieldtik" : ""}`}
+        />
+        {errors.name && <span className="error-messagetik">{errors.name}</span>}
 
-          <label className="Labeladd" htmlFor="description">توضیحات</label>
-          <textarea
-            id="description"
-            value={newTicket.description}
-            onChange={(e) => handleTicketChange("description", e.target.value)}
-            className="addinput-field textarea-field"
-            required
-          />
+        <label className="Labeltik" htmlFor="description">
+          توضیحات
+        </label>
+        <textarea
+          id="description"
+          value={newTicket.description}
+          onChange={(e) => handleTicketChange("description", e.target.value)}
+          className="addinput-fieldtik textarea-fieldtik" 
+        />
+        {errors.description && (
+          <span className="error-messagetik">{errors.description}</span>
+        )}
 
-          <label className="Labeladd" htmlFor="price">قیمت</label>
-          <input
-            type="number"
-            id="price"
-            value={newTicket.price}
-            onChange={(e) =>
-              handleTicketChange("price", parseFloat(e.target.value))
-            }
-            className="addinput-field"
-            required
-          />
+        <label className="Labeltik" htmlFor="price">
+          قیمت
+        </label>
+        <input
+          type="number"
+          id="price"
+          value={newTicket.price}
+          onChange={(e) =>
+            handleTicketChange("price", parseFloat(e.target.value))
+          }
+          className={`addinput-fieldtik ${errors.price ? "error-fieldtik" : ""}`}
+        />
+        {errors.price && <span className="error-messagetik">{errors.price}</span>}
 
-          <label className="Labeladd" htmlFor="quantity">تعداد</label>
-          <input
-            type="number"
-            id="quantity"
-            value={newTicket.quantity}
-            onChange={(e) =>
-              handleTicketChange("quantity", parseInt(e.target.value, 10))
-            }
-            className="addinput-field"
-            required
-          />
+        <label className="Labeltik" htmlFor="quantity">
+          تعداد
+        </label>
+        <input
+          type="number"
+          id="quantity"
+          value={newTicket.quantity}
+          onChange={(e) =>
+            handleTicketChange("quantity", parseInt(e.target.value, 10))
+          }
+          className={`addinput-fieldtik ${errors.quantity ? "error-fieldtik" : ""}`}
+        />
+        {errors.quantity && (
+          <span className="error-messagetik">{errors.quantity}</span>
+        )}
 
-          <label className="Labeladd" htmlFor="availableFrom">تاریخ شروع فروش</label>
-          <input
-            type="datetime-local"
-            id="availableFrom"
-            value={newTicket.availableFrom}
-            onChange={(e) => handleTicketChange("availableFrom", e.target.value)}
-            className="addinput-field"
-            required
-          />
+        <label className="Labeltik" htmlFor="availableFrom">
+          تاریخ شروع فروش
+        </label>
+        <input
+          type="datetime-local"
+          id="availableFrom"
+          value={newTicket.availableFrom}
+          onChange={(e) => handleTicketChange("availableFrom", e.target.value)}
+          className={`addinput-fieldtik ${
+            errors.availableFrom ? "error-fieldtik" : ""
+          }`}
+        />
+        {errors.availableFrom && (
+          <span className="error-messagetik">{errors.availableFrom}</span>
+        )}
 
-          <label className="Labeladd" htmlFor="availableUntil">تاریخ پایان فروش</label>
-          <input
-            type="datetime-local"
-            id="availableUntil"
-            value={newTicket.availableUntil}
-            onChange={(e) => handleTicketChange("availableUntil", e.target.value)}
-            className="addinput-field"
-            required
-          />
-    <div className="buttonadd-container">
+        <label className="Labeltik" htmlFor="availableUntil">
+          تاریخ پایان فروش
+        </label>
+        <input
+          type="datetime-local"
+          id="availableUntil"
+          value={newTicket.availableUntil}
+          onChange={(e) => handleTicketChange("availableUntil", e.target.value)}
+          className={`addinput-fieldtik ${
+            errors.availableUntil ? "error-fieldtik" : ""
+          }`}
+        />
+        {errors.availableUntil && (
+          <span className="error-messagetik">{errors.availableUntil}</span>
+        )}
+
+        <div className="buttonadd-containerdis">
+          <button type="button" onClick={onSubmit} className="submitdis">
+            ثبت 
+          </button>
           <button
             type="button"
-            onClick={onSubmit}
-            className="submittik"
+            onClick={handleNextPage}
+            className="next-page-btndis"
           >
-            ثبت بلیت
+            صفحه بعد
           </button>
-        {/* </div> */}
-
-
-        <button
-          type="button"
-          onClick={handleNextPage}
-          className="next-page-btntik"
-        >
-           صفحه بعد
-        </button>
         </div>
       </form>
-
     </div>
     </html>
   );

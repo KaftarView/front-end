@@ -28,7 +28,7 @@ export default function Popup() {
   return (
     <div>
       <button onClick={handleOpenPopup} className="open-popup-button">
-        Show Popup
+        شرکت کنندگان
       </button>
 
       {isPopupVisible && (

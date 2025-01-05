@@ -1,72 +1,130 @@
-.navbar {
-    padding: 0;
-    padding-top: 0;
-    height:90px;
-    background-color:rgb(229, 231, 235);
-    position: fixed;
-    width: 100%;
-    z-index: 100;
-    margin-bottom: 30px;
+@font-face {
+  font-family: "Anjoman-FaNum-Bold";
+  src: url("/src/fonts/Woff/Anjoman-FaNum-Bold.woff") format("woff"),
+    url("/src/fonts/Woff2/Anjoman-FaNum-Bold.woff2") format("woff2");
+}
 
-  }
-  
-  .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    flex-direction: row-reverse;
-    height: 90px;
-  }
-  
+@font-face {
+  font-family: "Anjoman-FaNum-Regular";
+  src: url("/src/fonts/Woff/Anjoman-FaNum-Regular.woff") format("woff"),
+    url("/src/fonts/Woff2/Anjoman-FaNum-Regular.woff2") format("woff2");
+}
+
+.navbar {
+  padding: 0 20px;
+  height: 63px;
+  background-color: rgb(229, 231, 235);
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logoNav {
+  height: 70px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+  margin: 0;
+  font-family: "Anjoman-FaNum-Bold";
+  font-size: 20px;
+  flex-grow: 1;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #f97316;
+}
+
+.auth-container {
+  position: fixed;
+  left: 20px;
+  top: 4%;
+  transform: translateY(-50%);
+  z-index: 150; /* Ensure it appears above other elements */
+}
+
+.auth-buttonNav {
+  padding: 8px 16px;
+  background-color: rgb(228, 127, 18);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-buttonNav:hover {
+  background-color: #d07615;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-toggle .bar {
+  height: 3px;
+  width: 25px;
+  background-color: black;
+  margin: 3px 0;
+}
+
+@media (max-width: 768px) {
   .auth-container {
-    margin-left: 20px;
-    display: none; /* Hidden by default for smaller screens */
+    left: 10px; /* Slightly closer to the edge on smaller screens */
+    top: auto;
+    bottom: 20px; /* Move it to the bottom for easier access */
+    transform: none;
   }
-  
-  .auth-container .auth-buttonNav {
-    padding: 8px 16px;
-    margin-left:30px ;
-    background-color: rgb(228, 127, 18);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .auth-container .profile-icon {
-    font-size: 2rem;
-    color: rgb(228, 127, 18);
-  }
-  
   .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 63px;
+    right: 0;
+    background-color: rgb(229, 231, 235);
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .nav-links.open {
     display: flex;
-    list-style: none;
-    gap: 24px;
-    text-transform: uppercase;
   }
-  
-  .nav-links li {
-    font-size: 16px;
-  }
-  
-  .logo-container {
-    padding: 8px;
-    margin-right: 16px;
+
+  .menu-toggle {
     display: flex;
-    justify-content: center;
   }
-  
-  .logoNav {
-    height: 90px;
-    cursor: pointer;
+
+  .auth-buttonNav {
+    margin-top: 10px;
   }
-  
-  /* For larger screens */
-  @media (min-width: 768px) {
-    .auth-container {
-      display: block;
-    }
-  }
-  
+}
