@@ -31,6 +31,7 @@ import RoleManagement from "../pages/AssignRole/assignRole"
 import CreateRole from "../pages/CreateRole/createRole"
 import AddPodcast from "../pages/CreatePodcast/createPodcast"
 import UploadPodcast from "../pages/CreateEpisode/createEpisode"
+import EventComponent from "../components/BuyTicketPopup/BuyTicket"
 import MembersPage from "../pages/AssocitionMembers/Members"
 import UploadMedia from "../Pages/AddEventMedia/addEventMedia"
 import ProfileEvent from "../pages/ProfileEvents/ProfileEvent"
@@ -85,6 +86,7 @@ const Router = () => {
                 <Route path={PATHS.createrole} element={<CreateRole/>}/>
                 <Route path={PATHS.addpodcast} element={<AddPodcast/>}/>
                 <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
+                <Route path={PATHS.test} element={<EventComponent/>}/>
                 <Route path={PATHS.MembersPage}  element={<MembersPage />} />
                 <Route path={PATHS.Addmembers} element={<Members/>}/>
                 <Route path={PATHS.addmedia}  element={<UploadMedia />} />

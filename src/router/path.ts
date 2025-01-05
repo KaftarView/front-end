@@ -36,6 +36,7 @@ const PATHS ={
     createrole:'/createrole',
     addpodcast:'/addpodcast',
     addepisode:'/podcasts/:id/addepisodes',
+    test: '/test',
     MembersPage:"/members",
     addmedia:'/events/:Id/addmedia',
     ProfileEvent:'/my-events',

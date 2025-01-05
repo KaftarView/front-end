@@ -113,8 +113,10 @@ import { useAppContext } from '../../components/AppContext';
 import EventHost from '../../components/EventHost/EventHost';
 import apiClient from  "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
-import {User , useAuth} from '../../components/AuthContext';
+import {User , useAuth} from '../../components/AuthContext'
+import TicketPurchasePopup from '../../components/BuyTicketPopup/BuyTicket';
 import Comments from '../PodcastDetail/Comments';
+
 
 
 
@@ -176,6 +178,7 @@ const EventDetail: React.FC = () => {
     };
   }, []);
   const backgroundColor = event?.status ? statusColors[event?.status] : 'gray';
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   useEffect(() => {  
     const fetchEvent = async () => {  
@@ -358,8 +361,9 @@ const handlePublish = async () => {
             <div className="info-value">{event.categories[0] || "عمومی"}</div>
           </div>
           <div className='buy-button-div'>
-          <a href="#" className="buy-button">خرید بلیت</a>
+          <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
           </div>
+          {isPopupVisible && <TicketPurchasePopup onClose={() => setPopupVisible(false)} />}
           {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
             <a href="#" className="edit-button">ویرایش رویداد</a>
             <a  onClick={handleDelete} href="#" className="delete-button">حذف رویداد</a>
