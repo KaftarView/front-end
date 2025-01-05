@@ -1,16 +1,29 @@
 // import React, { useEffect, useState } from "react";
 
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../public/ElmosLogo.png";
 import "./NavBar.css";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []); 
 
   const handleSignupRedirect = () => {
     navigate("/signup");
+  };
+  const handleProfileRedirect = () => {
+    navigate("/my-events");
   };
 
   return (
@@ -18,9 +31,17 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* Left-Aligned Login/Register Button */}
         <div className="auth-container">
-          <button onClick={handleSignupRedirect} className="auth-buttonNav">
-            ثبت نام / ورود
-          </button>
+        {isAuthenticated ? (
+            <button onClick={handleProfileRedirect} className="profile-icon">
+              <AccountCircleIcon
+                style={{ fontSize: "36px", color: "#f68b18" }}
+              />
+            </button>
+          ) : (
+            <button onClick={handleSignupRedirect} className="auth-buttonNav">
+              ثبت نام / ورود
+            </button>
+          )}
         </div>
 
         {/* Logo Section */}
