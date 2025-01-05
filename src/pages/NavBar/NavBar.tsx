@@ -37,20 +37,24 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
-          <li>
+        <li>
             <Link to="/">صفحه اصلی</Link>
           </li>
           <li>
-            <Link to="/">رویداد </Link>
+            <Link to="/events">رویداد </Link>
           </li>
           <li>
-            <Link to="/magazine">نشریه</Link>
+            <Link to="/magazines">نشریه</Link>
           </li>
           <li>
-            <Link to="/news">پادکست</Link>
+            <Link to="/news-page">اخبار</Link>
           </li>
           <li>
-            <Link to="/gallery">گالری</Link>
+            <Link to="/podcasts">پادکست</Link>
+          </li>
+
+          <li>
+            <Link to="/members">اعضا </Link>
           </li>
         </ul>
       </div>

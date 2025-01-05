@@ -237,7 +237,7 @@ const ProfileEvent = () => {
 
 
         <main className="main-content">
-          <h2>رویداد‌های من</h2>
+          <h3 >رویداد‌های من</h3>
           <div className="grid-container">
             {events.map((event) => (
               <div key={event.id} className="event-card">
