@@ -30,7 +30,7 @@ const MagazineList: React.FC = () => {
   const [magazines, setMagazines] = useState<Magazine[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 1;
+  const pageSize = 10;
   const [hasMoreEvents, setHasMoreEvents] = useState<boolean>(true);
   const [query, setQuery] = useState('');
   const [error , setError] = useState('');
@@ -118,11 +118,7 @@ const MagazineList: React.FC = () => {
         <div className="mag-page">
           <div className="mag-center-div">
           <div className="mag-filter-search">
-            {userRole === "SuperAdmin" && 
-          <button onClick={() => navigate('/addnashriye')}  className='addmagazine-button'>    
-      <i className="fa fa-plus"  style={{ color: 'white' }}></i>
-      </button>
-      }
+
       <div className="mag-search-box">
         <input
           type="text"
@@ -136,11 +132,14 @@ const MagazineList: React.FC = () => {
             <path d="M10 18a8 8 0 1 1 5.293-2.707l5.707 5.707-1.414 1.414-5.707-5.707A8 8 0 0 1 10 18zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6z" />
           </svg>
         </span>
-      </div>
+         </div>     
+        {userRole === "SuperAdmin" && 
+          <button onClick={() => navigate('/addnashriye')}  className='addmagazine-button'>    
+      بارگزاری فایل
+      </button>
+      }
+
     </div>
-          <button  className='addmag-button'>
-          <i className="fa fa-plus"  style={{ color: 'white' }}></i>
-          </button>
             <div className="mags-container">
             <div className="magazine-grid">
               {loading &&

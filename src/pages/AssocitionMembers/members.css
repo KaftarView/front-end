@@ -1,0 +1,254 @@
+@font-face {
+    font-family: 'Anjoman-FaNum-Bold';
+    src: url('/src/fonts/Woff/Anjoman-FaNum-Bold.woff') format('woff'),
+         url('/src/fonts/Woff2/Anjoman-FaNum-Bold.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Anjoman-FaNum-Regular';
+    src: url('/src/fonts/Woff/Anjoman-FaNum-Regular.woff') format('woff'),
+         url('/src/fonts/Woff2/Anjoman-FaNum-Regular.woff2') format('woff2');
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    
+  }
+  
+  .members-page {
+    
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    background-color: #f9f9f9;
+    min-height: 100%;
+    /* Ensure the container stretches to fill the page */
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  h1 {
+    font-family: "Anjoman-FaNum-Bold";
+    color: #060606;
+    text-shadow: 2px 2px 4px #000;
+    margin: 0; 
+  }
+   
+  
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  /* .member-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    
+  } */
+  
+  /* .member-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Centering content with flexbox */
+     /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; 
+  }  */ 
+  
+  /* .member-picture {
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+    border-radius: 50%; /* Ensure circular shape */
+    /* margin-bottom: 15px; 
+  }  */
+   
+  /* .member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  } 
+   */
+  
+  .member-card h3 {
+    margin: 10px 0;
+    color: #4a90e2;
+    text-align: right;
+    margin-right: 10px;
+    font-family: "Anjoman-FaNum-Regular";
+  } 
+  
+  .member-card p {
+    margin: 5px 0;
+    color: #555;
+    text-align: right;
+    margin-right: 10px;
+    font-family: "Anjoman-FaNum-Regular";
+  } 
+
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-items: center; /* Centers the cards within the grid */
+}
+
+.member-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Set consistent sizing */
+    width: 250px; /* Fixed width */
+    min-height: 300px; /* Fixed height */
+    max-height: 350px; /* Prevent excessive growth */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Optional: Add padding for spacing */
+    box-sizing: border-box; /* Ensures padding doesn't affect size */
+}
+
+.member-picture {
+    max-width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* .member-card h3,
+.member-card p {
+    margin: 10px 0;
+    text-align: center;
+    font-family: "Anjoman-FaNum-Regular";
+} */
+
+  
+  
+  .year-input {
+    text-align: right;
+    margin-bottom: 20px;
+    font-family: "Anjoman-FaNum-Regular"; /* Assuming you're using this font */
+  
+  }
+  
+  .year-input label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .form-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px; /* Add some space between the input and the button */
+  
+  }
+  
+  .form-group input {
+    font-family: "Anjoman-FaNum-Regular";
+    font-size: 16px;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: right; /* Ensure text aligns properly for Persian */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  }
+  
+  .form-group button {
+    font-family: "Anjoman-FaNum-Regular";
+    font-size: 16px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #4a90e2;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .form-group button:hover {
+    background-color: #357abd;
+    transform: scale(1.05);
+  }
+  
+  
+  .labelform{
+    margin-top: 40px;
+  }
+  
+    
+  .addmembers-button {  
+    background-color: gray;  
+    border: none;  
+    border-radius: 4px;   
+    width: 35px;  
+    height: 35px;  
+    display: flex;  
+    align-items: center;  
+    justify-content: center;  
+    cursor: pointer;  
+    outline: none; 
+    margin-right: 5px; 
+  }  
+  
+  .addmembers-button i {
+  font-size: larger;
+  }
+  
+  .header-container {
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Vertically center align items */
+    justify-content:flex-start; /* Add space between the h1 and button */
+    margin-top: 90px; /* Move down as per your h1 margin */
+  }
+  
+  .delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .delete-button i {
+    font-size: 1.2rem;
+    transition: color 0.2s;
+  }
+  
+  @media (max-width: 780px) {
+    .members-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 15px; /* Slightly reduce the gap for this screen size */
+    }
+}

@@ -114,6 +114,9 @@ import EventHost from '../../components/EventHost/EventHost';
 import apiClient from  "../../utils/apiClient"
 import { useNavigate } from "react-router-dom";
 import {User , useAuth} from '../../components/AuthContext'
+import TicketPurchasePopup from '../../components/BuyTicketPopup/BuyTicket';
+import Comments from '../PodcastDetail/Comments';
+
 
 
 
@@ -175,12 +178,13 @@ const EventDetail: React.FC = () => {
     };
   }, []);
   const backgroundColor = event?.status ? statusColors[event?.status] : 'gray';
+  const [isPopupVisible, setPopupVisible] = useState(false);
 
   useEffect(() => {  
     const fetchEvent = async () => {  
         setLoading(true);  
         setError(null);  
-        const path = userRole === "SuperAdmin" ? "/v1/events/event-details/" : "v1/public/events/";
+        const path = userRole === "SuperAdmin" ? "/v1/admin/events/" : "v1/public/events/";
 
         try {  
             // const response = await axios.get(`${backendUrl}/v1/events/event-details/${id}` , {
@@ -228,7 +232,7 @@ const EventDetail: React.FC = () => {
   const handleDelete = async (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     try{
-    const response = await apiClient.delete(`/v1/events/${id}`)
+    const response = await apiClient.delete(`/v1/admin/events/${id}`)
       console.log(response); 
     if(response.status == 200)
     {
@@ -248,7 +252,7 @@ const EventDetail: React.FC = () => {
 }
 const handlePublish = async () => {  
   try {  
-      const response = await apiClient.post(`/v1/events/${event?.id}/publish`)
+      const response = await apiClient.post(`/v1/admin/events/${event?.id}/publish`)
       if (response.data.statusCode == 200) {  
         window.location.reload();    
       }  
@@ -317,7 +321,7 @@ const handlePublish = async () => {
           <div className='event-details-title'>
           <h2>نظرات</h2>
           </div>
-            <CommentSection postId={event.id} />
+            <Comments postId={event.id} />
 
         </div>
         
@@ -357,8 +361,9 @@ const handlePublish = async () => {
             <div className="info-value">{event.categories[0] || "عمومی"}</div>
           </div>
           <div className='buy-button-div'>
-          <a href="#" className="buy-button">خرید بلیت</a>
+          <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
           </div>
+          {isPopupVisible && <TicketPurchasePopup onClose={() => setPopupVisible(false)} />}
           {userRole==="SuperAdmin" && <div className='edit-delete-buttons'>
             <a href="#" className="edit-button">ویرایش رویداد</a>
             <a  onClick={handleDelete} href="#" className="delete-button">حذف رویداد</a>

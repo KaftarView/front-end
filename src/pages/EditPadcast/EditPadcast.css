@@ -1,16 +1,64 @@
+
+
+/* Add a new button style */
+.submittik {
+  margin-right: 300px;
+  display: block;
+  width: 150px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(228, 127, 18); /* Orange color for the button */
+  border: 1px solid rgb(228, 127, 18);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+  margin-top: 20px;
+}
+
+.submittik:hover {
+  background-color: transparent;
+  color: rgb(228, 127, 18); /* Matching hover color */
+}
+
+/* Disabled Add Category button */
+.submittik-disabled {
+  background-color: rgb(169, 169, 169);
+  border: 1px solid rgb(169, 169, 169);
+  color: rgb(169, 169, 169);
+  cursor: not-allowed;
+}
+
+.remove-writerpad {
+  padding: 10px 15px;
+  font-size: 14px;
+  color: rgb(245, 245, 245);
+  background-color: rgb(166, 95, 19);
+  border: 1px solid rgb(166, 95, 19);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.remove-writerpad:hover {
+  background-color: transparent;
+  color: rgb(166, 95, 19);
+}
+
+
 html, body { 
   margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
 
-#eventa {
+#podcaste {
   background: rgb(74, 152, 174, 1);
   background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
   direction: rtl; 
 }
 
-.addevent {
+.eventpad{
   max-width: 800px;
   margin: 50px auto;
   padding: 40px;
@@ -19,13 +67,13 @@ html, body {
   align-items: center;
 }
 
-.infoevent {
+.infopad {
   font-size: 2.3rem;
   margin-bottom: 15px;
   color: rgb(74, 152, 174);
 }
 
-.Labeladdevent {
+.Labelpad {
   color: rgb(0, 68, 80);
   font-size: 1.2rem;
   text-align: right; 
@@ -35,7 +83,26 @@ html, body {
   margin-top: 20px;
 }
 
-.addevent-form {
+.L1pad {
+font-family: 'Anjoman-FaNum-Bold';
+display: block;
+text-align: right;
+margin-right: 40px;
+padding: 10px;
+margin-top: 20px;
+margin-bottom: 25px;
+margin-left: 40px;
+padding: 10px;
+/* width: calc(100% - 40px); */
+border: 1px solid rgb(74, 152, 174);
+border-radius: 5px;
+background-color: rgb(230, 230, 230);
+transition: 0.5s;
+font-size: 14px;
+color: rgb(0, 67, 80);
+}
+
+.event-formpad {
   background: rgba(255, 255, 255, 0.6);
   padding: 20px;
   border-radius: 8px;
@@ -43,8 +110,7 @@ html, body {
   margin: 20px 50px auto;
 }
 
-.addinput-fieldevent,
-.custom-dropdowneevent {
+.addinput-fieldpad{
 
     font-family: 'Anjoman-FaNum-Bold';
     display: block;
@@ -66,29 +132,21 @@ html, body {
   
 }
 
-.addinput-fieldevent:focus,
-.custom-dropdowneevent:focus {
+.addinput-fieldpad:focus{
   border-color: rgb(0, 67, 80);
   outline-color: rgb(0, 67, 80);
   transition: 0.5s;
 }
 
-.custom-dropdowneevent {
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
-  background-repeat: no-repeat;
-  background-position: left 10px center;
-  background-size: 24px 24px;
-  cursor: pointer;
-}
 
-.infoadd {
+
+.infopad{
   font-size: 2.3rem;
   margin-bottom: 15px;
   color: rgb(74, 152, 174);
 }
 
-.error-messageevent {
+.error-messagepad{
   color: red;
   font-size: 12px;
   margin: 10px auto;
@@ -97,33 +155,16 @@ html, body {
   display: block;
 }
 
-.L1event {
-  font-family: 'Anjoman-FaNum-Bold';
-  display: block;
-  text-align: right;
-  margin-right: 40px;
-  padding: 10px;
-  margin-top: 20px;
-  margin-bottom: 25px;
-  margin-left: 40px;
-  padding: 10px;
-  /* width: calc(100% - 40px); */
-  border: 1px solid rgb(74, 152, 174);
-  border-radius: 5px;
-  background-color: rgb(230, 230, 230);
-  transition: 0.5s;
-  font-size: 14px;
-  color: rgb(0, 67, 80);
-}
 
-.buttonadd-containerevent {
+
+.buttonadd-containerpad {
   display: flex;
   justify-content: left;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.submitaddevent {
+.submitpad {
   display: block;
   width: 100%;
   max-width: 120px;
@@ -137,24 +178,12 @@ html, body {
   transition: 0.5s;
 }
 
-.submitaddevent:hover {
+.submitpad:hover {
   background-color: transparent;
   color: rgb(74, 152, 174);
 }
 
-.textarea-fieldevent::-webkit-scrollbar {
-  width: 10px;
-}
-
-.textarea-fieldevent::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 4px;
-}
-
-.textarea-fieldevent::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-.textarea-fieldevent {
+.textarea-fieldpad {
   /* width: calc(100% - 40px);  */
   height: 200px; 
   font-size: 16px; 
@@ -165,7 +194,7 @@ html, body {
   overflow-y: scroll;
   resize: none;
 }
-.cancelevent {
+.next-page-btnpad {
   display: block;
   width: 120px;
   padding: 10px;
@@ -178,65 +207,98 @@ html, body {
   transition: 0.5s;
 }
 
-.cancelevent:hover {
+.next-page-btnpad:hover {
   background-color: transparent;
   color: rgb(166, 95, 19);
 }
-.textarea-fieldevent::-webkit-scrollbar {
+.textarea-fieldpad::-webkit-scrollbar {
   width: 10px;
 }
 
-.textarea-fieldevent::-webkit-scrollbar-thumb {
+.textarea-fieldpad::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 4px;
 }
 
-.textarea-fieldevent::-webkit-scrollbar-thumb:hover {
+.textarea-fieldpad::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+.textarea-fieldpad {
+  /* width: calc(100% - 40px);  */
+  height: 200px; 
+  font-size: 16px; 
+  padding: 8px; 
+  border-color: rgb(74, 152, 174); 
+  border-radius: 4px; 
+  box-sizing: border-box;
+  overflow-y: scroll;
+  resize: none;
+}
+.writer-field {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the left */
+  gap: 4px; /* Add space between icon and input */
+  margin-bottom: 10px;
+}
+
+.trash-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: rgb(166, 95, 19);
+  transition: transform 0.2s, color 0.2s;
+}
+
+.trash-icon:hover {
+  transform: scale(1.2); /* Enlarge on hover */
+  color: rgb(228, 127, 18); /* Change color on hover */
+}
+
 
 /* Responsive styles for smaller screens */
 @media (max-width: 480px) {
-  .addevent {
+  .eventpad {
     margin: 20px;
     padding: 20px;
   }
 
-  .infoevent, .infoadd {
-    font-size: 1.2rem;
+  .infopad{
+    font-size: 1.3rem;
+ 
   }
-  .Labeladdevent{
+  .Labelpad{
     font-size: 0.9rem;
     margin-right: 20px;  
   }
- .error-messageevent {
+ .error-messagepad{
     font-size: 0.6rem;
     margin-right: 20px;
   }
 
-  .addevent-form {
+  .event-formpad {
     margin: 20px;
   }
 
-  .addinput-fieldevent, .custom-dropdowneevent, .L1event {
+  .addinput-fieldpad, .custom-dropdownepad , .L1pad{
     width: calc(100% - 20px);
     font-size: 0.6rem;
     margin-right: 10px;
     margin-left: 10px;
   }
-.L1event{
-  font-size: 0.6rem;
-}
-  .buttonadd-containerevent {
+  .L1event{
+    font-size: 0.6rem;
+  }
+
+  .buttonadd-containerpad {
     flex-direction: column;
     align-items: center;
     font-size: 0.6rem;
   }
-  .submitaddevent{
+  .submitpad{
     font-size: 0.6rem;
 
   }
-  .cancelevent{
+  .remove-writerpad{
     font-size: 0.6rem;
 
   }

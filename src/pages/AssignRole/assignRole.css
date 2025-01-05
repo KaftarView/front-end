@@ -60,14 +60,12 @@ html, body {
       display: block;
       display: block;
       text-align: right;
-      width: 50%;
+      width: 100%;
     
       padding: 10px;
     
       margin-top: 20px;
       margin-bottom: 30px;
-      margin-left: 40px;
-      margin-right: 150px;
     
       border: 1px solid rgb(74, 152, 174);
       border-radius: 5px;
@@ -88,14 +86,12 @@ html, body {
     .assign-roll-form  select{
         font-family: 'Anjoman-FaNum-Bold';
         display: block;
-        width: 50%;
+        width: 100%;
         text-align: right;
-        margin-right: 150px;
         /* padding: 10px; */
       
         margin-top: 20px;
         margin-bottom: 30px;
-        margin-left: 40px;
       
         border: 1px solid rgb(74, 152, 174);
         border-radius: 5px;
@@ -158,4 +154,61 @@ html, body {
     }
     
     /* Upload Progress Bar */
-  
+  /* Responsive Design */
+@media (max-width: 768px) {
+  /* Adjust container and padding for smaller screens */
+  .upload-container-assign-roll {
+      padding: 20px;
+  }
+
+  .assign-roll-form {
+      margin: 20px auto;
+      padding: 15px;
+  }
+
+  .assign-roll-form h2 {
+      font-size: 20px;
+  }
+
+  /* Reduce label and input field font sizes */
+  .assign-roll-form .Labeladd {
+      font-size: 1rem;
+  }
+
+  .assign-roll-form .addinput-field,
+  .assign-roll-form select {
+      font-size: 12px;
+      padding: 8px;
+  }
+
+  .assign-roll-form button {
+      font-size: 14px;
+      padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjustments for smaller devices */
+  .assign-roll-form h2 {
+      font-size: 18px;
+  }
+
+  .assign-roll-form .Labeladd {
+      font-size: 0.9rem;
+  }
+
+  .assign-roll-form .addinput-field,
+  .assign-roll-form select {
+      font-size: 10px;
+      padding: 6px;
+  }
+
+  .assign-roll-form button {
+      font-size: 12px;
+      padding: 8px;
+  }
+
+  .assign-roll-form {
+      margin: 10px auto;
+  }
+}

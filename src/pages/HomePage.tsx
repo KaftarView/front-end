@@ -5,15 +5,39 @@ import axios from "axios";
 import apiClient from "../utils/apiClient";
 import Navbar from "./NavBar/NavBar";
 import Footer from "./Footer/Footer";
+import { useAuth } from "../components/AuthContext";
 
 const HomePage = () => {
 let slideIndexs: number = 1;
 
 
 
+// function carousel(): void {
+//   let i: number;
+//   let x = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
+
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.display = "none";
+//   }
+
+//   slideIndexs++;
+//   if (slideIndexs > x.length) {
+//     slideIndexs = 1;
+//   }
+
+//   x[slideIndexs - 1].style.display = "block";
+  
+//   setTimeout(carousel, 4000); // Change image every 2 seconds
+// }
+// useEffect(carousel,[])
+
 function carousel(): void {
   let i: number;
   let x = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
+
+  if (!x || x.length === 0) {
+    return; // Exit the function if no slides are present
+  }
 
   for (i = 0; i < x.length; i++) {
     x[i].style.display = "none";
@@ -24,18 +48,26 @@ function carousel(): void {
     slideIndexs = 1;
   }
 
-  x[slideIndexs - 1].style.display = "block";
-  
-  setTimeout(carousel, 5000); // Change image every 2 seconds
-}
-useEffect(carousel,[])
+  x[slideIndexs - 1].style.display = "flex";
 
+  // Schedule the next slide
+  setTimeout(carousel, 4000); // Change image every 4 seconds
+}
+
+useEffect(() => {
+  carousel();
+
+  // Optional: Return a cleanup function to clear the timeout when the component unmounts
+  return () => {
+    clearTimeout(carousel as unknown as NodeJS.Timeout); // Explicitly clear the timeout
+  };
+}, []);
 
 
 
 const [slideIndex, setSlideIndex] = useState<number>(1);  
   
-const totalSlides = 4; // Update this based on how many images you have  
+const totalSlides = 2; // Update this based on how many images you have  
 
 useEffect(() => {  
   showSlides(slideIndex);  
@@ -50,24 +82,62 @@ const plusSlides = (n: number): void => {
   });  
 };  
 
+// const showSlides = (n: number): void => {  
+//   const slides = document.getElementsByClassName("mySlides");  
+
+//   // Ensure slideIndex is within valid range  
+//   if (n > slides.length) { setSlideIndex(1); }  
+//   if (n < 1) { setSlideIndex(slides.length); }  
+
+//   // Hide all slides initially  
+//   Array.from(slides).forEach((slide) => {  
+//     (slide as HTMLElement).style.display = "none";  
+//   });  
+
+//   // Show the current slide  
+//   (slides[slideIndex - 1] as HTMLElement).style.display = "flex";  
+// };  
+
+
 const showSlides = (n: number): void => {  
-  const slides = document.getElementsByClassName("mySlides");  
+  const slides = document.getElementsByClassName("mySlides");
 
-  // Ensure slideIndex is within valid range  
-  if (n > slides.length) { setSlideIndex(1); }  
-  if (n < 1) { setSlideIndex(slides.length); }  
+  // Check if slides are available
+  if (!slides || slides.length === 0) {
+    console.warn("No slides available to display.");
+    return; // Exit if no slides are found
+  }
 
-  // Hide all slides initially  
+  // Ensure slideIndex is within valid range
+  const totalSlides = slides.length;
+  if (n > totalSlides) {
+    setSlideIndex(1); // Wrap around to the first slide
+    return;
+  }
+  if (n < 1) {
+    setSlideIndex(totalSlides); // Wrap around to the last slide
+    return;
+  }
+
+  // Hide all slides initially
   Array.from(slides).forEach((slide) => {  
     (slide as HTMLElement).style.display = "none";  
-  });  
+  });
 
-  // Show the current slide  
-  (slides[slideIndex - 1] as HTMLElement).style.display = "block";  
-};  
-
-
-
+  // Show the current slide
+  const currentSlide = slides[slideIndex - 1];
+  if (currentSlide) {
+    (currentSlide as HTMLElement).style.display = "flex";  
+  }
+};
+useEffect(() => {  
+  const slides = document.getElementsByClassName("mySlides");
+  if (slides.length > 0) {
+    showSlides(slideIndex);
+  } else {
+    console.warn("No slides found during initial rendering.");
+  }
+}, [slideIndex]);
 
 const [slideIndexSpecial, setSlideIndexSpecial] = useState<number>(1);  
   
@@ -103,7 +173,7 @@ const showSlidesSpecial = (n: number): void => {
   });  
 
   // Show the current slide  
-  (slides[slideIndexSpecial - 1] as HTMLElement).style.display = "block";  
+  (slides[slideIndexSpecial - 1] as HTMLElement).style.display = "flex";  
 };  
 
 
@@ -136,7 +206,7 @@ useEffect(
     async function getEvent(){
 
       try {  
-        const response = await axios.get('https://e082-37-156-54-204.ngrok-free.app/v1/public/events/published', {
+        const response = await axios.get('https://66e1-212-64-199-253.ngrok-free.app/v1/public/events/published', {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header
@@ -164,7 +234,7 @@ useEffect(
         } finally {  
         }
   } getEvent()},[])
-
+//-----------------------podcast
 
   interface FormData2 {
     name: string;
@@ -175,6 +245,7 @@ useEffect(
 
   }
   
+
   
   
   const [initialPodcast, setInitialPodcast] = useState<FormData2[]>([]);
@@ -185,7 +256,7 @@ useEffect(
       async function getPod(){
   
         try {  
-          const response = await axios.get('https://e082-37-156-54-204.ngrok-free.app/v1/public/podcasts', {
+          const response = await axios.get('https://66e1-212-64-199-253.ngrok-free.app/v1/public/podcasts', {
             headers: {
               "ngrok-skip-browser-warning": "69420",
               'Content-Type': 'application/json', // Example header
@@ -214,6 +285,127 @@ useEffect(
           }
     } getPod()},[])
 
+
+
+
+
+
+
+
+
+
+
+//--------------------------news
+ interface NewsOverall {  
+  id: number;  
+  title: string;  
+  description: string;  
+  banner: string;  
+  banner2:string;
+  content: string;  
+  content2:string;
+  author: string;  
+  categories : string[];
+  createdAt: string;
+}  
+const [newsList, setNewsList] = useState<NewsOverall[]>([]); 
+const { getUserRoles } = useAuth();
+
+
+
+const fetchNews = async () => {
+  try {
+    let path = "/v1/public/news";
+
+
+
+
+    const response = await apiClient.get(path, {
+      headers: {
+        "ngrok-skip-browser-warning": "69420",
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200 && response.data) {
+      console.log("this is the news ")
+      console.log(response.data.data);
+      const processedNews = response.data.data.slice(0, 5)
+      // .map((news: NewsOverall) => ({
+      //   ...news,
+      // }));
+      setNewsList(processedNews);
+    }
+  } catch (err) {
+  } finally {
+  }
+};
+
+useEffect(() => { 
+  fetchNews()
+ },[])
+
+
+
+
+
+ //--------------------magazine
+
+
+ interface magazineData {
+  name: string;
+  category: string[];
+  description: string;
+  banner: string;
+  id:number;
+  createdAt:string;
+  journalFile:string;
+  author:string;
+
+}
+
+
+
+
+const [initialMagazine, setInitialMagazine] = useState<magazineData[]>([]);
+
+useEffect(
+  () => {
+
+    async function getMag(){
+
+      try {  
+        const response = await axios.get('https://66e1-212-64-199-253.ngrok-free.app/v1/public/journals', {
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            'Content-Type': 'application/json', // Example header
+  
+          },
+        });
+        
+        if (response.status === 200 && response.data) {
+          console.log(response);
+          console.log("-------------------------response.data-------------------------------------------------");
+          console.log(response.data.data);
+          console.log("--------------------------------respons.data.data------------------------------------------");
+
+          const sortedData = response.data.data
+            // .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)) // Sort by date descending
+            .slice(0, 5);
+
+            console.log(sortedData); // Optionally log the sorted data
+            setInitialMagazine(sortedData); 
+          };
+  
+      } 
+         catch (err) {
+          console.error("Error fetching magazine:", err);  
+        } finally {  
+        }
+  } getMag()},[])
+
+
+
   return (
 
 
@@ -239,7 +431,7 @@ useEffect(
         <p>انجمن علمی مهندسی کامپیوتر با هدف ارتقاء دانش فنی و علمی دانشجویان در زمینه‌های مختلف علوم کامپیوتر و فناوری اطلاعات تأسیس شده است. این انجمن با برگزاری کارگاه‌ها، سمینارها، مسابقات علمی و همکاری‌های بین‌المللی، فرصتی برای اعضا فراهم می‌آورد تا به روزترین مباحث و تکنولوژی‌ها را بشناسند و در پروژه‌های کاربردی مشارکت کنند. هدف نهایی انجمن، پرورش تخصص‌های نوآور و کارآفرین در حوزه‌های مهندسی کامپیوتر است.</p>
         </div>
 
-      <div className="anjoman-gallery">
+      {/* <div className="anjoman-gallery">
         <a className="prev" onClick={()=>{plusSlides(-1)}}>  &#10095;</a>
         <img className="mySlides" src="public\f.jpg" ></img>
         <img className="mySlides" src="public\intro.jpg"></img>
@@ -254,7 +446,35 @@ useEffect(
 
       
         
+      </div> */}
+
+
+<div className="news-carousel">
+  {newsList.map((news, index) => (
+    <div
+      key={index}
+      className="mySlides"
+      style={{ display: index === 0 ? "flex" : "none" }}
+    >
+     <a className="prev" onClick={()=>{plusSlides(-1)}}>  &#10095;</a>
+
+      {/* News Content Section */}
+      <div className="news-carousel-content">
+        <h3 className="news-carousel-title">{news.title}</h3>
+        <p className="news-carousel-summary">{news.description.split(" ").slice(0, 50).join(" ")||'asdfghjklwertyuiopzxcvbnmdfghjk'}...</p>
+        <button className="btn news-carousel-button">رفتن به خبر</button>
       </div>
+
+      {/* News Image Section */}
+      <div className="news-carousel-image-container">
+        <img src={news.banner || 'https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png'} alt={news.banner} className="news-carousel-image" />
+      </div>
+      <a className="next" onClick={()=>{plusSlides(1)}}>&#10094;</a>
+
+    </div>
+  ))}
+</div>
+
 
 
        <div className="content">
@@ -331,7 +551,7 @@ useEffect(
       </div>
     </div>
 
-            <div className='title'><span className='title-name'>جدیدترین دوره‌ها</span> <button className='title-link  '>رفتن به دوره‌ها</button> </div>
+            {/* <div className='title'><span className='title-name'>جدیدترین دوره‌ها</span> <button className='title-link  '>رفتن به دوره‌ها</button> </div>
             <div className="lists">
                                 <div className="box">
                     <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
@@ -365,7 +585,7 @@ useEffect(
                     <span className="product-price">790,000 تومان</span>
                     <button className="my_btn">مشاهده اطلاعات</button>
                 </div>
-            </div>
+            </div> */}
         </div>
 
 
@@ -443,33 +663,23 @@ useEffect(
         </div>
             <div className='title'><span className='title-name'>جدیدترین شماره‌های نشریه</span> <button className='title-link  '>رفتن به نشریه</button></div>
             <div className="lists background-color-blue">
-                                <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 4 </span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div> 
-                    <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 3</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                    <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 2</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                     </div>
-                    <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">شماره 1</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                               
+                  
+            {initialMagazine.length > 0 ? (
+          initialMagazine.map((mag, index) => (
+            <div className="box-small" key={index}>
+              <h2 className="product-title">{mag.name}</h2> {/* Assuming 'title' is a field */}
+              <button className="my_btn">مشاهده اطلاعات</button>
             </div>
+          ))
+        ) : (
+          <p>هیچ رویدادی موجود نیست.</p>
+        )}
+      </div>
 
           </div>
 
 
-            <div className="note-section">
+            {/* <div className="note-section">
             <div className="about-anjoman-note">
         <h1 className="about-anjoman-note-titel">
             جزوه‌های شما 
@@ -502,7 +712,7 @@ useEffect(
                 </div>
             </div>
 
-            </div>
+            </div> */}
             
 
 
