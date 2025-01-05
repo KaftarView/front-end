@@ -64,7 +64,7 @@ const UploadMedia = () => {
   const handleUpload = async (data: FormData) => {
     // const formData= new FormDataEvent();
     if (!selectedFile) {
-      setUploadError('Please select a podcast file to upload.');
+      setUploadError('Please select a file to upload.');
       return;
     }
     // console.log(data.audio);
@@ -85,7 +85,8 @@ const UploadMedia = () => {
       setUploadSuccess(null);
 
       // Replace this URL with your actual API endpoint
-      const apiUrl = `/v1/events/${Id}/media`;
+      const apiUrl = `/v1/admin/events/${Id}/media`;
+    
 
       // Upload the file with progress
       const response=await apiClient.post(apiUrl, formData, {
@@ -104,15 +105,15 @@ const UploadMedia = () => {
       });
       console.log(response);
       const eventId = response.data.data;
-      console.log("episode created successfully. episode ID:", eventId);
+      console.log("file uploaded successfully. episode ID:", eventId);
 
 
       setIsUploading(false);
-      setUploadSuccess('Podcast uploaded successfully!');
+      setUploadSuccess('file uploaded successfully!');
       setSelectedFile(null);
     } catch (error) {
       setIsUploading(false);
-      setUploadError('An error occurred while uploading the podcast.');
+      setUploadError('An error occurred while uploading the file.');
       console.error('Upload failed:', error);
     }
   };
@@ -219,7 +220,6 @@ const UploadMedia = () => {
 
 
   >
-
   </div>
 )}
 
