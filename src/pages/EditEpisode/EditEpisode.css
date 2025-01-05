@@ -1,0 +1,186 @@
+html, body { 
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  .L1epi {
+    font-family: 'Anjoman-FaNum-Bold';
+    display: block;
+    text-align: right;
+    margin-right: 40px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    margin-left: 40px;
+    padding: 10px;
+    /* width: calc(100% - 40px); */
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    transition: 0.5s;
+    font-size: 14px;
+    color: rgb(0, 67, 80);
+  }
+  
+  #episodee {
+    background: rgb(74, 152, 174, 1);
+    background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
+    direction: rtl; 
+  }
+  
+  .eventepi {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 40px;
+    font-family: 'Anjoman-FaNum-Bold';
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .infoepi {
+    font-size: 2.3rem;
+    margin-bottom: 15px;
+    color: rgb(74, 152, 174);
+  }
+  
+  .Labelepi {
+    color: rgb(0, 68, 80);
+    font-size: 1.2rem;
+    text-align: right; 
+    display: block; 
+    width: auto;
+    margin-right: 40px;
+    margin-top: 20px;
+  }
+  
+  .event-formepi {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    margin: 20px 50px auto;
+  }
+  
+  .addinput-fieldepi{
+  
+      font-family: 'Anjoman-FaNum-Bold';
+      display: block;
+      text-align: right;
+      margin-right: 40px;
+      padding: 10px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      margin-left: 20px;
+      width: calc(100% - 80px);
+      border: 1px solid rgb(74, 152, 174);
+      border-radius: 5px;
+      background-color: rgb(230, 230, 230);
+      transition: 0.5s;
+      font-size: 14px;
+      color: rgb(0, 67, 80);
+      height: 45px;
+    
+    
+  }
+  
+  .addinput-fieldepi:focus{
+    border-color: rgb(0, 67, 80);
+    outline-color: rgb(0, 67, 80);
+    transition: 0.5s;
+  }
+  
+  
+  
+  .infoepi {
+    font-size: 2.3rem;
+    margin-bottom: 15px;
+    color: rgb(74, 152, 174);
+  }
+  
+  .error-messageepi{
+    color: red;
+    font-size: 12px;
+    margin: 10px auto;
+    margin-right: 40px;
+    text-align: right;
+    display: block;
+  }
+  
+  
+  
+  .buttonadd-containerepi {
+    display: flex;
+    justify-content: left;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .submitepi {
+    display: block;
+    width: 100%;
+    max-width: 120px;
+    padding: 10px;
+    font-size: 16px;
+    color: rgb(253, 253, 253);
+    background-color: rgb(74, 152, 174);
+    border: 1px solid rgb(74, 152, 174);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  
+  .submitepi:hover {
+    background-color: transparent;
+    color: rgb(74, 152, 174);
+  }
+  
+
+  
+  /* Responsive styles for smaller screens */
+  @media (max-width: 480px) {
+    .eventepi {
+      margin: 20px;
+      padding: 20px;
+    }
+    .L1evepi{
+        font-size: 0.6rem;
+      }
+    .infoepi{
+      font-size: 1.3rem;
+   
+    }
+    .Labelepi{
+      font-size: 0.9rem;
+      margin-right: 20px;  
+    }
+   .error-messageepi {
+      font-size: 0.6rem;
+      margin-right: 20px;
+    }
+  
+    .event-formepi {
+      margin: 20px;
+    }
+  
+    .addinput-fieldepi, .L1epi{
+        width: calc(100% - 20px);
+        font-size: 0.6rem;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    .L1epi{
+        font-size: 0.6rem;
+      }
+    .buttonadd-containerepi {
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.6rem;
+    }
+    .submitepi{
+      font-size: 0.6rem;
+  
+    }
+
+  }
+  
+  
