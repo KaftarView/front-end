@@ -39,7 +39,7 @@ const PATHS ={
     MembersPage:"/members",
     addmedia:'/events/:Id/addmedia',
     ProfileEvent:'/my-events',
-    
+    Addmembers:'/AddMembers',
 
 
 }
