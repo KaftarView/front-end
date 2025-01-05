@@ -36,6 +36,7 @@ const PATHS ={
     addepisode:'/podcasts/:id/addepisodes',
     MembersPage:"/members",
     addmedia:'/events/:Id/addmedia',
+    ProfileEvent:'/my-events',
     
 
 
