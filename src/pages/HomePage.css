@@ -46,9 +46,9 @@
     background-repeat: no-repeat;
     font-family: 'Anjoman-FaNum-Medium';
     background-size: cover;
-  
+ 
     color: white;
-    background: linear-gradient( #3979c7,#11c78e);
+    background-image: url("public\\HD wallpaper_ white and blue wooden cabinet, Windows 10, Microsoft, gradient.jpg");
     align-content: center;
     text-align: center;
     display: grid;
@@ -57,7 +57,7 @@
 
 .about-anjoman{
     margin-top: 11rem;
-    /* margin-bottom: 10rem; */
+    margin-bottom: 10rem;
     
     display:  flex;
     align-items: center;
@@ -532,8 +532,9 @@
         /* margin: 30px; */
         display: flex
         ;
-            background-color: rgba(255, 255, 255, .08);
             /* border: 1px solid black; */
+            margin-top: 6rem;
+            margin-right: 4rem;
             padding: 10rem;
             flex-direction: column;
             justify-content: center;
@@ -1102,8 +1103,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     font-family: 'Anjoman-FaNum-Medium';
-    background: linear-gradient(#2d67ae, #0ea575); /* Gradient background */
-    color: white;
+    background-image: url("public\\intro2.jpg");
+
+    /* background: linear-gradient(#2d67ae, #0ea575); Gradient background */
+    color: black;
     text-align: center;
     display: flex;
     flex-direction: column; /* Default direction for smaller screens */
@@ -1119,6 +1122,7 @@
     border-radius: 10px;
     max-width: 80%; /* Restrict width */
     height: 5px;
+
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
