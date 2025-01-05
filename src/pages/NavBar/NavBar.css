@@ -84,6 +84,16 @@
 .auth-buttonNav:hover {
   background-color: #d07615;
 }
+.profile-icon {
+  /* width: 32px; */
+  /* height: 32px; */
+  border-radius: 100%; 
+  cursor: pointer;
+  background-color: #e5e7eb;
+  display: inline-block;
+   /* margin-left:"50px" */
+}
+
 
 .menu-toggle {
   display: none;
@@ -100,9 +110,9 @@
 
 @media (max-width: 768px) {
   .auth-container {
-    left: 10px; /* Slightly closer to the edge on smaller screens */
+    left: 10px; 
     top: auto;
-    bottom: 20px; /* Move it to the bottom for easier access */
+    bottom: 20px;
     transform: none;
   }
   .nav-links {
