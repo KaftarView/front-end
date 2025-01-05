@@ -34,7 +34,7 @@ const { register, handleSubmit, formState: { errors, isValid }, setValue, watch 
     const fetchCategories = async () => {
       setLoadingCategories(true);
       try {
-        const response = await apiClient.get("/v1/roles", {
+        const response = await apiClient.get("/v1/admin/roles", {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json',
@@ -69,8 +69,8 @@ const rolesArray = Array.isArray(data.roles)
     console.log('Is roles an array?:', Array.isArray(rolesArray));  
 
     try {
-      const response = await apiClient.post(
-        '/v1/users/roles',
+      const response = await apiClient.put(
+        '/v1/admin/users/roles',
         requestData,
         {
           withCredentials: true,

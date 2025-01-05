@@ -35,10 +35,13 @@ const EventsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { backendUrl } = useAppContext();
   const [categories, setCategories] = useState<Categories>();
-  const { getUserRoles } = useAuth();
+  const { getUserRoles , getUserPermissions } = useAuth();
   const [query, setQuery] = useState('');
   const userRole = getUserRoles()[0];
   const navigate = useNavigate();
+  const userPermissions = getUserPermissions();
+  console.log(userPermissions)
+  console.log(getUserRoles())
 
   // Load categories on mount
   useEffect(() => {
@@ -66,7 +69,7 @@ const EventsPage: React.FC = () => {
 
       if (searchQuery) {
         path = userRole === "SuperAdmin" 
-          ? `/v1/events/search?query=${searchQuery}` 
+          ? `/v1/admin/events/search?query=${searchQuery}` 
           : `/v1/public/events/search?query=${searchQuery}`;
       }
 
@@ -90,6 +93,7 @@ const EventsPage: React.FC = () => {
           ...event,
         }));
         console.log(response.data.data)
+
         setEvents(processedEvents);
         setFilteredEvents(processedEvents);
         setHasMoreEvents(processedEvents.length === pageSize);
@@ -178,7 +182,7 @@ const EventsPage: React.FC = () => {
                 </span>
               </div>
             </div>
-            {userRole === "SuperAdmin" &&
+            {userPermissions && userPermissions.includes("CreateEvent") &&
               <button className='add-button' onClick={()=>navigate('/addevent')} >ایجاد رویداد</button>
             }
           </nav>

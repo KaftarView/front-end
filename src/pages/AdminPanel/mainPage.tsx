@@ -7,6 +7,7 @@ import GetDiscounts from './GetDiscounts';
 import MediaPage from './EventMedia';
 import GetAttendees from './Attendees';
 import EditEvent from '../EditEvent/editEvent';
+import { useParams } from 'react-router-dom';  
 
 const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -24,6 +25,7 @@ const AdminPanel: React.FC = () => {
     setActiveTab(tabId);
     setIsDropdownOpen(false); 
   };
+  const { id } = useParams<{ id: string }>(); 
 
   return (
     <>

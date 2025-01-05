@@ -116,6 +116,8 @@ import { useNavigate } from "react-router-dom";
 import {User , useAuth} from '../../components/AuthContext'
 import TicketPurchasePopup from '../../components/BuyTicketPopup/BuyTicket';
 import Comments from '../PodcastDetail/Comments';
+import { FileText, Video, Presentation, Download  , AudioLines , Image} from 'lucide-react';
+import AdminPanel from '../AdminPanel/mainPage';
 
 
 
@@ -135,6 +137,22 @@ export interface EventDetail {
   basePrice : number;
 }
 
+interface EventMedia {
+  id: number;
+  title: string;
+  type: 'pdf' | 'word' | 'pptx' | 'video';
+  url: string;
+}
+
+interface Media {
+  id: number;
+  mediaType: string;
+  name: string;
+  mediaPath: string;
+  mediaSize: number;
+  createdAt: string;
+}
+
 const EventDetail: React.FC = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const { id } = useParams<{ id: string }>();
@@ -144,13 +162,16 @@ const EventDetail: React.FC = () => {
   const { backendUrl, setBackendUrl } = useAppContext();  
   const [event, setEvent] = useState<EventDetail | null>(null);
   const navigate = useNavigate();
-  const { getUserRoles } = useAuth();  
+  const { getUserRoles , getUserPermissions} = useAuth();  
+  const userPermissions = getUserPermissions();
   let scrollTimeout: NodeJS.Timeout;
   const statusTranslation: Record<EventDetail['status'], string> = {  
     Draft: 'پیش نویس',  
     Published: 'منتشر شده',  
     Cancelled: 'لغو شده',  
   };   
+
+  const[eventMedias , setEventMedias] = useState<Media[]>([])
 
   const statusColors: { [key: string]: string } = {  
     Published: 'green',  
@@ -200,14 +221,13 @@ const EventDetail: React.FC = () => {
                 'Content-Type': 'application/json', 
               },  
             });  
-        
             console.log(response.data.data); 
             const eventData = response.data.data;
             setEvent(eventData);
-            if (event) {
-              setEvent({
-                ...event,
-              });}
+            // if (event) {
+            //   setEvent({
+            //     ...event,
+            //   });}
             console.log(event) 
         } catch (err) {  
           if (axios.isAxiosError(err)) {
@@ -216,6 +236,7 @@ const EventDetail: React.FC = () => {
             } else {  
                 setError('An error occurred while fetching the event');  
             }  
+            
           }
         } finally {  
             setLoading(false);  
@@ -224,9 +245,84 @@ const EventDetail: React.FC = () => {
 
     fetchEvent();  
 }, [id]);  
+
+useEffect(() => {  
+  const fetchEventMedia = async () => {  
+      setLoading(true);  
+      setError(null);  
+
+      try {  
+          const res = await apiClient.get(`/v1/admin/events/${id}/media`, {  
+            headers: {  
+              "ngrok-skip-browser-warning": "69420",  
+              'Content-Type': 'application/json', 
+            },  
+          });  
+          console.log(res.data.data)
+          setEventMedias(res.data.data)
+      } catch (err) {  
+        if (axios.isAxiosError(err)) {
+          if (err.response && err.response.status === 404) {  
+              setError('Event not found');  
+          } else {  
+              setError('An error occurred while fetching the event');  
+          }  
+          
+        }
+      } finally {  
+          setLoading(false);  
+      }  
+  };  
+
+  fetchEventMedia();  
+}, [id]);  
   if (loading) {  
     return <div>Loading event...</div>;  
   }  
+
+    const getMediaIcon = (type: EventMedia['type']) => {
+      switch (type) {
+        case 'pdf':
+        case 'word':
+          return <FileText className="media-icon" />;
+        case 'pptx':
+          return <Presentation className="media-icon" />;
+        case 'video':
+          return <Video className="media-icon" />;
+      }
+    };
+
+    const getMediaIconn = (type : string) => {
+      // switch (type) {
+      //   case 'pdf':
+      //   case 'word':
+      //     return <FileText className="media-icon" />;
+      //   case 'pptx':
+      //     return <Presentation className="media-icon" />;
+      //   case 'video':
+      //     return <Video className="media-icon" />;
+        if (type.startsWith("video/"))
+        {
+            return <Video className="media-icon" />;
+        }
+        if (type.startsWith("audio/"))
+        {
+            return <AudioLines className="media-icon" />;
+        }
+        if (type.startsWith("image/"))
+        {
+            return <Image className="media-icon" />;
+        }
+        if (type.split('/').pop() === "pdf" || type.split('.').pop() === "document")
+        {
+            return <FileText className="media-icon" />;
+        }
+        if(type.split('.').pop() === "presentation")
+        {
+          return <Presentation className="media-icon" />;
+        }
+      
+    };
 
   const handleDelete = async (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -252,6 +348,7 @@ const EventDetail: React.FC = () => {
 const handlePublish = async () => {  
   try {  
       const response = await apiClient.post(`/v1/admin/events/${event?.id}/publish`)
+      console.log(response.data)
       if (response.data.statusCode == 200) {  
         window.location.reload();    
       }  
@@ -260,8 +357,8 @@ const handlePublish = async () => {
   }  
 };  
 
-  if (error || !event) {  
-    console.error(error);  
+  if (!event) {  
+    // console.error(error);  
     setEvent(mockEvent);
 } 
   if (!event) {
@@ -313,6 +410,38 @@ const handlePublish = async () => {
           <Popup />
 
           } */}
+                    <div className="media-section">
+            <div className="accent-line"></div>
+            <h2 className="description-title">فایل‌های رویداد</h2>
+            {eventMedias && userRole != "SuperAdmin" && eventMedias.length > 0 ? (
+              <div className="media-grid">
+                {eventMedias.map((item) => (
+                  <div key={item.id} className="media-item">
+                    {getMediaIconn(item.mediaType)}
+                    <div className="media-details">
+                      <div className="media-title">{item.name}</div>
+                      <div className="media-type">
+                        {item.mediaType.toUpperCase()}
+                      </div>
+                    </div>
+                    <a 
+                      href={item.mediaPath}
+                      download
+                      className="download-button-eventdetail"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(item.mediaPath, '_blank');
+                      }}
+                    >
+                      <Download size={16} />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="description-text">هیچ فایلی برای این رویداد وجود ندارد.</p>
+            )}
+          </div>
           <div className='event-details-title'>
           <h2>برگزار کننده‌گان</h2>
           </div>
@@ -359,10 +488,12 @@ const handlePublish = async () => {
             <div className="info-label">دسته بندی</div>
             <div className="info-value">{event.categories[0] || "عمومی"}</div>
           </div>
-          {userRole === "SuperAdmin" ? 
+          {userRole === "SuperAdmin" &&
               <div className='buy-button-div'>
-              <a onClick={() => setPopupVisible(true)}  className="buy-button"> مدیریت رویداد</a>
-              </div> :
+              <a onClick={() => navigate(`/admin-panel/${id}`)}  className="buy-button"> مدیریت رویداد</a>
+              </div> 
+          }
+          {userRole &&  userRole != "SuperAdmin" && 
               <div className='buy-button-div'>
               <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
               </div>

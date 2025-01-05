@@ -285,6 +285,72 @@
   color: blue; 
 }
 
+  .media-section {
+    padding: 30px;
+    text-align: right;
+    background: linear-gradient(135deg, #ffffff, #e8eaf6);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .media-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease;
+  }
+  
+  .media-item:hover {
+    transform: translateY(-2px);
+  }
+  
+  .media-icon {
+    width: 40px;
+    height: 40px;
+    color: #673AB7;
+  }
+  
+  .media-details {
+    flex: 1;
+  }
+  
+  .media-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  
+  .media-type {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .download-button-eventdetail {
+    padding: 8px 16px;
+    background-color: #673AB7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .download-button-eventdetail:hover {
+    background-color: #5820b8;
+  }
 
 /* p {
   font-family: 'Anjoman-FaNum-Light';
