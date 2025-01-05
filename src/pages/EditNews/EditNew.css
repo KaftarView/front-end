@@ -1,0 +1,223 @@
+html, body { 
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+
+#eeee {
+  background: rgb(74,152,174,1);
+  background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
+  direction: rtl;
+}
+
+.Labeladd {
+  color: rgb(0, 68, 80);
+  font-size: 1.2rem;
+  text-align: right;
+  display: block;
+  margin: 10px 40px;
+}
+
+.addinput-field,
+.custom-dropdowne {
+  font-family: 'Anjoman-FaNum-Bold';
+  text-align: right;
+  margin: 20px;
+  padding: 10px;
+  width: calc(100% - 40px);
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  background-color: rgb(230, 230, 230);
+  transition: 0.5s;
+  font-size: 14px;
+  color: rgb(0, 67, 80);
+  height: 45px;
+}
+
+.addinput-field:focus,
+.custom-dropdowne:focus {
+  border-color: rgb(0, 68, 80);
+  outline-color: rgb(0, 67, 80);
+  transition: 0.5s;
+}
+
+.custom-dropdowne {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgb(0,67,80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 24px 24px;
+  cursor: pointer;
+}
+
+.eventadd {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: 'Anjoman-FaNum-Bold';
+  justify-content: center;
+  align-items: center;
+}
+
+.eventadd-form {
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.erroradd {
+  text-align: right;
+  margin-right: 20px;
+  color: rgb(166, 19, 19);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.infoadd {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  color: rgb(74, 152, 174);
+}
+
+.buttonadd-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.submitadd {
+  width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(253, 253, 253);
+  background-color: rgb(74, 152, 174);
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.submitadd:hover {
+  background-color: transparent;
+  color: rgb(74, 152, 174);
+}
+
+.submitadd-disabled {
+  background-color: rgb(0, 68, 80);
+  border: 1px solid rgb(0, 68, 80);
+  color: rgb(0, 68, 80);
+  cursor: not-allowed;
+}
+.textarea-field {
+  width: 87%;
+  height: 200px;
+  font-size: 16px; 
+  padding: 8px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  overflow-y: scroll; 
+  resize: none; 
+
+
+}
+
+.textarea-field::-webkit-scrollbar {
+  width: 10px;
+ 
+}
+
+.textarea-field::-webkit-scrollbar-thumb {
+  background-color: #888; 
+  border-radius: 4px;
+
+}
+
+.textarea-field::-webkit-scrollbar-thumb:hover {
+  background-color: #555; 
+  cursor: pointer;
+}
+
+
+writer-field {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; 
+  gap: 4px; 
+  margin-bottom: 10px;
+}
+
+.trash-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: rgb(166, 95, 19);
+  transition: transform 0.2s, color 0.2s;
+}
+
+.trash-icon:hover {
+  transform: scale(1.2); 
+  color: rgb(228, 127, 18); 
+}
+
+/* Cancel button */
+/* .canceladd {
+  width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  color: rgb(245, 245, 245);
+  background-color: rgb(166, 95, 19);
+  border: 1px solid rgb(166, 95, 19);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+} */
+
+/* .canceladd:hover {
+  background-color: transparent;
+  color: rgb(166, 95, 19);
+} */
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .addinput-field,
+  .custom-dropdownNews {
+      margin: 10px;
+      width: calc(100% - 20px);
+  }
+
+  .Labeladd {
+      margin: 5px 20px;
+  }
+
+  .buttonadd-container {
+      justify-content: center;
+  }
+
+  .submitadd, .canceladd {
+      width: 100px;
+      font-size: 14px;
+  }
+
+  .infoadd {
+      font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .eventadd {
+      padding: 10px;
+  }
+
+  .addinput-field,
+  .custom-dropdownNews {
+      margin: 5px;
+      width: calc(100% - 10px);
+  }
+
+  .infoadd {
+      font-size: 1.5rem;
+  }
+}
