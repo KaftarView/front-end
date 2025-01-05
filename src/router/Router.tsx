@@ -34,6 +34,7 @@ import UploadPodcast from "../pages/CreateEpisode/createEpisode"
 import MembersPage from "../pages/AssocitionMembers/Members"
 import UploadMedia from "../Pages/AddEventMedia/addEventMedia"
 import ProfileEvent from "../pages/ProfileEvents/ProfileEvent"
+import EditPadcast from "../pages/EditPadcast/EditPadcast"
 
 
 
@@ -73,6 +74,8 @@ const Router = () => {
         <Route path={PATHS.AddOrganizer}  element={<Organizer />} />
         <Route path={PATHS.AddNashriye} element={< AddNashriye/>} />
         <Route path={PATHS.EditEpisode} element={< EditEpisode/>} />
+        <Route path={PATHS.EditPodcast} element={< EditPadcast/>} />
+
 
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
