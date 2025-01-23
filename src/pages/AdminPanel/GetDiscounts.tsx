@@ -5,7 +5,7 @@ import apiClient from '../../utils/apiClient';
 import PopupQuestion from '../../components/PopupQuestion/PopopQuestion'
 import * as XLSX from 'xlsx';
 import { Download } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useParams , useNavigate } from 'react-router-dom';
 
 interface Discount {  
   validFrom: string;  
@@ -58,6 +58,8 @@ function GetDiscounts() {
   const [currentDiscountId , setCurrentNewsId] = useState<number | null>(null); 
   const [isModalVisible, setIsModalVisible] = useState(false); 
   const { id } = useParams();
+  const eventId = id;
+  const navigate = useNavigate();
 
   useEffect(() => {  
     const fetchDiscounts = async () => {  
@@ -238,7 +240,9 @@ function GetDiscounts() {
                   onConfirm={handleConfirmDelete}  
                   onCancel={handleCancelDelete}  
                 />  
-      <button className='add-ticket-panel-button'>اضافه کردن تخفیف</button>  
+      <button className='add-ticket-panel-button' onClick={() => navigate(`/Discount/${eventId}`)}>  
+          اضافه کردن تخفیف  
+      </button>  
     </div>  
     
   );  

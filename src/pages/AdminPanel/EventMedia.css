@@ -61,6 +61,25 @@
     transform: translateY(-4px);
   }
 
+  .add-media-panel-button
+  {
+    display: block;
+    width: auto;
+    padding: 12px;
+    background-color: #dc7744;
+    color: #fff;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    font-family: 'Anjoman-FaNum-Bold';
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+  }
+
   .media-audioplay {
     flex : 1;
     justify-content: center;
@@ -212,8 +231,23 @@
     background: #ccc;
   }
 
+  .media-audioplay audio {
+    width: 70%;
+    display: block;
+  }
+
   .media-delete-download-icons {
     display: flex;
     flex-direction: row;
     gap: 0.3rem;
+  }
+
+  @media (max-width: 768px) {
+    .document-card {
+      width: 100%;
+    }
+    .media-audioplay audio {
+      display: none;
+    }
+
   }

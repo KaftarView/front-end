@@ -34,7 +34,7 @@ import UploadPodcast from "../pages/CreateEpisode/createEpisode"
 import AdminPanel from "../pages/AdminPanel/mainPage"
 import EventComponent from "../components/BuyTicketPopup/BuyTicket"
 import MembersPage from "../pages/AssocitionMembers/Members"
-import UploadMedia from "../Pages/AddEventMedia/addEventMedia"
+import UploadMedia from "../pages/AddEventMedia/addEventMedia"
 import ProfileEvent from "../pages/ProfileEvents/ProfileEvent"
 import EditPadcast from "../pages/EditPadcast/EditPadcast"
 import Members from "../pages/Addmembers/Addmembers"
@@ -92,7 +92,7 @@ const Router = () => {
                 <Route path={PATHS.createrole} element={<CreateRole/>}/>
                 <Route path={PATHS.addpodcast} element={<AddPodcast/>}/>
                 <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
-                <Route path={PATHS.test} element={<EventComponent/>}/>
+                {/* <Route path={PATHS.test} element={<EventComponent/>}/> */}
                 <Route path={PATHS.MembersPage}  element={<MembersPage />} />
                 <Route path={PATHS.Addmembers} element={<Members/>}/>
                 <Route path={PATHS.addmedia}  element={<UploadMedia />} />

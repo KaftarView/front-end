@@ -34,6 +34,7 @@ const EditEvent: React.FC = () => {
 //----------last
 
     const params = useParams<{ id: string }>(); // type the params with `id` being a string
+    const { id } = useParams();
     const [initialData, setInitialData] = useState<FormData| null>();
 //-------------done last
   const navigate = useNavigate();
@@ -207,7 +208,7 @@ const EditEvent: React.FC = () => {
     
     try {
       const res = await apiClient.put(
-        `/v1/events/5`,
+        `/v1/admin/events/${id}`,
         formData,
         {
           withCredentials: true,
@@ -233,7 +234,7 @@ useEffect(
 
 
       try {  
-        const response = await apiClient.get('/v1/public/events/5', {
+        const response = await apiClient.get(`/v1/admin/events/${id}`, {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header
@@ -288,7 +289,7 @@ useEffect(
       } 
          catch (err) {  } 
         finally {  }
-  } getEvent()},[params.id])
+  } getEvent()},[id])
 
 
   const deleteCategory = (index: number) => {

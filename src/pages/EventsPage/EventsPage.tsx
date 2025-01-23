@@ -182,7 +182,7 @@ const EventsPage: React.FC = () => {
                 </span>
               </div>
             </div>
-            {userPermissions && userPermissions.includes("CreateEvent") &&
+            {userPermissions && (userPermissions.includes("CreateEvent") || userPermissions.includes("All")) &&
               <button className='add-button' onClick={()=>navigate('/addevent')} >ایجاد رویداد</button>
             }
           </nav>

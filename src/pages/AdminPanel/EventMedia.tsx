@@ -2,7 +2,7 @@ import React , {useEffect , useState} from "react";
 import { FileText, Film, PresentationIcon , Image , AudioLines , Trash , Download} from "lucide-react";
 import apiClient from '../../utils/apiClient'
 import "./EventMedia.css";
-import { useParams } from 'react-router-dom';
+import { useParams , useNavigate } from 'react-router-dom';
 
 interface MediaItem {
   id: number;
@@ -49,6 +49,7 @@ const MediaPage: React.FC = () => {
   ];
   const[medias , setMedias] = useState<Media[]>([]);
   const { id } = useParams();
+  const navigate = useNavigate()
 
   useEffect(() => {  
     const fetchData = async () => {  
@@ -79,7 +80,9 @@ const MediaPage: React.FC = () => {
         <h1>گالری رویداد</h1>
         <p>تمام مدیاهای موجود برای این رویداد</p>
       </header>
-
+      <button className='add-media-panel-button' onClick={() => navigate(`/events/${id}/addmedia`)}>  
+          اضافه کردن فایل  
+      </button>  
       <section className="admin-media-section">
         <h2>
           <Image className="section-icon" />
@@ -95,33 +98,13 @@ const MediaPage: React.FC = () => {
                   <img src={video.mediaPath} alt={video.name} />
                 </div>
               </div>
-              <div key={video.id} className="video-card">
-                <div className="get-media-image">
-                  <img src={video.mediaPath} alt={video.name} />
-                </div>
-              </div>
-              <div key={video.id} className="video-card">
-                <div className="get-media-image">
-                  <img src={video.mediaPath} alt={video.name} />
-                </div>
-              </div>
-              <div key={video.id} className="video-card">
-                <div className="get-media-image">
-                  <img src={video.mediaPath} alt={video.name} />
-                </div>
-              </div>
-              <div key={video.id} className="video-card">
-                <div className="get-media-image">
-                  <img src={video.mediaPath} alt={video.name} />
-                </div>
-              </div>
-              <div key={video.id} className="video-card">
-                <div className="get-media-image">
-                  <img src={video.mediaPath} alt={video.name} />
-                </div>
-              </div>
               </>
             ))}
+          {(!medias || medias.length == 0) && 
+              <div>
+                تصویری وجود ندارد
+              </div>
+            }
         </div>
       </section>
 
@@ -131,20 +114,24 @@ const MediaPage: React.FC = () => {
           ویدیوها
         </h2>
         <div className="video-container">
-          {medias
-            .filter((item) => item.mediaType.startsWith("video/"))
-            .map((video) => (
-              <div key={video.id} className="video-card">
-            <video height={160} width={300} controls> 
-            <source src={video.mediaPath} type="video/mp4" />
-            </video>
+            {(() => {
+        const filteredVideos = medias.filter((item) => item.mediaType.startsWith("video/"));
+        if (filteredVideos.length === 0) {
+          return <div>ویدیویی وجود ندارد</div>;
+        }
 
-                <div className="video-info">
-                  <h3>{video.name}</h3>
-                  <p>size : {(video.mediaSize / (1024 * 1024)).toFixed(2)} MB</p>
-                </div>
-              </div>
-            ))}
+        return filteredVideos.map((video) => (
+          <div key={video.id} className="video-card">
+            <video height={160} width={300} controls>
+              <source src={video.mediaPath} type="video/mp4" />
+            </video>
+            <div className="video-info">
+              <h3>{video.name}</h3>
+              <p>size : {(video.mediaSize / (1024 * 1024)).toFixed(2)} MB</p>
+            </div>
+          </div>
+        ));
+      })()}
         </div>
       </section>
 
@@ -154,28 +141,30 @@ const MediaPage: React.FC = () => {
                 فایل‌های صوتی
         </h2>
         <div className="document-container">
-          {medias
-            .filter((item) => item.mediaType.startsWith('audio/'))
-            .map((audio) => (
-              <div key={audio.id} className="document-card">
+        {(() => {
+            const filteredAudios = medias.filter((item) => item.mediaType.startsWith("audio/"));
+            if (filteredAudios.length === 0) {
+              return <div>فایل صوتی وجود ندارد</div>;
+            }
 
+            return filteredAudios.map((audio) => (
+              <div key={audio.id} className="document-card">
                 <div className="document-icon">
                   <AudioLines />
-                  
                 </div>
                 <h4>{audio.name}</h4>
                 <div className="media-audioplay">
-                <audio controls>
-
+                  <audio controls>
                     <source src={audio.mediaPath} />
-                </audio>
+                  </audio>
                 </div>
                 <div className="media-delete-download-icons">
-                 <Download />   
-                 <Trash/>
+                  <Download />
+                  <Trash />
                 </div>
               </div>
-            ))}
+            ));
+          })()}
         </div>
       </section>
 
@@ -204,6 +193,11 @@ const MediaPage: React.FC = () => {
                 </div>
               </div>
             ))}
+            {(!medias || medias.length == 0) && 
+              <div>
+                فایلی وجود ندارد
+              </div>
+            }
         </div>
       </section>
 
@@ -233,6 +227,11 @@ const MediaPage: React.FC = () => {
                 </div>
               </div>
             ))}
+            {(!medias || medias.length == 0) && 
+              <div>
+                پاورپوینتی وجود ندارد
+              </div>
+            }
         </div>
       </section>
     </div>

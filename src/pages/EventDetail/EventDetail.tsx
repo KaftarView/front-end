@@ -165,6 +165,7 @@ const EventDetail: React.FC = () => {
   const navigate = useNavigate();
   const { getUserRoles , getUserPermissions} = useAuth();  
   const userPermissions = getUserPermissions();
+  const [member , setMember] = useState<boolean>(false)
   let scrollTimeout: NodeJS.Timeout;
   const statusTranslation: Record<EventDetail['status'], string> = {  
     Draft: 'پیش نویس',  
@@ -182,6 +183,27 @@ const EventDetail: React.FC = () => {
   
   const userRole = getUserRoles()[0];
   console.log(userRole)
+
+  useEffect(() => {  
+    const fetchUsers = async () => {  
+      try {  
+        const response = await apiClient.get(`v1/events/${id}/attendance` , {
+          headers: {  
+            "ngrok-skip-browser-warning": "69420",  
+            'Content-Type': 'application/json', 
+          },  
+        }); // Replace with your API URL   
+        console.log(response.data)
+        setMember(response.data.data)
+      } catch (err: any) {  
+        setError(err.message || "Something went wrong");  
+      } finally {  
+        setLoading(false);  
+      }  
+    };  
+
+    fetchUsers();  
+  }, []); 
 
   useEffect(() => {
     const handleScroll = () => {
@@ -253,7 +275,7 @@ useEffect(() => {
       setError(null);  
 
       try {  
-          const res = await apiClient.get(`/v1/admin/events/${id}/media`, {  
+          const res = await apiClient.get(`/v1/events/${id}/media`, {  
             headers: {  
               "ngrok-skip-browser-warning": "69420",  
               'Content-Type': 'application/json', 
@@ -454,7 +476,6 @@ const handlePublish = async () => {
           </div>
           {/* {id && <EventHost eventId={id} />} */}
           <div className='event-details-title'>
-          <h2>نظرات</h2>
           </div>
             <Comments postId={event.id} />
 
