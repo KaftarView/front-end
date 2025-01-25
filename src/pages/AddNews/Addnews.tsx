@@ -167,7 +167,7 @@ const Addnews: React.FC = () => {
             id="template"
             value={template}
             onChange={(e) => setTemplate(Number(e.target.value) as 1 | 2)}
-            className="addinput-field"
+            className="addinput-fieldevent"
           >
             <option value={1}>قالب 1</option>
             <option value={2}>قالب 2</option>
@@ -180,7 +180,7 @@ const Addnews: React.FC = () => {
             type="text"
             id="title"
             {...register("title")}
-            className={`addinput-field ${errors.title ? "error-field" : ""}`}
+            className={`addinput-fieldevent ${errors.title ? "error-field" : ""}`}
           />
           {errors.title && (
             <span className="error-messageevent">{errors.title}</span>
@@ -192,7 +192,7 @@ const Addnews: React.FC = () => {
           <textarea
             id="description"
             {...register("description")}
-            className={`addinput-field textarea-field ${
+            className={`addinput-fieldevent textarea-field ${
               errors.description ? "error-field" : ""
             }`}
           />
@@ -225,7 +225,7 @@ const Addnews: React.FC = () => {
                       onChange={(e) =>
                         handleCustomCategoryChange(index, e.target.value)
                       }
-                      className="addinput-field"
+                      className="addinput-fieldevent"
                     />
                   </div>
                 ))}
@@ -248,7 +248,7 @@ const Addnews: React.FC = () => {
           <textarea
             id="content1"
             {...register("content")}
-            className={`addinput-field textarea-field ${
+            className={`addinput-fieldevent textarea-field ${
               errors.content ? "error-field" : ""
             }`}
           />
@@ -264,7 +264,7 @@ const Addnews: React.FC = () => {
               type="file"
               id="banner"
               accept="image/*"
-              className="addinput-field"
+              className="addinput-fieldevent"
             />
             
           </div>
@@ -277,7 +277,7 @@ const Addnews: React.FC = () => {
               <textarea
                 id="content2"
                 {...register("content2")}
-                className="addinput-field textarea-field"
+                className="addinput-fieldevent textarea-field"
               />
               <label htmlFor="banner2" className="Labeladd">
                 بارگذاری بنر اضافی
@@ -286,7 +286,7 @@ const Addnews: React.FC = () => {
                 type="file"
                 id="banner2"
                 accept="image/*"
-                className="addinput-field"
+                className="addinput-fieldevent"
               />
             </>
           )}
