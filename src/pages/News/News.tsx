@@ -52,7 +52,7 @@ const NewsPageshow: React.FC = () => {
     const fetchNews = async () => {
       try {
         const response = await axios.get(
-          `https://66e1-212-64-199-253.ngrok-free.app/v1/public/news/${NewsId}`,
+          `https://api.cesaiust.ir/v1/public/news/${NewsId}`,
           {
             headers: {
               "ngrok-skip-browser-warning": "69420",

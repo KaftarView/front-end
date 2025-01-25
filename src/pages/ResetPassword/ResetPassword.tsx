@@ -90,7 +90,7 @@ function ResetPassword() {
             <div className='forget_body'>
                 
                 <div>
-                <img className="img2" src="././public/Pacman gif.gif" alt="My GIF" />
+                <img className="img2" src="/Pacman gif.gif" alt="My GIF" />
                 </div>
                 <form className='sign_form1' onSubmit={(e) => e.preventDefault()}>
                     <h2 className='resetTitle'>بازیابی رمز عبور</h2>

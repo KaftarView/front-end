@@ -57,7 +57,7 @@ const ForgetPassword: React.FC = () => {
         <div className='container'>
             <div className='forget_body'>
             <div>
-                <img className="img2" src="././public/Pacman gif.gif" alt="My GIF" />
+                <img className="img2" src="/Pacman gif.gif" alt="My GIF" />
                 </div>
                 <form className='forget_form' onSubmit={handleSubmit}>
                     <h2>بازیابی رمزعبور</h2>

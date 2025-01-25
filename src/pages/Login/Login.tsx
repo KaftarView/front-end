@@ -81,7 +81,7 @@ const Login = () => {
   return (
     <div className="Login">
       <div>
-        <img className="img2" src="././public/pacman gif.gif" alt="My GIF" />
+        <img className="img2" src="/Pacman gif.gif" alt="My GIF" />
       </div>
       <h2 className="entry">ورود</h2>
       <form className="sign_form" onSubmit={handleSubmit(onSubmit)}>
