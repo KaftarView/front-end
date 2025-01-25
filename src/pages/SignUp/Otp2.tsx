@@ -50,7 +50,7 @@
 //         // navigate('/resetPass' , { state: { email } });
 
 //         try {
-//             const response = await axios.post('https://4410-212-64-199-253.ngrok-free.app/v1/register/verify', payload);
+//             const response = await axios.post('https://api.cesaiust.ir/v1/register/verify', payload);
 //             console.log('Response:', response.data);
 
 //         } catch (error) {
@@ -66,7 +66,7 @@
 //         <div className="otp_body">
 //             <form className="otp_form" onSubmit={handleSubmit}>
 //             <div>
-//                 <img className="img2" src="././public/Pacman gif.gif" alt="My GIF" />
+//                 <img className="img2" src="/Pacman gif.gif" alt="My GIF" />
 //                 </div>
 //                 <h1>کد ارسال شده به ایمیل را وارد کنید</h1>
 //                 <div className='inputs'>
@@ -200,7 +200,7 @@ const Otp2: React.FC = () => {
     <div className="otp2_body">
       <form className="otp2_form" onSubmit={handleSubmit}>
         <div>
-          <img className="img3" src="././public/Pacman gif.gif" alt="My GIF" />
+          <img className="img3" src="/Pacman gif.gif" alt="My GIF" />
         </div>
         <h1 className="h1">کد ارسال شده به ایمیل را وارد کنید</h1>
         <div className="inputs2">

@@ -42,7 +42,7 @@ const Addnews: React.FC = () => {
       setLoadingCategories(true);
       try {
         const response = await axios.get(
-          "https://66e1-212-64-199-253.ngrok-free.app/v1/public/categories",
+          "https://api.cesaiust.ir/v1/public/categories",
           {
             headers: {
               "ngrok-skip-browser-warning": "69420",

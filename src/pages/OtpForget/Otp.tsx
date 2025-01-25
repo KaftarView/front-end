@@ -141,7 +141,7 @@ const Otp: React.FC = () => {
         <div className="otp_body">
             <form className="otp_form" onSubmit={handleSubmit}>
             <div>
-                <img className="img2" src="././public/Pacman gif.gif" alt="My GIF" />
+                <img className="img2" src="/Pacman gif.gif" alt="My GIF" />
                 </div>
                 <p>لطفا کد ارسال شده به ایمیل را وارد کنید</p>
                 <div className='inputs'>

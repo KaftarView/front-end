@@ -214,7 +214,7 @@ const NewsPage: React.FC = () => {
                 </div>
               </div>
               }
-                <img src='../../public/news.jpg' alt={news.title} className="news-image" />
+                <img src='/news.jpg' alt={news.title} className="news-image" />
               <div className="news-summary">
                 <h3>{news.title}</h3>
                 <p>{news.description}</p>

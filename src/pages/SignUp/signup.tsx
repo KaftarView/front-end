@@ -77,7 +77,7 @@ const SignUp = () => {
   return (
     <div className="signup">
       <div>
-        <img className="img2" src="././public/pacman gif.gif" alt="My GIF" />
+        <img className="img2" src="/Pacman gif.gif" alt="My GIF" />
       </div>
       <h2 className="sign">ثبت نام</h2>
       <form className="sign_form" onSubmit={handleSubmit(onSubmit)}>

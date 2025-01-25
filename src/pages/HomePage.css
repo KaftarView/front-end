@@ -1122,7 +1122,7 @@ padding-left: 1.5rem;
     background-size: cover;
     background-repeat: no-repeat;
     font-family: 'Anjoman-FaNum-Medium';
-    background-image: url("public\\intro2.jpg");
+    background-image: url("/intro2.jpg");
 
     /* background: linear-gradient(#2d67ae, #0ea575); Gradient background */
     color: black;
