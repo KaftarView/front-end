@@ -38,6 +38,9 @@ import UploadMedia from "../pages/AddEventMedia/addEventMedia"
 import ProfileEvent from "../pages/ProfileEvents/ProfileEvent"
 import EditPadcast from "../pages/EditPadcast/EditPadcast"
 import Members from "../pages/Addmembers/Addmembers"
+import Addnews from "../pages/AddNews/Addnews"
+import NewsPageshow from "../pages/News/News"
+import EditNews from "../pages/EditNews/EditNews"
 
 
 
@@ -97,9 +100,9 @@ const Router = () => {
                 <Route path={PATHS.Addmembers} element={<Members/>}/>
                 <Route path={PATHS.addmedia}  element={<UploadMedia />} />
                 <Route path={PATHS.ProfileEvent}  element={<ProfileEvent/>}></Route>
-
-
-
+                <Route path={PATHS.Addnews}  element={<Addnews/>} />
+                <Route path={PATHS.EditNews}  element={<EditNews/>} />
+                <Route path={PATHS.ShowNewsPage}  element={<NewsPageshow/>} />
     </Routes>
   )
 }
