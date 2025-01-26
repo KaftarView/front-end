@@ -236,7 +236,7 @@ const ProfileEvent = () => {
         <ProfilePage />
 
 
-        <main className="main-content">
+        <main className="main-contentprofileevent">
           <h3 >رویداد‌های من</h3>
           <div className="grid-container">
             {events.map((event) => (
