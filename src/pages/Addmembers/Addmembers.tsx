@@ -114,11 +114,17 @@ const Members = () => {
                 .join('\n');
         
             console.log("meee " + formattedMessage);
-            alert(formattedMessage);
+            alert(serverMessages);
         } else {
-            alert("An error occurred: " + err.response.data);
+            alert( err.response.data.message);
+            // console.log("meee " + err.response.data.message);
+
         }
-        }
+      } else {
+        console.error("No response from server:", err.request);
+        alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
+      }
+        
       }
     }
   };

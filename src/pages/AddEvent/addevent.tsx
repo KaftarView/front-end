@@ -207,7 +207,7 @@ const Event = () => {
             console.log("meee " + formattedMessage);
             alert(formattedMessage);
         } else {
-            alert("An error occurred: " + err.response.data);
+            alert("An error occurred: " + err.response.data.message);
         }
         
         
