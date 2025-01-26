@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./AddNews.css";
-import axios, { CanceledError } from "axios";
+import axios, { all, CanceledError } from "axios";
 import apiClient from "../../utils/apiClient";
 
 interface FormData {
@@ -21,7 +21,7 @@ const Addnews: React.FC = () => {
   const [customCategories, setCustomCategories] = useState<string[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [isCustomCategories, setIsCustomCategories] = useState(false);
-  const [categories2, setCategories2] = useState<string[]>([]);
+  const [categories2, setCategories2] = useState<string>();
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
     {}
   );
@@ -40,15 +40,12 @@ const Addnews: React.FC = () => {
     const fetchCategories = async () => {
       setLoadingCategories(true);
       try {
-        const response = await apiClient.get(
-          "/v1/public/categories",
-          {
-            headers: {
-              "ngrok-skip-browser-warning": "69420",
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await apiClient.get("/v1/public/categories", {
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            "Content-Type": "application/json",
+          },
+        });
         // console.log(response.data.data)
         setCategories(response.data.data);
         // console.log(";;;;;;;;;;")
@@ -76,14 +73,26 @@ const Addnews: React.FC = () => {
     });
   };
 
+  // const handleCategoriesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const value = e.target.value;
+  //   if (value === "other") {
+  //     setIsCustomCategories(true);
+  //     handleAddCategory();
+  //   } else if (value) {
+  //     // setCategories2((prev) => [...new Set(value)]);
+  //     setCategories2(e.target.value);
+  //     setIsCustomCategories(false);
+  //   }
+  // };
+
   const handleCategoriesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     if (value === "other") {
-      setIsCustomCategories(true);
-      handleAddCategory();
+      setIsCustomCategories(true); // Show custom category input
+      setCategories2(undefined); // Clear the selected predefined category
     } else if (value) {
-      setCategories2((prev) => [...new Set([value])]);
-      setIsCustomCategories(false);
+      setCategories2(value); // Set the selected predefined category
+      setIsCustomCategories(false); // Hide custom category input
     }
   };
 
@@ -112,13 +121,36 @@ const Addnews: React.FC = () => {
 
     const formData = new FormData();
 
-    const allCategories = [...categories2, ...customCategories].filter(Boolean);
-
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("content", data.content);
-    formData.append("categories", JSON.stringify(allCategories));
-    console.log(allCategories);
+ 
+  const allCategories =
+  isCustomCategories && customCategories.length > 0
+    ? customCategories
+    : categories2;
+
+console.log(categories2);
+console.log(customCategories);
+
+// Prepare categories array
+const categoriesArray: string[] = Array.isArray(allCategories)
+  ? [...allCategories] // Copy all elements if it's an array
+  : allCategories
+  ? [allCategories] // Wrap single value into an array
+  : [];
+
+// Filter out undefined values (if any)
+const filteredCategoriesArray = categoriesArray.filter(
+  (category): category is string => category !== undefined
+);
+
+// Append categories array to FormData
+filteredCategoriesArray.forEach((category) => {
+  formData.append("categories", category); // Adjust key format to what backend expects
+});
+
+console.log(filteredCategoriesArray);
 
     if (data.banner) {
       formData.append("banner", data.banner[0]);
@@ -132,6 +164,7 @@ const Addnews: React.FC = () => {
     if (template === 2 && data.banner2 && data.banner2[0]) {
       formData.append("banner2", data.banner2[0]);
     }
+    console.log(...formData);
 
     try {
       const response = await apiClient.post("/v1/admin/news", formData, {
@@ -142,9 +175,46 @@ const Addnews: React.FC = () => {
       });
       console.log("Event created successfully:", response.data);
       reset();
-    } catch (error) {
-      if (error instanceof CanceledError) return;
-      console.error("Error creating event:", error);
+    } catch (err) {
+      if (err instanceof CanceledError) return;
+      console.error("Error creating news:", err);
+      if (axios.isAxiosError(err)) {
+        // Log or display the general error message
+        console.error("Axios error message:", err.message);
+    
+        // Check for a server response
+        if (err.response) {
+          console.error("Response status code:", err.response.status);
+          console.error("Response data:", err.response.data);
+    
+          // Extract specific error messages, if available
+          const serverMessages = err.response.data.messages;
+          if (serverMessages) {
+            const formattedMessage = JSON.stringify(serverMessages)
+                .replace(/["{}]/g, '') 
+                .replace(/,/g, '\n')  
+                .split('\n')          
+                .map(line => {
+                    const parts = line.split(':'); 
+                    return parts.length > 2 
+                        ? ` ${parts.slice(2).join(':')}` 
+                        : line; 
+                })
+                .join('\n');
+        
+            console.log("meee " + formattedMessage);
+            alert(formattedMessage);
+        } else {
+            alert("An error occurred: " + err.response.data);
+        }
+        
+        
+        } else {
+          console.error("No response from server:", err.request);
+          alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
+        }
+    
+    }
     }
   };
 
