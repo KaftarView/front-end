@@ -45,6 +45,7 @@ const PATHS ={
     Addnews:"/addnews",
     EditNews:'/EditNews/:NewsId',
     ShowNewsPage:'/Show-news/:NewsId',
+    chat:'/chat',
 
 
 }

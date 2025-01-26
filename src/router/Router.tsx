@@ -41,6 +41,7 @@ import Members from "../pages/Addmembers/Addmembers"
 import Addnews from "../pages/AddNews/Addnews"
 import NewsPageshow from "../pages/News/News"
 import EditNews from "../pages/EditNews/EditNews"
+import ChatSupport from "../pages/Chat/chat"
 
 
 
@@ -103,6 +104,7 @@ const Router = () => {
                 <Route path={PATHS.Addnews}  element={<Addnews/>} />
                 <Route path={PATHS.EditNews}  element={<EditNews/>} />
                 <Route path={PATHS.ShowNewsPage}  element={<NewsPageshow/>} />
+                <Route path={PATHS.chat}  element={<ChatSupport/>} />
     </Routes>
   )
 }

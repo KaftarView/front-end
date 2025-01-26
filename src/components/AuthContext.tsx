@@ -9,6 +9,7 @@ interface AuthContextType {
     logout: () => void;  
     getUserRoles : () => string[];
     getUserPermissions : () => string[];
+    getUserUsername : () => string;
 }
 
 export interface User {  
@@ -48,6 +49,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }  
         return [];  
       }; 
+
+      const getUserUsername = (): string => {
+        const user = localStorage.getItem('user');  
+        if (user) {  
+            const parsedUser: User = JSON.parse(user);  
+            return parsedUser.username;
+        }  
+        return "";
+      }
       const getUserPermissions = (): string[] => {  
         const user = localStorage.getItem('user');  
         if (user) {  
@@ -67,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const allowAccess = () => setIsAllowed(true);
 
     return (
-        <AuthContext.Provider value={{ isAllowed, allowAccess , isAuthenticated, login, logout ,getUserRoles , getUserPermissions}}>
+        <AuthContext.Provider value={{ isAllowed, allowAccess , isAuthenticated, login, logout ,getUserRoles , getUserPermissions , getUserUsername}}>
             {children}
         </AuthContext.Provider>
     );
