@@ -167,7 +167,7 @@ const Organizer = () => {
             onChange={(e) =>
               handleOrganizerChange("description", e.target.value)
             }
-            className={`addinput-fieldevent textarea-fieldevent ${
+            className={`addinput-fieldtik textarea-fieldtik ${
               errors.description ? "error-field" : ""
             }`}
           />

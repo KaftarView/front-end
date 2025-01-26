@@ -308,7 +308,7 @@ const Event = () => {
          <textarea
            id="description"
            onChange={(e) => handleEventChange("description", e.target.value)}
-          className={`addinput-fieldevent textarea-fieldevent ${errors.description ? "error-field" : ""}`}
+          className={`addinput-fieldtik textarea-fieldtik  ${errors.description ? "error-field" : ""}`}
 
          />
          {errors.description && <span className="error-messageevent">{errors.description}</span>}
