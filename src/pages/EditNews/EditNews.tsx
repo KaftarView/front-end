@@ -94,7 +94,6 @@ const EditNews: React.FC = () => {
       }
     };
 
-
   const handleTemplateChange = (template: "template1" | "template2") => {
     setSelectedTemplate(template);
 
@@ -107,8 +106,6 @@ const EditNews: React.FC = () => {
       }));
     }
   };
-
-  
 
   const handleCategoryChange = (index: number, value: string) => {
     const updatedCategories = [...newEdit.categories];
@@ -164,7 +161,7 @@ const EditNews: React.FC = () => {
     const newCategories = newEdit.categories;
 
     newCategories.forEach((category) => {
-      formData.append("categories", category); 
+      formData.append("categories", category);
     });
 
     // if (selectedTemplate === "template1") {
@@ -196,8 +193,8 @@ const EditNews: React.FC = () => {
   return (
     <html id="eeee">
       <div className="eventadd">
-        <form className="eventadd-form">
-          <h3 className="form-title">ویرایش خبر</h3>
+        <form className="eventadd-formeditnews">
+          <h3 className="infoaddetidnews">ویرایش خبر</h3>
 
           <label htmlFor="template" className="Labeladd">
             انتخاب قالب
@@ -306,7 +303,6 @@ const EditNews: React.FC = () => {
             </button>
           </div>
 
-
           <label htmlFor="banner" className="Labeladd">
             بنر
           </label>
@@ -337,6 +333,13 @@ const EditNews: React.FC = () => {
           <div className="buttonadd-container">
             <button type="submit" onClick={onSubmit} className={"submitadd "}>
               ثبت
+            </button>
+            <button
+              type="button"
+              className="canceladd"
+              onClick={() => navigate("/news-page")}
+            >
+              لغو
             </button>
           </div>
         </form>

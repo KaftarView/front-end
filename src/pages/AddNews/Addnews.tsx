@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -41,8 +40,8 @@ const Addnews: React.FC = () => {
     const fetchCategories = async () => {
       setLoadingCategories(true);
       try {
-        const response = await axios.get(
-          "https://api.cesaiust.ir/v1/public/categories",
+        const response = await apiClient.get(
+          "/v1/public/categories",
           {
             headers: {
               "ngrok-skip-browser-warning": "69420",
@@ -126,7 +125,6 @@ const Addnews: React.FC = () => {
       console.log(data.banner);
     }
 
-
     if (template === 2 && data.content2) {
       formData.append("content2", data.content2);
     }
@@ -154,11 +152,11 @@ const Addnews: React.FC = () => {
     <html id="eeee">
       <div className="eventadd">
         <form
-          className="eventadd-form"
+          className="eventadd-formeditnews"
           encType="multipart/form-data"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <h3 className="infoadd">مشخصات خبر</h3>
+          <h3 className="infoaddetidnews">مشخصات خبر</h3>
 
           <label htmlFor="template" className="Labeladd">
             انتخاب قالب
@@ -180,7 +178,9 @@ const Addnews: React.FC = () => {
             type="text"
             id="title"
             {...register("title")}
-            className={`addinput-fieldevent ${errors.title ? "error-field" : ""}`}
+            className={`addinput-fieldevent ${
+              errors.title ? "error-field" : ""
+            }`}
           />
           {errors.title && (
             <span className="error-messageevent">{errors.title}</span>
@@ -256,18 +256,16 @@ const Addnews: React.FC = () => {
             <span className="error-messageevent">{errors.content}</span>
           )}
 
-          <div className="inadd">
-            <label className="Labeladd" htmlFor="banner">
-              عکس خود را بارگذاری کنید
-            </label>
-            <input
-              type="file"
-              id="banner"
-              accept="image/*"
-              className="addinput-fieldevent"
-            />
-            
-          </div>
+          <label className="Labeladd" htmlFor="banner">
+            عکس خود را بارگذاری کنید
+          </label>
+          <input
+            type="file"
+            id="banner"
+            accept="image/*"
+            {...register("banner", { required: true })} // Register the banner input
+            className={`addinput-fieldevent`}
+          />
 
           {template === 2 && (
             <>
@@ -279,14 +277,15 @@ const Addnews: React.FC = () => {
                 {...register("content2")}
                 className="addinput-fieldevent textarea-field"
               />
-              <label htmlFor="banner2" className="Labeladd">
+              <label className="Labeladd" htmlFor="banner">
                 بارگذاری بنر اضافی
               </label>
               <input
                 type="file"
                 id="banner2"
                 accept="image/*"
-                className="addinput-fieldevent"
+                {...register("banner2", { required: true })} // Register the banner input
+                className={`addinput-fieldevent `}
               />
             </>
           )}
