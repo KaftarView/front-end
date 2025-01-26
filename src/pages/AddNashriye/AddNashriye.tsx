@@ -73,7 +73,7 @@ const Nashriye = () => {
       alert("نشریه با موفقیت اضافه شد");
   
 
-      navigate(`/nashriye`);
+      navigate(`/magazines`);
     } catch (err) {
       console.error("Error creating Event:", err);
     
@@ -112,9 +112,7 @@ const Nashriye = () => {
     });
     setNashriyeType("");
   };
-  const handleNextPage = () => {
-    navigate(`/Discount/${NashriyeId}`);
-  };
+
   return (
     <html id="nashriyee">
     <div className="eventnas">
@@ -199,7 +197,7 @@ const Nashriye = () => {
           <button
         type="button"
         className="cancelnas"
-        onClick={() => navigate("/Nashriyes")}
+        onClick={() => navigate("/magazines")}
       >
         لغو
       </button>
