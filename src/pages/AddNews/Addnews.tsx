@@ -364,13 +364,13 @@ console.log(filteredCategoriesArray);
             <button
               type="submit"
               disabled={!isValid}
-              className={`submitadd ${!isValid ? "submit-disabled" : ""}`}
+              className={`submitaddeditnews ${!isValid ? "submit-disabled" : ""}`}
             >
               ثبت
             </button>
             <button
               type="button"
-              className="canceladd"
+              className="canceladdeditnews"
               onClick={() => navigate("/news-page")}
             >
               لغو

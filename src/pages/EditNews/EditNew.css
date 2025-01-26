@@ -89,7 +89,7 @@ flex-direction: column;
   gap: 10px;
 }
 
-.submitadd {
+.submitaddeditnews {
   width: 120px;
   padding: 10px;
   font-size: 16px;
@@ -101,12 +101,12 @@ flex-direction: column;
   transition: 0.5s;
 }
 
-.submitadd:hover {
+.submitaddeditnews:hover {
   background-color: transparent;
   color: rgb(74, 152, 174);
 }
 
-.submitadd-disabled {
+.submitaddeditnews-disabled {
   background-color: rgb(0, 68, 80);
   border: 1px solid rgb(0, 68, 80);
   color: rgb(0, 68, 80);
@@ -164,7 +164,7 @@ writer-field {
 }
 
 /* Cancel button */
-/* .canceladd {
+.canceladdeditnews {
   width: 120px;
   padding: 10px;
   font-size: 16px;
@@ -174,12 +174,12 @@ writer-field {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.5s;
-} */
+}
 
-/* .canceladd:hover {
+.canceladdeditnews:hover {
   background-color: transparent;
   color: rgb(166, 95, 19);
-} */
+}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
@@ -197,7 +197,7 @@ writer-field {
       justify-content: center;
   }
 
-  .submitadd, .canceladd {
+  .submitaddsubmitaddeditnews, .canceladdeditnews {
       width: 100px;
       font-size: 14px;
   }

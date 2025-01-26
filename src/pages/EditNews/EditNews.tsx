@@ -331,12 +331,12 @@ const EditNews: React.FC = () => {
           </div>
 
           <div className="buttonadd-container">
-            <button type="submit" onClick={onSubmit} className={"submitadd "}>
+            <button type="submit" onClick={onSubmit} className={"submitaddeditnews "}>
               ثبت
             </button>
             <button
               type="button"
-              className="canceladd"
+              className="canceladdeditnews"
               onClick={() => navigate("/news-page")}
             >
               لغو
