@@ -192,13 +192,28 @@ const Event = () => {
           // Extract specific error messages, if available
           const serverMessages = err.response.data.messages;
           if (serverMessages) {
-            alert( JSON.stringify(serverMessages));
-          } else {
+            const formattedMessage = JSON.stringify(serverMessages)
+                .replace(/["{}]/g, '') 
+                .replace(/,/g, '\n')  
+                .split('\n')          
+                .map(line => {
+                    const parts = line.split(':'); 
+                    return parts.length > 2 
+                        ? ` ${parts.slice(2).join(':')}` 
+                        : line; 
+                })
+                .join('\n');
+        
+            console.log("meee " + formattedMessage);
+            alert(formattedMessage);
+        } else {
             alert("An error occurred: " + err.response.data);
-          }
+        }
+        
+        
         } else {
           console.error("No response from server:", err.request);
-          alert("No response from server. Please try again later.");
+          alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
         }
       } 
     }
@@ -226,7 +241,7 @@ const Event = () => {
     navigate(`/Discount/${eventId}`);
   };
   return (
-    <html id="eventa">
+    <html id="eventaa">
     <div className="addevent">
       <form className="addevent-form" encType="multipart/form-data">
         <h3 className="infoevent">مشخصات رویداد</h3>
@@ -353,12 +368,12 @@ const Event = () => {
           className={`custom-dropdowneevent ${errors.venueType ? "error-field" : ""}`}
         >
           <option value="">انتخاب کنید</option>
-          <option value="online">آنلاین</option>
-          <option value="physical">حضوری</option>
+          <option value="Online">آنلاین</option>
+          <option value="Physical">حضوری</option>
         </select>
         {errors.venueType && <span className="error-messageevent">{errors.venueType}</span>}
 
-        {eventType === "online" && (
+        {eventType === "Online" && (
           <>
             <label className="Labeladdevent" htmlFor="location">لینک وبینار</label>
             <input
@@ -371,7 +386,7 @@ const Event = () => {
             {errors.location && <span className="error-messageevent">{errors.location}</span>}
           </>
         )}
-        {eventType === "physical" && (
+        {eventType === "Physical" && (
           <>
             <label className="Labeladdevent" htmlFor="location">آدرس محل برگزاری</label>
             <input
