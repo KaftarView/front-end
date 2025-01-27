@@ -50,6 +50,7 @@
     /* justify-content: center; */
     grid-template-columns: repeat(auto-fit, minmax(250px, 70px));
     gap: 0.5rem;
+    padding-bottom: 150px;
   }
   
   /* Card Styles */

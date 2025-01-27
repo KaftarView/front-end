@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import {useNavigate} from 'react-router-dom'
 import Navbar from '../NavBar/NavBar'
 import Footer from '../Footer/Footer'
+import PopupQuestion from '../../components/PopupQuestion/PopopQuestion'
 
 
 
@@ -24,7 +25,7 @@ interface PodcastDetail {
 
 interface Episode {
   id: number;
-  created_at: string;
+  createdAt: string;
   name: string;
   description: string;
   banner: string;
@@ -39,6 +40,10 @@ const PodcastDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [user, setUser] = useState<User | null>(null); 
+  const [isModalVisible, setIsModalVisible] = useState(false); 
+  const [isModalVisibleTwo, setIsModalVisibleTwo] = useState(false); 
+  const [commentId , setCommentId] = useState<number | null> (null)
+  const [error , setError] = useState<string>("")
   const { getUserRoles } = useAuth();
   const userRole = getUserRoles()[0];
   const navigate = useNavigate()
@@ -68,7 +73,20 @@ const PodcastDetail: React.FC = () => {
     fetchData();
   }, []);
 
-  
+  const handleDeleteCommentClick = (commId: number) => {  
+    setCommentId(commId);  
+    setIsModalVisibleTwo(true);  
+  };  
+
+  const handleConfirmDeleteComment = () => {  
+
+  };  
+
+  const handleCancelDeleteComment = () => {  
+    setIsModalVisibleTwo(false);  
+    setCommentId(null);  
+  };  
+
   const fetchStatus = async() =>
   {
     try{
@@ -91,6 +109,30 @@ const PodcastDetail: React.FC = () => {
     fetchStatus();
   }, []);
 
+
+  const handleDeleteClick = () => {  
+    setIsModalVisible(true);  
+  };  
+
+  const handleConfirmDelete = async () => {  
+    try {  
+      const response = await apiClient.delete(`/v1/admin/podcasts/${id}`);   
+      console.log('Audio deleted successfully');  
+      console.log(response.data)
+      if(response.data.statusCode == 200) {
+        alert("پادکست با موفقیت حذف شد")
+        navigate('/podcasts')
+      }
+    } catch (err : any) {  
+      setError(err.response?.data?.message || 'An error occurred during purchase.'); 
+    }  
+
+  };  
+
+  const handleCancelDelete = () => {  
+    setIsModalVisible(false);   
+  };  
+  
 
   useEffect(() => {  
     const userData = localStorage.getItem('user');  
@@ -133,6 +175,21 @@ const PodcastDetail: React.FC = () => {
     }
   };
 
+  const handleDeleteEpisode = async (episodId : number) =>
+  {
+    try {  
+      const response = await apiClient.delete(`/v1/admin/episodes/${episodId}`);   
+      console.log('Audio deleted successfully');  
+      console.log(response.data)
+      if(response.data.statusCode == 200) {
+        alert("اپیزود با موفقیت حذف شد")
+        window.location.reload()
+      }
+    } catch (err : any) {  
+      setError(err.response?.data?.message || 'An error occurred during purchase.'); 
+    }  
+  }
+
   if (loading) {
     <>
       <div className="loading-spinner"></div>
@@ -153,7 +210,8 @@ const PodcastDetail: React.FC = () => {
           <p>دنبال کننده‌‌ها: {podcast?.subscribersCount.toLocaleString()} &nbsp;</p>
            <p>توضیحات : {podcast?.description}</p>
           <div className="podcast-actions">
-            {user && 
+
+            {user && userRole != "SuperAdmin" &&
           <button
               className={`subscribe-btn ${podcast?.is_subscribed ? "unsubscribe-btn" : ""}`}
               onClick={handleSubscribe}
@@ -161,7 +219,24 @@ const PodcastDetail: React.FC = () => {
               {isSubscribed ? "لغو دنبال کردن" : "دنبال کردن"}
             </button>
           } 
-            <button className="share-btn">اشتراک</button>
+          {userRole != "SuperAdmin" &&
+            <button className="share-btn" 
+            onClick={() => {
+              const generatedLink = `https://cesaiust.ir/podcast/${podcast?.id}`; // Replace with your logic to generate the link
+              navigator.clipboard
+                .writeText(generatedLink)
+                .then(() => alert("کپی شد."))
+                .catch((err) => console.error("Failed to copy: ", err));
+            }}
+            >اشتراک</button>
+        }
+        {user && userRole == "SuperAdmin" && 
+        <>
+        <button onClick={() => navigate(`/EditPodcast/${id}`)} style={{marginRight : '0'}} className="share-btn">ویرایش</button>
+        <button onClick={() => handleDeleteClick()}  className="share-btn">حذف پادکست</button>
+        </>
+
+        }
           </div>
         </div>
       </div>
@@ -180,16 +255,33 @@ const PodcastDetail: React.FC = () => {
                 <div>
                   <h3>{episode.name}</h3>
                   <p>                     
-                    {new Date(episode.created_at).toLocaleDateString("fa-IR", {  
+                    {new Date(episode.createdAt).toLocaleDateString("fa-IR", {  
                           weekday: "long",  
                           day: "numeric",  
                           month: "long",  
                         })}   &nbsp;|&nbsp; {episode.publisher}</p>
                 </div>
               </div>
+              {(user && userRole != "SuperAdmin" ) || !user &&
               <a href={episode.audio} target="_blank" rel="noopener noreferrer">
                 <i className="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
               </a>
+                }
+              {user && userRole == "SuperAdmin" &&
+              <div className="podcast-menu-container">
+              <span className="podcast-three-dots">⋮</span>
+              <div className="podcast-menu">
+                <button onClick={() => navigate(`/EditEpisode/${episode.id}`)}>ویرایش</button>
+                <button onClick={() => handleDeleteEpisode(episode.id)}>حذف</button>
+                <a href={episode.audio} target="_blank" rel="noopener noreferrer">
+                <button>دانلود
+                  
+                </button>
+                </a>
+              </div>
+            </div>
+            }
+      
             </div>
           ))}
           {episodes.length === 0 && 
@@ -201,6 +293,13 @@ const PodcastDetail: React.FC = () => {
         {/* Right Column */}
         <Comments postId ={podcast?.id} />
       </div>
+      <PopupQuestion   
+                  isVisible={isModalVisible}  
+                  message = "آیا از حذف این پادکست اطمینان دارید؟"
+                  onConfirm={handleConfirmDelete}  
+                  onCancel={handleCancelDelete}  
+                />  
+
     </div>
     <Footer/>
     </>

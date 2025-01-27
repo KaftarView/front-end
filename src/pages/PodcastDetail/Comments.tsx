@@ -4,6 +4,8 @@ import {User , useAuth} from '../../components/AuthContext'
 import apiClient from '../../utils/apiClient';
 import axios from 'axios';
 
+import PopupQuestion from '../../components/PopupQuestion/PopopQuestion'
+
 export interface EventComment {  
   id : number;
   authorName: string;
@@ -14,6 +16,8 @@ const Comments = ({ postId }: { postId: number | undefined }) => {
   const userRole = getUserRoles()[0];
   const [newComment, setNewComment] = useState<string>(''); 
   const [eventcomments, setComments] = useState<EventComment[]>([]);
+  const [isModalVisibleTwo, setIsModalVisibleTwo] = useState(false); 
+  const [commentId , setCommentId] = useState<number | null> (null)
 
   const [user, setUser] = useState<User | null>(null); 
   useEffect(() => {  
@@ -45,12 +49,14 @@ const Comments = ({ postId }: { postId: number | undefined }) => {
     fetchComments();  
   }, [postId]); 
 
-  const handleDeleteComment = async (id : number) => {
+  const handleDeleteComment = async () => {
     try {  
       // console.log(`/v1/comments/post/${postId}`);
-      const res = await apiClient.delete(`/v1/comments/${id}`);  
+      const res = await apiClient.delete(`/v1/comments/${commentId}`);  
       if (res.status === 200) {
         console.log("Comment submitted successfully:", res.data);  
+        alert("کامنت با موفقیت حذف شد ")
+        setIsModalVisibleTwo(false)
         fetchComments(); 
       } else {  
           console.error("Error in response: ", res.data); 
@@ -66,6 +72,16 @@ const Comments = ({ postId }: { postId: number | undefined }) => {
   } 
 
   }
+
+  const handleDeleteCommentClick = (commId: number) => {  
+    setCommentId(commId);  
+    setIsModalVisibleTwo(true);  
+  };  
+
+  const handleCancelDeleteComment = () => {  
+    setIsModalVisibleTwo(false);  
+    setCommentId(null);  
+  };  
   const handleCommentSubmit = async () => {  
     const commentData = {   
       content: newComment, 
@@ -111,10 +127,10 @@ const Comments = ({ postId }: { postId: number | undefined }) => {
             <span className="comment-author"> {comment.authorName}</span>
                       {userRole === "SuperAdmin" && 
           <div className="comment-options">
-            <span className="three-dots">⋮</span>
-                <div className="options-menu">
+            <span className="three-dots"><i onClick={() => handleDeleteCommentClick(comment.id)} className="fa fa-trash" aria-hidden="true"></i></span>
+                {/* <div className="options-menu">
                   <button onClick={() => handleDeleteComment(comment.id)}>Delete</button> 
-                </div>
+                </div> */}
             </div>
             }
             {/* <span className="comment-time">2 hours ago</span> */}
@@ -124,6 +140,12 @@ const Comments = ({ postId }: { postId: number | undefined }) => {
       ))}
       </div>
       <button onClick={handleCommentSubmit} className='comment-podcast-button'>ارسال نظر</button>
+      <PopupQuestion   
+                  isVisible={isModalVisibleTwo}  
+                  message = "آیا از حذف این نظر اطمینان دارید؟"
+                  onConfirm={handleDeleteComment}  
+                  onCancel={handleCancelDeleteComment}  
+                />  
     </div>
   );
 };
