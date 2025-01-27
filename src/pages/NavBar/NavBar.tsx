@@ -77,6 +77,9 @@ const Navbar = () => {
           <li>
             <Link to="/members">اعضا </Link>
           </li>
+          <li>
+            <Link to="/chat">چت </Link>
+          </li>
         </ul>
       </div>
     </nav>
