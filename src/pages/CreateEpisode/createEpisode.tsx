@@ -1,198 +1,231 @@
-// src/UploadPodcast.tsx
+import React, { useEffect, useState } from "react";
+import "./createEpisode.css";
+import { useParams, useNavigate } from "react-router-dom";
+import apiClient from "../../utils/apiClient";
+import axios, { CanceledError } from "axios";
 
-import React, { useState } from 'react';
-import axios, { AxiosProgressEvent } from 'axios';
-import { register } from 'module';
-import "./createEpisode.css"
-import { useNavigate, useParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import apiClient from '../../utils/apiClient';
+interface Episode {
+  name: string;
+  description: string;
+  banner: File;
+  audio:File;
+}
 
+const Episode = () => {
+  const { EpisodeId } = useParams<{ EpisodeId: string }>();
+  const [Episodes, setEpisodes] = useState<Episode[]>([]);
+  const [newEpisode, setNewEpisode] = useState<Episode>({
+    name: "",
+    description: "",
+    audio:{} as File,
+    banner: {} as File 
 
-interface FormData {
-    name: string;
-    description: string;
-    banner: FileList;
-    audio:File; // Changed to FileList to handle file inputs properly
-  }
-
-
-
-
-
-
-
-const UploadPodcast = () => {
-
-
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
-
-  const { id } = useParams<{ id: string }>();
-
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<FormData>({
-    mode: "onChange",
   });
-  // Handle file selection
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setUploadError(null); // Reset error when file is selected again
-    }
+  const [EpisodeType, setEpisodeType] = useState<string>(""); 
+  const [errors, setErrors] = useState<Partial<Record<keyof Episode, string>>>( {});
+  const [categories1, setCategories] = useState<string[]>([]);
+  const [customCategories, setCustomCategories] = useState<string[]>([""]); 
+  const [isCustomCategories, setIsCustomCategories] = useState(false);
+  const [loadingCategories, setLoadingCategories] = useState(false);
+  const navigate = useNavigate();
+
+  const handleEpisodeChange = (field: keyof Episode, value: string[] |string | number | File) => {
+    setNewEpisode({ ...newEpisode, [field]: value });
+    setErrors({ ...errors, [field]: "" });
+
   };
 
-  // Handle form submission and file upload
-  const handleUpload = async (data: FormData) => {
-    // const formData= new FormDataEvent();
-    if (!selectedFile) {
-      setUploadError('Please select a podcast file to upload.');
-      return;
-    }
-    // console.log(data.audio);
-     console.log(data.banner[0]);
-    console.log(data.description);
-    console.log(data.name);
+  const validateFields = (): boolean => {
+    const newErrors: Partial<Record<keyof Episode, string>> = {};
+
+    if (!newEpisode.name.trim()) newErrors.name = "نام الزامی است";
+    if (!newEpisode.description.trim()) newErrors.description = "توضیحات الزامی است";
+
+
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; 
+  };
+
+
+  const onSubmit = async () => {
+    if (!validateFields()) return;
+  
+
+    let finalCategories: string[] = [];
+
+  
+    console.log("Final Categories:", finalCategories);
+  
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    if (data.banner && data.banner[0]) {
-        formData.append("banner", data.banner[0]);
-      }
+    formData.append("name", newEpisode.name);
+    formData.append("description", newEpisode.description);
 
-    formData.append('audio', selectedFile);
-    // formData.append('')
+  
 
+
+  
+    if (newEpisode.banner) formData.append("banner", newEpisode.banner);
+    if (newEpisode.audio) formData.append("audio", newEpisode.banner);
+
+  
+    console.log([...formData]);
+  
     try {
-      setIsUploading(true);
-      setUploadProgress(0);
-      setUploadSuccess(null);
-      console.log(id)
-      // Replace this URL with your actual API endpoint
-      const apiUrl = `/v1/admin/podcasts/${id}/episodes`;
-
-      // Upload the file with progress
-      const response=await apiClient.post(apiUrl, formData, {
+      const res = await apiClient.post("v1/admin/podcasts/49/episodes", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
-
-        headers: {
-            // "ngrok-skip-browser-warning": "69420",
-          'Content-Type': 'multipart/form-data',
-        },
-        onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-          if (progressEvent.total) {
-            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            setUploadProgress(percent);
-          }
-        },
       });
-      console.log(response);
-      const eventId = response.data.data;
-      console.log("episode created successfully. episode ID:", eventId);
-
-
-      setIsUploading(false);
-      setUploadSuccess('Podcast uploaded successfully!');
-      setSelectedFile(null);
-      navigate(`/podcast/${id}`)
-    } catch (error) {
-      setIsUploading(false);
-      setUploadError('An error occurred while uploading the podcast.');
-      console.error('Upload failed:', error);
+      console.log(res);
+    
+      const EpisodeId = res.data.data; 
+      console.log("Episode created successfully. Episode ID:", EpisodeId);
+      alert("رویداد با موفقیت اضافه شد");
+      navigate(`/Tickets/${EpisodeId}`);
+     } catch (err) {
+      console.error("Error creating Episode:", err);
+    
+      if (axios.isAxiosError(err)) {
+        // Log or display the general error message
+        console.error("Axios error message:", err.message);
+    
+        // Check for a server response
+        if (err.response) {
+          console.error("Response status code:", err.response.status);
+          console.error("Response data:", err.response.data);
+    
+          // Extract specific error messages, if available
+          const serverMessages = err.response.data.messages;
+          if (serverMessages) {
+            const formattedMessage = JSON.stringify(serverMessages)
+                .replace(/["{}]/g, '') 
+                .replace(/,/g, '\n')  
+                .split('\n')          
+                .map(line => {
+                    const parts = line.split(':'); 
+                    return parts.length > 2 
+                        ? ` ${parts.slice(2).join(':')}` 
+                        : line; 
+                })
+                .join('\n');
+        
+            console.log("meee " + formattedMessage);
+            alert(formattedMessage);
+        } else {
+            alert("An error occurred: " + err.response.data.message);
+        }
+        
+        
+        } else {
+          console.error("No response from server:", err.request);
+          alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
+        }
+      } 
     }
   };
+  
+  const resetForm = () => {
+    setNewEpisode({
+      name: "",
 
+      description: "",
+
+      banner: {} as File,
+      audio: {} as File,
+
+
+    });
+    setEpisodeType("");
+    setCustomCategories([]);
+  };
+  const handleNextPage = () => {
+    navigate(`/podcast/${EpisodeId}`);
+  };
   return (
-    <html id="e">
-    <div className="upload-container-episode">
-        <form 
-        className='add-episod-form'
-               encType="multipart/form-data"
-               onSubmit={handleSubmit(handleUpload)}>
-        <div>
-        <label className="Labeladd" htmlFor="name">نام اپیزود</label>
+    <html id="Episodeaa">
+    <div className="addEpisode">
+      <form className="addEpisode-form" encType="multipart/form-data">
+        <h3 className="infoEpisode">مشخصات اپیزود</h3>
+
+        <label className="LabeladdEpisode" htmlFor="name">
+          عنوان اپیزود
+        </label>
         <input
-          type="string"
+          type="text"
           id="name"
-          {...register("name", { required: "نام اپیزود الزامی است" })}
-
-          className="addinput-field-episode"
+          value={newEpisode.name}
+          onChange={(e) => handleEpisodeChange("name", e.target.value)}
+          className={`addinput-fieldEpisode ${errors.name ? "error-field" : ""}`}
         />
-                {errors.name && <p className="erroradd">{errors.name.message}</p>}
+        {errors.name && <span className="error-messageEpisode">{errors.name}</span>}
 
-      </div>
-      <div>
-      <label className="Labeladd" htmlFor="description"> توضیحات</label>
-        <textarea
-        //   type="text"
-          id="description"
-          className="addinput-field-episode textarea-field"
-          {...register("description", { required: "توضیحات الزامی است" })}
+        
+         <label className="LabeladdEpisode" htmlFor="description">توضیحات</label>
+         <textarea
+           id="description"
+           onChange={(e) => handleEpisodeChange("description", e.target.value)}
+          className={`addinput-fieldtik textarea-fieldtik  ${errors.description ? "error-field" : ""}`}
 
+         />
+         {errors.description && <span className="error-messageEpisode">{errors.description}</span>}
+
+
+
+
+<label className="LabeladdEpisode" htmlFor="banner">محل بارگزاری عکس</label>
+
+    <div className="L1Episode" >
+      
+        <input
+          type="file"
+          id="banner"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0]; 
+            if (file) {
+              handleEpisodeChange("banner", file);
+            }
+          }}
+          className={`a ${errors.banner ? "error-messageEpisode" : ""}`}
         />
-                {errors.description && <p className="erroradd">{errors.description.message}</p>}
 
-      </div>
+</div>
 
+<label className="LabeladdEpisode" htmlFor="banner">محل بارگزاری فایل</label>
 
+    <div className="L1Episode" >
+      
+        <input
+          type="file"
+          id="audio"
+          accept="audio/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0]; 
+            if (file) {
+              handleEpisodeChange("audio", file);
+            }
+          }}
+          className={`a ${errors.banner ? "error-messageEpisode" : ""}`}
+        />
 
+</div>
 
-      <div className="event-banner">
-      <label className="Labeladd" htmlFor="banner">عکس خود را بارگذاری کنید</label>
-      <input
-        className="addinput-field-episode"
-        type="file"
-        id="banner"
-        accept="image/*"
-        {...register("banner", { required: "بارگذاری عکس الزامی است" })}
-
-      />
-       {errors.banner && <p className="erroradd">{errors.banner.message}</p>}
-
-    </div>
-
-
-
-
-
-
-      <div>
-      <label className="Labeladd" htmlFor="audio">فایل صوتی خود را بارگذاری کنید</label>
-
-        <input className="addinput-field-episode" type="file" accept="audio/*" onChange={handleFileChange} />
-      </div>
-
-      {uploadError && <p className="error">{uploadError}</p>}
-      {uploadSuccess && <p className="success">{uploadSuccess}</p>}
-
-      {selectedFile && !isUploading && (
-        <div>
-          <p>Selected file: {selectedFile.name}</p>
-          <button onClick={()=>navigate("#")}
-                    disabled={!isValid}
-                    className={`submit-episod ${!isValid ? "submit-disabled" : ""}`}
-            >بارگذاری قسمت جدید</button>
+        <div className="buttonadd-containerEpisode">
+          <button type="button" onClick={onSubmit} className="submitaddEpisode">
+            ثبت
+          </button>
+          <button
+        type="button"
+        className="cancelEpisode"
+        onClick={() => navigate("/Episodes")}
+      >
+        لغو
+      </button>
         </div>
-      )}
-
-      {isUploading && (
-        <div>
-          <p>Uploading... {uploadProgress}%</p>
-        </div>
-      )}
-
-        </form>
+      </form>
     </div>
     </html>
   );
 };
 
-export default UploadPodcast;
+export default Episode;
