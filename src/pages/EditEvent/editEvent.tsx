@@ -380,24 +380,24 @@ useEffect(
         <div className="event-category">
            <label className="labeln" htmlFor="categories">موضوعات</label>
            {newEditEvent.categories.map((category, index) => (
-  <div key={index} className="writer-field">
+          <div key={index} className="writer-field1">
 
-    <input
-      type="text"
-      value={category}
-      onChange={(e) => handleCategoryChange(index, e.target.value)}
-      className="addinput-field-edit-evnet"
-      required
-    />
-        <FaTrash
-      className="trash-icon"
-      onClick={() => deleteCategory(index)}
-    />
-  </div>
-))}
+            <input
+              type="text"
+              value={category}
+              onChange={(e) => handleCategoryChange(index, e.target.value)}
+              className="addinput-field-edit-evnet"
+              required
+            />
+            <FaTrash
+              className="trash-icon"
+              onClick={() => deleteCategory(index)}
+            />
+          </div>
+          ))}
 
-          <div className="buttonadd-containerpad">
-            <button type="button" onClick={addCategory} className="submitpad">
+          <div className="buttonadd-container1">
+            <button type="button" onClick={addCategory} className="submitadd1">
               افزودن
             </button>
           </div>
