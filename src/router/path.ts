@@ -43,6 +43,9 @@ const PATHS ={
     addmedia:'/events/:Id/addmedia',
     ProfileEvent:'/my-events',
     Addmembers:'/AddMembers',
+    Addnews:"/addnews",
+    EditNews:'/EditNews/:NewsId',
+    ShowNewsPage:'/Show-news/:NewsId',
 
 
 }

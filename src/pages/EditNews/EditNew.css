@@ -9,6 +9,7 @@ html, body {
   background: rgb(74,152,174,1);
   background: linear-gradient(39deg, rgba(74,152,174,1) 0%, rgba(228,127,18,1) 100%) fixed;
   direction: rtl;
+  height: 1450px;
 }
 
 .Labeladd {
@@ -60,8 +61,8 @@ html, body {
   align-items: center;
 }
 
-.eventadd-form {
-  flex-direction: column;
+.eventadd-formeditnews{
+flex-direction: column;
   background: rgba(255, 255, 255, 0.6);
   padding: 20px;
   border-radius: 8px;
@@ -76,7 +77,7 @@ html, body {
   margin-bottom: 16px;
 }
 
-.infoadd {
+.infoaddetidnews {
   font-size: 2.3rem;
   margin-bottom: 15px;
   color: rgb(74, 152, 174);
@@ -88,7 +89,7 @@ html, body {
   gap: 10px;
 }
 
-.submitadd {
+.submitaddeditnews {
   width: 120px;
   padding: 10px;
   font-size: 16px;
@@ -100,12 +101,12 @@ html, body {
   transition: 0.5s;
 }
 
-.submitadd:hover {
+.submitaddeditnews:hover {
   background-color: transparent;
   color: rgb(74, 152, 174);
 }
 
-.submitadd-disabled {
+.submitaddeditnews-disabled {
   background-color: rgb(0, 68, 80);
   border: 1px solid rgb(0, 68, 80);
   color: rgb(0, 68, 80);
@@ -163,7 +164,7 @@ writer-field {
 }
 
 /* Cancel button */
-/* .canceladd {
+.canceladdeditnews {
   width: 120px;
   padding: 10px;
   font-size: 16px;
@@ -173,12 +174,12 @@ writer-field {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.5s;
-} */
+}
 
-/* .canceladd:hover {
+.canceladdeditnews:hover {
   background-color: transparent;
   color: rgb(166, 95, 19);
-} */
+}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
@@ -196,12 +197,12 @@ writer-field {
       justify-content: center;
   }
 
-  .submitadd, .canceladd {
+  .submitaddsubmitaddeditnews, .canceladdeditnews {
       width: 100px;
       font-size: 14px;
   }
 
-  .infoadd {
+  .infoaddetidnews {
       font-size: 1.8rem;
   }
 }
@@ -217,7 +218,7 @@ writer-field {
       width: calc(100% - 10px);
   }
 
-  .infoadd {
+  .infoaddetidnews {
       font-size: 1.5rem;
   }
 }

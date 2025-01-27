@@ -25,7 +25,7 @@ const EditPadcast: React.FC = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await apiClient.get(`/v1/public/podcasts/2`, {
+        const response = await apiClient.get(`/v1/public/podcasts/56`, {
           headers: { "ngrok-skip-browser-warning": "69420" },
         });
         const eventData = response.data.data;
@@ -99,7 +99,7 @@ const EditPadcast: React.FC = () => {
       }
       console.log([...formData]);
   
-      const res = await apiClient.put(`/v1/admin/podcasts/2`, formData, {
+      const res = await apiClient.put(`/v1/admin/podcasts/56`, formData, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });

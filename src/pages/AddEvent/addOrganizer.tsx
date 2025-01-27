@@ -99,14 +99,27 @@ const Organizer = () => {
           // Extract specific error messages, if available
           const serverMessages = err.response.data.messages;
           if (serverMessages) {
-            alert("Error: " + JSON.stringify(serverMessages));
-          } else {
-            alert("An error occurred: " + err.response.data);
-          }
+            const formattedMessage = JSON.stringify(serverMessages)
+                .replace(/["{}]/g, '') 
+                .replace(/,/g, '\n')  
+                .split('\n')          
+                .map(line => {
+                    const parts = line.split(':'); 
+                    return parts.length > 2 
+                        ? ` ${parts.slice(2).join(':')}` 
+                        : line; 
+                })
+                .join('\n');
+        
+            console.log("meee " + formattedMessage);
+            alert(formattedMessage);
         } else {
-          console.error("No response from server:", err.request);
-          alert("No response from server. Please try again later.");
+            alert("An error occurred: " + err.response.data.message);
         }
+      } else {
+        console.error("No response from server:", err.request);
+        alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
+      }
       } 
     }
   };
@@ -154,7 +167,7 @@ const Organizer = () => {
             onChange={(e) =>
               handleOrganizerChange("description", e.target.value)
             }
-            className={`addinput-fieldevent textarea-fieldevent ${
+            className={`addinput-fieldtik textarea-fieldtik ${
               errors.description ? "error-field" : ""
             }`}
           />

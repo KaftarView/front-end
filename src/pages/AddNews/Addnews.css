@@ -61,25 +61,26 @@
   cursor: pointer;
 }
 
-.addinput-field,
+.addinput-fieldevent,
 .custom-dropdowneNews {
 
-    font-family: 'Anjoman-FaNum-Bold';
-    display: block;
-    text-align: right;
-    margin-right: 40px;
-    padding: 10px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    width: calc(100% - 80px);
-    border: 1px solid rgb(74, 152, 174);
-    border-radius: 5px;
-    background-color: rgb(230, 230, 230);
-    transition: 0.5s;
-    font-size: 14px;
-    color: rgb(0, 67, 80);
-    height: 45px;
+  font-family: 'Anjoman-FaNum-Bold';
+  display: block;
+  text-align: right;
+  margin-right: 40px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  width: calc(100% - 80px);
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  background-color: rgb(230, 230, 230);
+  transition: 0.5s;
+  font-size: 14px;
+  color: rgb(0, 67, 80);
+  height: 45px;
+
   
   
 }
@@ -108,7 +109,7 @@
 @media (max-width: 480px) {
  
 
-  .addinput-field, .custom-dropdowneNews {
+  .addinput-fieldevent, .custom-dropdowneNews {
     width: calc(100% - 20px);
     font-size: 0.6rem;
     margin-right: 10px;

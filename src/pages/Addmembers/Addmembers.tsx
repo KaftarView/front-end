@@ -46,9 +46,9 @@ const Members = () => {
     if (!newMembers.firstName.trim()) newErrors.firstName = "نام الزامی است";
     if (!newMembers.lastName.trim()) newErrors.lastName = "نام خانوادگی الزامی است";
     if (!newMembers.description.trim()) newErrors.description = "توضیحات الزامی است";
-    if (newMembers.enteringYear <= 97) newErrors.enteringYear = "ترم ورودی  باید بزرگتر از 97 باشد";
-    if (newMembers.promotedYear <= 97)
-      newErrors.promotedYear = "سال عضویت  باید بزرگتر از 97 باشد";
+    if (newMembers.enteringYear < 1397) newErrors.enteringYear = "ترم ورودی  باید بزرگتر از 1397 باشد";
+    if (newMembers.promotedYear < 1397)
+      newErrors.promotedYear = "سال عضویت  باید بزرگتر از 1397 باشد";
 
     if (!newMembers.email.trim()) newErrors.email = "ایمیل الزامی است";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newMembers.email))
@@ -101,15 +101,31 @@ const Members = () => {
           // Extract specific error messages, if available
           const serverMessages = err.response.data.messages;
           if (serverMessages) {
-            alert(err.response.data.message);
-          } else {
-            alert( err.response.data.message);
-          }
+            const formattedMessage = JSON.stringify(serverMessages)
+                .replace(/["{}]/g, '') 
+                .replace(/,/g, '\n')  
+                .split('\n')          
+                .map(line => {
+                    const parts = line.split(':'); 
+                    return parts.length > 2 
+                        ? ` ${parts.slice(2).join(':')}` 
+                        : line; 
+                })
+                .join('\n');
+        
+            console.log("meee " + formattedMessage);
+            alert(serverMessages);
         } else {
-          console.error("No response from server:", err.request);
-          alert("No response from server. Please try again later.");
+            alert( err.response.data.message);
+            // console.log("meee " + err.response.data.message);
+
         }
-      } 
+      } else {
+        console.error("No response from server:", err.request);
+        alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
+      }
+        
+      }
     }
   };
   
@@ -173,7 +189,7 @@ const Members = () => {
          <textarea
            id="description"
            onChange={(e) => handleMembersChange("description", e.target.value)}
-          className={`addinput-fieldevent textarea-fieldevent ${errors.description ? "error-field" : ""}`}
+          className={`addinput-fieldtik textarea-fieldtik ${errors.description ? "error-field" : ""}`}
 
          />
          {errors.description && <span className="error-messageevent">{errors.description}</span>}
