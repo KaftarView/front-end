@@ -105,6 +105,7 @@ const ChatSupport: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { getUserUsername} = useAuth();
   const username=getUserUsername();
+  console.log(username);
   const currentUserName = username;
   
 
@@ -245,7 +246,7 @@ const connectToWebSocket = (roomId: number) => {
 
     const establishConnection = () => {
       const socket = new WebSocket(
-        `wss://24ab-212-64-199-253.ngrok-free.app/v1/ws/chat/room/${roomId}/token/${token}`
+        `wss://api.cesaiust.ir/v1/ws/chat/room/${roomId}/token/${token}`
       );
 
       socketRef.current = socket;
@@ -354,7 +355,7 @@ const connectToWebSocket = (roomId: number) => {
             className="flex justify-between items-center cursor-pointer hover:bg-gray-300 p-2 rounded"
             onClick={() => handleGroupSelect(group)}
           >
-            <div className="font-medium">{group.tag || `گروه ${group.id}`}</div>
+            <div className="font-medium">{`گروه ${group.id}`}</div>
           </div>
         ))
       ) : (
@@ -392,10 +393,10 @@ const connectToWebSocket = (roomId: number) => {
           <div       className= 
          "p-3 rounded-lg max-w-md bg-gray-200 text-black self-start"
     >
-          <div className="text-sm font-semibold">
+          <div className="text-sm ">
           { msg.sender.name}
         </div>
-            <div className="text-sm">{msg.content}</div>
+            <div className="text-sm font-semibold">{msg.content}</div>
             <div className="text-xs text-gray-500 mt-1"></div>
           </div>
         </div>
