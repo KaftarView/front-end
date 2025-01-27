@@ -28,6 +28,7 @@ const Episode = () => {
   const [isCustomCategories, setIsCustomCategories] = useState(false);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handleEpisodeChange = (field: keyof Episode, value: string[] |string | number | File) => {
     setNewEpisode({ ...newEpisode, [field]: value });
@@ -72,7 +73,7 @@ const Episode = () => {
     console.log([...formData]);
   
     try {
-      const res = await apiClient.post("v1/admin/podcasts/49/episodes", formData, {
+      const res = await apiClient.post(`v1/admin/podcasts/${id}/episodes`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });

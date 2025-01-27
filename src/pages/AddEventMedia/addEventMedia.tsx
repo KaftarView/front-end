@@ -111,7 +111,7 @@ const UploadMedia = () => {
       setIsUploading(false);
       setUploadSuccess('file uploaded successfully!');
       setSelectedFile(null);
-      navigate('/event/'+Id);
+      navigate('/admin-panel/'+Id);
     } catch (error) {
       setIsUploading(false);
       setUploadError('An error occurred while uploading the file.');

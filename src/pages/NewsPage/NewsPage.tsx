@@ -7,7 +7,7 @@ import Modal from '../../components/PopupQuestion/PopopQuestion';
 import PopupQuestion from '../../components/PopupQuestion/PopopQuestion';
 import mockNews from './mockNews';
 import {useAppContext} from '../../components/AppContext'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , Link} from 'react-router-dom';
 import apiClient from '../../utils/apiClient';
 import {useAuth} from '../../components/AuthContext';
 import fetchCategories, { Categories } from "../../components/Categories/GetCategories";
@@ -105,7 +105,7 @@ const NewsPage: React.FC = () => {
 
   const deleteNewsById = async (newsId: number) => {  
     try {  
-      await axios.delete(`/news/${newsId}`);  
+      await apiClient.delete(`v1/admin/news/${newsId}`);  
       console.log('News deleted successfully');  
       setNewsList((prevNewsList) => prevNewsList.filter((news) => news.id !== newsId));  
       setIsModalVisible(false);  
@@ -196,7 +196,7 @@ const NewsPage: React.FC = () => {
       </select>
       </div>
       {userRole === "SuperAdmin" &&
-      <button  className='addnews-button' onClick={() => navigate('/add-news')}>
+      <button  className='addnews-button' onClick={() => navigate('/addnews')}>
       ایجاد خبر
       </button>
       }
@@ -208,15 +208,29 @@ const NewsPage: React.FC = () => {
               <span>در حال جستجو...</span>
           </>}
 
-        <div className="news-container">
+        <div className="all-news-container">
           { !loading && newsList.length > 0 && newsList.map((news) => (
-            <div key={news.id} className="news-box">
+          <Link to={`/Show-news/${news.id}`} key={news.id} className="news-box"> 
               {userRole === "SuperAdmin" && 
               <div className="news-options">
                 <span className="three-dots">⋮</span>
                 <div className="options-menu">
-                  <button>ویرایش</button>
-                  <button onClick={() => handleDeleteClick(news.id)}>حذف</button> 
+                <button 
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/EditNews/${news.id}`);
+              }}
+            >
+              ویرایش
+            </button>
+            <button 
+              onClick={(e) => {
+                e.preventDefault(); 
+                handleDeleteClick(news.id);
+              }}
+            >
+              حذف
+            </button>
                 </div>
               </div>
               }
@@ -227,7 +241,7 @@ const NewsPage: React.FC = () => {
                 <span className="news-publish-date">نویسنده :              
           {news.author}</span>
               </div>
-            </div>
+            </Link>
 
           ))}
           {!loading && newsList.length === 0 && 

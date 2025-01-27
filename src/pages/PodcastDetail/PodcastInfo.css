@@ -112,6 +112,7 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .episode-info {
@@ -176,4 +177,44 @@
 
 .fa-arrow-circle-o-down {
   font-size: x-large;
+}
+
+.podcast-menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.podcast-three-dots {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.podcast-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.podcast-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.podcast-menu button:hover {
+  background: #f0f0f0;
+}
+
+.podcast-menu-container:hover .podcast-menu {
+  display: block;
 }

@@ -5,6 +5,7 @@ import sampleNews from "./Samplenews";
 import Navbar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
 import { useParams } from "react-router-dom";
+import apiClient from "../../utils/apiClient";
 
 export type NewsData = {
   title: string;
@@ -51,8 +52,8 @@ const NewsPageshow: React.FC = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get(
-          `https://api.cesaiust.ir/v1/public/news/${NewsId}`,
+        const response = await apiClient.get(
+          `/v1/public/news/${NewsId}`,
           {
             headers: {
               "ngrok-skip-browser-warning": "69420",

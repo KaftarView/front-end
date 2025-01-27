@@ -118,7 +118,7 @@ const Router = () => {
             path={PATHS.EditEpisode} 
             element={
               <ProtectedRoute 
-                element={<AddNashriye />} 
+                element={<EditEpisode />} 
                 requiredRole="ManagePodcasts" 
               />
             }
@@ -127,7 +127,7 @@ const Router = () => {
             path={PATHS.EditPodcast} 
             element={
               <ProtectedRoute 
-                element={<AddNashriye />} 
+                element={<EditPadcast />} 
                 requiredRole="ManagePodcasts" 
               />
             }
