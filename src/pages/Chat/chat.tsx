@@ -245,7 +245,7 @@ const connectToWebSocket = (roomId: number) => {
 
     const establishConnection = () => {
       const socket = new WebSocket(
-        `wss://7cdb-212-64-199-253.ngrok-free.app/v1/ws/chat/room/${roomId}/token/${token}`
+        `wss://24ab-212-64-199-253.ngrok-free.app/v1/ws/chat/room/${roomId}/token/${token}`
       );
 
       socketRef.current = socket;
@@ -269,7 +269,7 @@ const connectToWebSocket = (roomId: number) => {
             sender: username1,
             content: event.data,
           };
-          setMessages((prevMessages) => [ datattt,...prevMessages]);
+          setMessages((prevMessages) => [...prevMessages, datattt]);
         } catch (error) {
           console.error('Error parsing message:', error);
         }
