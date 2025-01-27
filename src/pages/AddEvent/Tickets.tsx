@@ -3,7 +3,6 @@ import "./Tickets.css";
 import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "../../utils/apiClient";
 import axios from "axios";
-import moment from "moment-jalaali";
 
 interface Ticket {
   name: string;
@@ -37,7 +36,7 @@ const Tikets = () => {
 
   const handleTicketChange = (field: keyof Ticket, value: string | number) => {
     setNewTicket({ ...newTicket, [field]: value });
-    setErrors({ ...errors, [field]: "" });
+    setErrors({ ...errors, [field]: "" }); 
   };
 
   const validateFields = (): boolean => {
@@ -49,33 +48,12 @@ const Tikets = () => {
     if (newTicket.quantity <= 0)
       newErrors.quantity = "تعداد باید بزرگتر از 0 باشد";
     if (!newTicket.availableFrom.trim())
-      newErrors.availableFrom = "تاریخ شروع الزامی است";
+      newErrors.availableFrom ="تاریخ شروع الزامی است";
     if (!newTicket.availableUntil.trim())
       newErrors.availableUntil = "تاریخ پایان الزامی است";
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleDateChange = (field: keyof Ticket, jalaliDate: string) => {
-    try {
-      // Convert Jalali date to Gregorian
-      const gregorianDate = moment(jalaliDate, "jYYYY/jMM/jDD").format(
-        "YYYY-MM-DD"
-      );
-      console.log(gregorianDate);
-
-      // Ensure newDiscount[field] is a string before calling split
-      const currentTime = String(newTicket[field])?.split("T")[1] || "00:00";
-
-      // Combine date and time
-      const combinedDateTime = `${gregorianDate}T${currentTime}`;
-
-      // Update state
-      setNewTicket({ ...newTicket, [field]: combinedDateTime });
-    } catch (error) {
-      console.error("Error converting date:", error);
-    }
+    return Object.keys(newErrors).length === 0; 
   };
 
   const onSubmit = async () => {
@@ -108,39 +86,28 @@ const Tikets = () => {
       });
     } catch (err) {
       console.error("Error creating Event:", err);
-
+    
       if (axios.isAxiosError(err)) {
         // Log or display the general error message
         console.error("Axios error message:", err.message);
-
+    
         // Check for a server response
         if (err.response) {
           console.error("Response status code:", err.response.status);
           console.error("Response data:", err.response.data);
-
+    
           // Extract specific error messages, if available
           const serverMessages = err.response.data.messages;
           if (serverMessages) {
-            const formattedMessage = JSON.stringify(serverMessages)
-              .replace(/["{}]/g, "")
-              .replace(/,/g, "\n")
-              .split("\n")
-              .map((line) => {
-                const parts = line.split(":");
-                return parts.length > 2 ? ` ${parts.slice(2).join(":")}` : line;
-              })
-              .join("\n");
-
-            console.log("meee " + formattedMessage);
-            alert(formattedMessage);
+            alert("Error: " + JSON.stringify(serverMessages));
           } else {
-            alert("An error occurred: " + err.response.data.message);
+            alert("An error occurred: " + err.response.data);
           }
         } else {
           console.error("No response from server:", err.request);
-          alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
+          alert("No response from server. Please try again later.");
         }
-      }
+      } 
     }
   };
 
@@ -150,76 +117,66 @@ const Tikets = () => {
 
   return (
     <html id="tickete">
-      <div className="eventtik">
-        <form className="event-formtik" encType="multipart/form-data">
-          <h3 className="infotik">مشخصات بلیت</h3>
+    <div className="eventtik">
+      <form className="event-formtik" encType="multipart/form-data">
+        <h3 className="infotik">مشخصات بلیت</h3>
 
-          <label className="Labeltik" htmlFor="name">
-            عنوان بلیت
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={newTicket.name}
-            onChange={(e) => handleTicketChange("name", e.target.value)}
-            className={`addinput-fieldtik ${
-              errors.name ? "error-fieldtik" : ""
-            }`}
-          />
-          {errors.name && (
-            <span className="error-messagetik">{errors.name}</span>
-          )}
+        <label className="Labeltik" htmlFor="name">
+          عنوان بلیت
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={newTicket.name}
+          onChange={(e) => handleTicketChange("name", e.target.value)}
+          className={`addinput-fieldtik ${errors.name ? "error-fieldtik" : ""}`}
+        />
+        {errors.name && <span className="error-messagetik">{errors.name}</span>}
 
-          <label className="Labeltik" htmlFor="description">
-            توضیحات
-          </label>
-          <textarea
-            id="description"
-            value={newTicket.description}
-            onChange={(e) => handleTicketChange("description", e.target.value)}
-            className="addinput-fieldtik textarea-fieldtik"
-          />
-          {errors.description && (
-            <span className="error-messagetik">{errors.description}</span>
-          )}
+        <label className="Labeltik" htmlFor="description">
+          توضیحات
+        </label>
+        <textarea
+          id="description"
+          value={newTicket.description}
+          onChange={(e) => handleTicketChange("description", e.target.value)}
+          className="addinput-fieldtik textarea-fieldtik" 
+        />
+        {errors.description && (
+          <span className="error-messagetik">{errors.description}</span>
+        )}
 
-          <label className="Labeltik" htmlFor="price">
-            قیمت
-          </label>
-          <input
-            type="number"
-            id="price"
-            value={newTicket.price}
-            onChange={(e) =>
-              handleTicketChange("price", parseFloat(e.target.value))
-            }
-            className={`addinput-fieldtik ${
-              errors.price ? "error-fieldtik" : ""
-            }`}
-          />
-          {errors.price && (
-            <span className="error-messagetik">{errors.price}</span>
-          )}
+        <label className="Labeltik" htmlFor="price">
+          قیمت
+        </label>
+        <input
+          type="number"
+          id="price"
+          value={newTicket.price}
+          onChange={(e) =>
+            handleTicketChange("price", parseFloat(e.target.value))
+          }
+          className={`addinput-fieldtik ${errors.price ? "error-fieldtik" : ""}`}
+        />
+        {errors.price && <span className="error-messagetik">{errors.price}</span>}
 
-          <label className="Labeltik" htmlFor="quantity">
-            تعداد
-          </label>
-          <input
-            type="number"
-            id="quantity"
-            value={newTicket.quantity}
-            onChange={(e) =>
-              handleTicketChange("quantity", parseInt(e.target.value, 10))
-            }
-            className={`addinput-fieldtik ${
-              errors.quantity ? "error-fieldtik" : ""
-            }`}
-          />
-          {errors.quantity && (
-            <span className="error-messagetik">{errors.quantity}</span>
-          )}
+        <label className="Labeltik" htmlFor="quantity">
+          تعداد
+        </label>
+        <input
+          type="number"
+          id="quantity"
+          value={newTicket.quantity}
+          onChange={(e) =>
+            handleTicketChange("quantity", parseInt(e.target.value, 10))
+          }
+          className={`addinput-fieldtik ${errors.quantity ? "error-fieldtik" : ""}`}
+        />
+        {errors.quantity && (
+          <span className="error-messagetik">{errors.quantity}</span>
+        )}
 
-          {/* <label className="Labeltik" htmlFor="availableFrom">
+        <label className="Labeltik" htmlFor="availableFrom">
           تاریخ شروع فروش
         </label>
         <input
@@ -249,54 +206,22 @@ const Tikets = () => {
         />
         {errors.availableUntil && (
           <span className="error-messagetik">{errors.availableUntil}</span>
-        )} */}
+        )}
 
-          <label className="Labeldis" htmlFor="validFrom">
-            تاریخ شروع
-          </label>
-
-          {/* Jalali Date Input */}
-          <input
-            type="text"
-            id="availableFrom"
-            placeholder="مثال: 1403/01/01"
-            onChange={(e) => handleDateChange("availableFrom", e.target.value)}
-            className="addinput-fielddis"
-          />
-          {errors.availableFrom && (
-            <span className="error-messagedis">{errors.availableFrom}</span>
-          )}
-
-          <label className="Labeldis" htmlFor="availableUntil">
-            تاریخ پایان
-          </label>
-
-          {/* Jalali Date Input */}
-          <input
-            type="text"
-            id="availableUntil"
-            placeholder="مثال: 1403/01/01"
-            onChange={(e) => handleDateChange("availableUntil", e.target.value)}
-            className="addinput-fielddis"
-          />
-          {errors.availableUntil && (
-            <span className="error-messagedis">{errors.availableUntil}</span>
-          )}
-
-          <div className="buttonadd-containerdis">
-            <button type="button" onClick={onSubmit} className="submitdis">
-              ثبت
-            </button>
-            <button
-              type="button"
-              onClick={handleNextPage}
-              className="next-page-btndis"
-            >
-              صفحه بعد
-            </button>
-          </div>
-        </form>
-      </div>
+        <div className="buttonadd-containerdis">
+          <button type="button" onClick={onSubmit} className="submitdis">
+            ثبت 
+          </button>
+          <button
+            type="button"
+            onClick={handleNextPage}
+            className="next-page-btndis"
+          >
+            صفحه بعد
+          </button>
+        </div>
+      </form>
+    </div>
     </html>
   );
 };

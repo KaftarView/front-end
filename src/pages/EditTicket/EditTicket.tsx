@@ -78,25 +78,25 @@ useEffect(() => {
     fetchEvent();
   }, [Ticketid]);
   
-  const handleDateChange = (field: keyof EditTicket, jalaliDate: string) => {
-    try {
-      // Convert Jalali date to Gregorian
-      const gregorianDate = moment(jalaliDate, "jYYYY/jMM/jDD").format(
-        "YYYY-MM-DD"
-      );
+  // const handleDateChange = (field: keyof EditTicket, jalaliDate: string) => {
+  //   try {
+  //     // Convert Jalali date to Gregorian
+  //     const gregorianDate = moment(jalaliDate, "jYYYY/jMM/jDD").format(
+  //       "YYYY-MM-DD"
+  //     );
 
-      // Ensure newDiscount[field] is a string before calling split
-      const currentTime = String(newTicket[field])?.split("T")[1] || "00:00";
+  //     // Ensure newDiscount[field] is a string before calling split
+  //     const currentTime = String(newTicket[field])?.split("T")[1] || "00:00";
 
-      // Combine date and time
-      const combinedDateTime = `${gregorianDate}T${currentTime}`;
+  //     // Combine date and time
+  //     const combinedDateTime = `${gregorianDate}T${currentTime}`;
 
-      // Update state
-      setNewTicket({ ...newTicket, [field]: combinedDateTime });
-    } catch (error) {
-      console.error("Error converting date:", error);
-    }
-  };
+  //     // Update state
+  //     setNewTicket({ ...newTicket, [field]: combinedDateTime });
+  //   } catch (error) {
+  //     console.error("Error converting date:", error);
+  //   }
+  // };
 
 
   const handleTicketChange = (
@@ -113,13 +113,13 @@ useEffect(() => {
     console.log(newTicket.is_available);  
     console.log(newTicket.price);
     console.log(newTicket.quantity);
-    if (!newTicket.availableFrom.endsWith("Z")) {
+    // if (!newTicket.availableFrom.endsWith("Z")) {
       newTicket.availableFrom += ":00Z";
-    }
+    // }
 
-    if (!newTicket.availableUntil.endsWith("Z")) {
+    // if (!newTicket.availableUntil.endsWith("Z")) {
       newTicket.availableUntil += ":00Z";
-    }
+    // }
     console.log(newTicket.availableFrom);
     console.log(newTicket.availableUntil);
 
@@ -194,12 +194,12 @@ useEffect(() => {
               required
             />
 
-            {/* <label className="Labeladd" htmlFor="validFrom">تاریخ شروع فروش</label>
+            <label className="Labeladd" htmlFor="validFrom">تاریخ شروع فروش</label>
             <input
               type="datetime-local"
               id="validFrom"
-              defaultValue={initialData?.available_from}
-              onChange={(e) => handleTicketChange("available_from", e.target.value)}
+              defaultValue={initialData?.availableFrom}
+              onChange={(e) => handleTicketChange("availableFrom", e.target.value)}
               className="addinput-field"
               required
             />
@@ -208,76 +208,14 @@ useEffect(() => {
             <input
               type="datetime-local"
               id="validUntil"
-              defaultValue={initialData?.available_until}
-              onChange={(e) => handleTicketChange("available_until", e.target.value)}
+              defaultValue={initialData?.availableUntil}
+              onChange={(e) => handleTicketChange("availableUntil", e.target.value)}
               className="addinput-field"
-              required */}
-            {/* /> */}
+              required
+            />
 
-            <label className="Labeldis" htmlFor="availableFrom">
-            تاریخ شروع
-          </label>
-
-          {/* Display formatted Jalali date */}
-          <div className="Labeldis">
-            {new Date(newTicket.availableFrom).toLocaleDateString("fa-IR", {
-                
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              // hour: "2-digit",
-              // minute: "2-digit",
-            })}
-          </div>
-
-          {/* Time Input */}
-          {/* <input
-            type="time"
-            id="validFromTime"
-            onChange={(e) => handleTimeChange("validFrom", e.target.value)}
-            className="addinput-fielddis"
-          /> */}
-
-          {/* Jalali Date Input */}
-          <input
-            type="text"
-            id="available_from"
-            placeholder="مثال: 1403/01/01"
-            onChange={(e) => handleDateChange("availableFrom", e.target.value)}
-            className="addinput-fielddis"
-          />
-
-          <label className="Labeldis" htmlFor="availableUntil">
-            تاریخ پایان
-          </label>
-
-          {/* Display formatted Jalali date */}
-          <div className="Labeldis">
-            {new Date(newTicket.availableUntil).toLocaleDateString("fa-IR", {
-              weekday: "long",
-              day: "numeric",
-              month: "long",
-              // hour: "2-digit",
-              // minute: "2-digit",
-            })}
-          </div>
-
-          {/* Time Input */}
-          {/* <input
-            type="time"
-            id="validUntilTime"
-            onChange={(e) => handleTimeChange("validUntil", e.target.value)}
-            className="addinput-fielddis"
-          /> */}
-
-          {/* Jalali Date Input */}
-          <input
-            type="text"
-            id="validUntil"
-            placeholder="مثال: 1403/01/01"
-            onChange={(e) => handleDateChange("availableUntil", e.target.value)}
-            className="addinput-fielddis"
-          />
+       
+        
 
           <div className="buttonadd-container">
             <button type="button" onClick={onSubmit} className="submittik">
