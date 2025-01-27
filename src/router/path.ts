@@ -27,7 +27,8 @@ const PATHS ={
     AddEvent:'/addevent',
     Tikets:'/Tickets/:eventId',
     Discount:'/Discount/:eventId',
-
+    TicketPanel :'add-ticket/:eventId',
+    DiscountPanel : 'add-discount/:eventId',
     AddOrganizer:'/Organizer/:eventId',
     AddNashriye:'/addnashriye',
     EditEpisode:"EditEpisode/:EpisodeId",

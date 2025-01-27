@@ -134,7 +134,10 @@ const PodcastDetail: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    <>
+      <div className="loading-spinner"></div>
+      <span>در حال جستجو...</span>
+    </>
   }
   return (
     <>
@@ -189,6 +192,9 @@ const PodcastDetail: React.FC = () => {
               </a>
             </div>
           ))}
+          {episodes.length === 0 && 
+            <h4>اپیزودی برای این پادکست وجود ندارد </h4>
+          }
         </div>
         
 

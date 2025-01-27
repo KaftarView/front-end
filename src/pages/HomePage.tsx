@@ -342,7 +342,6 @@ const HomePage = () => {
             },
           }
         );
-
         if (response.status === 200 && response.data) {
           console.log(response);
           console.log(

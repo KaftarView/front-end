@@ -183,7 +183,15 @@ function App() {
               دانلود گزارش اکسل
             </button>
           <h2 className="text-2xl font-bold mb-6">بلیت ها</h2>
+          {loading && 
+                        <>
+                        <div className="loading-spinner"></div>
+                        <span>در حال جستجو...</span>
+                      </>
+          }
+                      {!loading && tickets && tickets.length != 0 &&
           <div className="overflow-x-auto">
+
           <table className="min-w-full divide-y divide-gray-200">
   <thead className="bg-gray-50">
     <tr>
@@ -271,7 +279,12 @@ function App() {
     ))}
   </tbody>
 </table>
+
           </div>
+}
+        {!loading && (!tickets || tickets.length == 0)&& 
+        <h4>بلیتی برای این رویداد وجود ندارد</h4>
+        }
         </div>
       </div>
       <PopupQuestion   
@@ -280,7 +293,7 @@ function App() {
                   onConfirm={handleConfirmDelete}  
                   onCancel={handleCancelDelete}  
                 />  
-      <button className='add-ticket-panel-button' onClick={() => navigate(`/Tickets/${eventId}`)}>  
+      <button className='add-ticket-panel-button' onClick={() => navigate(`/add-ticket/${eventId}`)}>  
           اضافه کردن بلیت  
       </button>  
     </div>

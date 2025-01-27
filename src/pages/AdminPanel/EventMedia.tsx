@@ -3,6 +3,7 @@ import { FileText, Film, PresentationIcon , Image , AudioLines , Trash , Downloa
 import apiClient from '../../utils/apiClient'
 import "./EventMedia.css";
 import { useParams , useNavigate } from 'react-router-dom';
+import PopupQuestion from '../../components/PopupQuestion/PopopQuestion'
 
 interface MediaItem {
   id: number;
@@ -50,6 +51,9 @@ const MediaPage: React.FC = () => {
   const[medias , setMedias] = useState<Media[]>([]);
   const { id } = useParams();
   const navigate = useNavigate()
+  const [error , setError] = useState<string>("")
+  const [ isModalVisible , setIsModalVisible] = useState<boolean>(false)
+  const [mediaId , setMediaId] = useState<number | null>()
 
   useEffect(() => {  
     const fetchData = async () => {  
@@ -74,6 +78,40 @@ const MediaPage: React.FC = () => {
     fetchData();  
   }, []);
 
+  const HandleDelete = async (mediaId : number) => {  
+    // try {  
+    //   const response = await apiClient.delete(`/v1/admin/events/media/${audioId}`);   
+    //   console.log('Audio deleted successfully');  
+    //   console.log(response.data)
+    // } catch (err : any) {  
+    //   setError(err.response?.data?.message || 'An error occurred during purchase.'); 
+    // }  
+    setMediaId(mediaId);  
+    setIsModalVisible(true); 
+  };  
+
+  const handleConfirmDelete = async() => {  
+    if (mediaId !== null) {  
+      try {  
+        const response = await apiClient.delete(`/v1/admin/events/media/${mediaId}`);   
+        console.log('Audio deleted successfully');  
+        console.log(response.data)
+        if(response.data.statusCode == 200)
+        {
+          window.location.reload();
+        }
+      } catch (err : any) { 
+        setIsModalVisible(false) 
+        setError(err.response?.data?.message || 'An error occurred during purchase.'); 
+        alert(err.response?.data?.message || 'An error occurred during deleting.')
+      }   
+    }  
+  };  
+
+  const handleCancelDelete = () => {  
+    setIsModalVisible(false);  
+    setMediaId(null);  
+  };  
   return (
     <div className="media-page">
       <header className="page-header">
@@ -90,19 +128,25 @@ const MediaPage: React.FC = () => {
         </h2>
         <div className="video-container">
           {medias
-            .filter((item) => item.mediaType.startsWith("image/"))
-            .map((video) => (
-                <>
-              <div key={video.id} className="video-card">
-                <div className="get-media-image">
-                  <img src={video.mediaPath} alt={video.name} />
-                </div>
+        .filter((item) => item.mediaType.startsWith("image/"))
+        .map((video) => (
+          <div key={video.id} className="admin-panelimagecard">
+            <div className="get-media-image">
+              <img src={video.mediaPath} alt={video.name} />
+              <div className="media-options">
+                <a href={video.mediaPath}>
+                  <Download />
+                </a>
+                <button onClick={() => HandleDelete(video.id)}>
+                  <Trash />
+                </button>
               </div>
-              </>
-            ))}
-          {(!medias || medias.length == 0) && 
+            </div>
+          </div>
+        ))}
+          {(!medias || medias.filter((item) => item.mediaType.startsWith("image/")).length == 0) && 
               <div>
-                تصویری وجود ندارد
+                <h4>تصویری وجود ندارد !</h4>
               </div>
             }
         </div>
@@ -117,7 +161,7 @@ const MediaPage: React.FC = () => {
             {(() => {
         const filteredVideos = medias.filter((item) => item.mediaType.startsWith("video/"));
         if (filteredVideos.length === 0) {
-          return <div>ویدیویی وجود ندارد</div>;
+          return <div><h4>ویدیویی وجود ندارد !</h4></div>;
         }
 
         return filteredVideos.map((video) => (
@@ -144,7 +188,9 @@ const MediaPage: React.FC = () => {
         {(() => {
             const filteredAudios = medias.filter((item) => item.mediaType.startsWith("audio/"));
             if (filteredAudios.length === 0) {
-              return <div>فایل صوتی وجود ندارد</div>;
+              return <div>
+                <h4 style={{textAlign : 'right' ,  paddingRight: '15px'}}>
+                فایل صوتی وجود ندارد!</h4></div>;
             }
 
             return filteredAudios.map((audio) => (
@@ -160,7 +206,7 @@ const MediaPage: React.FC = () => {
                 </div>
                 <div className="media-delete-download-icons">
                   <Download />
-                  <Trash />
+                  <Trash  style={{ cursor: 'pointer' }}  onClick={() => HandleDelete(audio.id)} />
                 </div>
               </div>
             ));
@@ -189,13 +235,13 @@ const MediaPage: React.FC = () => {
                 </div>
                 <div className="media-delete-download-icons">
                  <Download />   
-                 <Trash/>
+                 <Trash  style={{ cursor: 'pointer' }}  onClick={() => HandleDelete(doc.id)}/>
                 </div>
               </div>
             ))}
-            {(!medias || medias.length == 0) && 
+            {(!medias || medias.filter((item) => item.mediaType.split('/').pop() === "pdf" || item.mediaType.split('.').pop() === "document").length == 0) && 
               <div>
-                فایلی وجود ندارد
+               <h4 style={{textAlign : 'right' ,  paddingRight: '15px'}}>فایلی وجود ندارد!</h4> 
               </div>
             }
         </div>
@@ -222,17 +268,24 @@ const MediaPage: React.FC = () => {
                   Download
                 </a> */}
                 <div className="media-delete-download-icons">
-                 <Download />   
+                 <Download />  
                  <Trash/>
+
                 </div>
               </div>
             ))}
-            {(!medias || medias.length == 0) && 
+            {(!medias || medias.filter((item) => item.mediaType.split('.').pop() === "presentation").length == 0) && 
               <div>
-                پاورپوینتی وجود ندارد
+              <h4 style={{textAlign : 'right' ,  paddingRight: '15px'}}>  پاورپوینتی وجود ندارد !</h4>
               </div>
             }
         </div>
+        <PopupQuestion   
+                  isVisible={isModalVisible}  
+                  message = "آیا از حذف این مدیا اطمینان دارید؟"
+                  onConfirm={handleConfirmDelete}  
+                  onCancel={handleCancelDelete}  
+                />  
       </section>
     </div>
   );

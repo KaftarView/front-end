@@ -85,7 +85,7 @@ const NewsPageshow: React.FC = () => {
     }
   }, [NewsId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <><div className="loading-spinner"></div><span>در حال جستجو...</span></>;
   if (error) return <div>Error: {error}</div>;
   if (!newsData) return <div>خبر یافت نشد</div>;
 

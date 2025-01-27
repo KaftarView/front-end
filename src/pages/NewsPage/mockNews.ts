@@ -4,6 +4,7 @@ const mockNews: NewsOverall[] = [
     {  
       id: 1,  
       title: "نوآوری جدید",  
+      banner : '',
       description: "خبر های خوبی در راه است .. ",  
       CreatedAt: "2024-12-05T10:00:00Z",  
       UpdatedAt: "2024-12-06T12:00:00Z",  
@@ -13,6 +14,7 @@ const mockNews: NewsOverall[] = [
     {  
       id: 2,  
       title: "نوآوری جدید",  
+      banner : '',
       description: "خبر های خوبی در راه است .. ", 
       CreatedAt: "2024-01-05T12:00:00Z",  
       UpdatedAt: "2024-12-06T84:00:00Z",  

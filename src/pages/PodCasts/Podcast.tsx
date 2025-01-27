@@ -215,9 +215,17 @@ const handleSearch = (searchValue: string) => {
           </Link>
         ))}
         
+        {!loading && podcasts.length == 0 && 
+        <h5>پادکستی یافت نشد </h5>
+        }
 
       </div>
-      {loading && <div>در حال بارگزاری...</div>}
+      {loading &&           
+      <>
+        <div className="loading-spinner"></div>
+        <span>در حال جستجو...</span>
+      </>
+      }
 
     <div className="paging-div-podcasts">
     <nav aria-label="Page navigation example">

@@ -77,7 +77,7 @@ const UploadPodcast = () => {
       setUploadSuccess(null);
       console.log(id)
       // Replace this URL with your actual API endpoint
-      const apiUrl = `/v1/podcasts/${id}/episodes`;
+      const apiUrl = `/v1/admin/podcasts/${id}/episodes`;
 
       // Upload the file with progress
       const response=await apiClient.post(apiUrl, formData, {

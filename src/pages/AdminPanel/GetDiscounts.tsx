@@ -181,8 +181,14 @@ function GetDiscounts() {
               دانلود گزارش اکسل
             </button>
           <h2 className="text-2xl font-bold mb-6">تخفیف ها</h2>  
-          {loading && <p>Loading discounts...</p>}  
-          {error && <p className="text-red-600">{error}</p>}  
+          {loading &&
+              <>
+              <div className="loading-spinner"></div>
+              <span>در حال جستجو...</span>
+            </>
+          }  
+          {error && <p className="text-red-600">{error}</p>} 
+          {!loading && discounts && discounts.length != 0 &&
           <div className="overflow-x-auto">  
           <table className="min-w-full divide-y divide-gray-200">
   <thead className="bg-gray-50">
@@ -232,6 +238,10 @@ function GetDiscounts() {
 
 
           </div>  
+}
+{!loading && (!discounts || discounts.length == 0)&& 
+        <h4>تخفیفی برای این رویداد وجود ندارد</h4>
+        }
         </div>  
       </div> 
                   <PopupQuestion   
@@ -240,7 +250,7 @@ function GetDiscounts() {
                   onConfirm={handleConfirmDelete}  
                   onCancel={handleCancelDelete}  
                 />  
-      <button className='add-ticket-panel-button' onClick={() => navigate(`/Discount/${eventId}`)}>  
+      <button className='add-ticket-panel-button' onClick={() => navigate(`/add-discount/${eventId}`)}>  
           اضافه کردن تخفیف  
       </button>  
     </div>  

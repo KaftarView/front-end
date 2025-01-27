@@ -173,12 +173,16 @@
   }
 
   .log2{
-    font-size: 20px;
+    font-size: 15px;
     color: rgb(74, 152, 174);
     text-align:center;/* Smaller heading (e.g., 20px) */
     text-align:center;
     font-family: 'Anjoman-FaNum-Light';;
   }
+
+.text-danger-container {
+  height: 1rem;
+}
 
   .log{
     font-size: 1.4rem;
