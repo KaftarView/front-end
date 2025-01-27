@@ -101,9 +101,9 @@ h2 {
   cursor: not-allowed;  
 } 
 
-.entry{ 
+.entry-loginpage{ 
   font-size: 3.0rem;
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
   font-weight: bold;
   text-align:center;
 } 
@@ -118,13 +118,17 @@ label {
   text-align:center; 
 } 
 
+.sign_form .mb-4 {
+  margin-bottom: 0;
+}
 
-.log2{
+.log2-login{
   font-size: 15px;
   color: rgb(74, 152, 174);
   text-align:center;/* Smaller heading (e.g., 20px) */
   text-align:center;
   font-family: 'Anjoman-FaNum-Light';;
+  margin-bottom: 5px;
 }
 
 .danger-div {

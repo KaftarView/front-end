@@ -11,7 +11,7 @@ interface Magazine {
   name: string;  
   description: string;  
   banner: string;  
-  journal_file: string;  
+  journalFile: string;  
   author: string; 
 }
 
@@ -21,7 +21,7 @@ const magazines: Magazine[] = [
     name: "مجله",
     description: "Brief description of Magazine 1.",
     banner: '../../public/magCover.jpg',
-    journal_file : "",
+    journalFile : "",
     author : "ali",
   },
 ];
@@ -140,13 +140,18 @@ const MagazineList: React.FC = () => {
       }
 
     </div>
-            <div className="mags-container">
-            <div className="magazine-grid">
-              {loading &&
-                <div>Loading...</div>
+        {loading &&
+              <>
+                <div className="loading-spinner"></div>
+                <span>در حال جستجو...</span>
+              </>
               }
+            <div className="mags-container">
+
+            <div className="magazine-grid">
+
             
-            { !loading && magazines && magazines.map((magazine) => (
+        {!loading && magazines && magazines.map((magazine) => (
           <div key={magazine.id} className="magazine-card">
             <img src={magazine.banner} alt={magazine.name} className="magazine-image" />
             <div className="magazine-content">
@@ -157,13 +162,13 @@ const MagazineList: React.FC = () => {
               <p className="magazine-price">
                 <span className="discount-price">نویسنده : {magazine.author}</span>
               </p>
-              <a href={magazine.journal_file}>
+              <a href={magazine.journalFile}>
               <i className="fa fa-download" aria-hidden="true"></i>
               </a>
             </div>
           </div>
         ))}
-        {!loading && !magazines && 
+        {!loading && magazines?.length ===0 && 
         <p>مجله ای یافت نشد</p>
         }
 

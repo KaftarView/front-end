@@ -99,9 +99,11 @@ const SignUp = () => {
             })}
           />
           </div>
+          <div className="text-danger-container">
           {errors.username && (
             <p className="text-danger">{errors.username.message}</p>
           )}
+          </div>
         </div>
 
         {/* Password */}
@@ -127,9 +129,11 @@ const SignUp = () => {
               <i className="fa fa-question-circle" aria-hidden="true"></i>
             </abbr>
           </div>
+          <div className="text-danger-container">
           {errors.password && (
             <p className="text-danger">{errors.password.message}</p>
           )}
+          </div>
         </div>
 
         {/* Confirm Password */}
@@ -156,9 +160,11 @@ const SignUp = () => {
               }`}
             ></i>
           </div>
+          <div className="text-danger-container">
           {errors.passwordagain && (
             <p className="text-danger">{errors.passwordagain.message}</p>
           )}
+          </div>
         </div>
 
         {/* Email */}
@@ -178,9 +184,11 @@ const SignUp = () => {
             {...register("email", { required: "پرکردن این بخش الزامی است" })}
           />
           </div>
-          {errors.email && (
+          <div className="text-danger-container">
+          {errors.email && (            
             <p className="text-danger">{errors.email.message}</p>
           )}
+          </div>
         </div>
 
         {/* Login Link */}

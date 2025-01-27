@@ -38,6 +38,10 @@ import UploadMedia from "../pages/AddEventMedia/addEventMedia"
 import ProfileEvent from "../pages/ProfileEvents/ProfileEvent"
 import EditPadcast from "../pages/EditPadcast/EditPadcast"
 import Members from "../pages/Addmembers/Addmembers"
+import ProtectedRoute from "../components/ProtectedRoute"
+import { Ticket } from "lucide-react"
+import DiscountPanel from "../pages/AdminPanel/discountpanel"
+import TiketsPanel from "../pages/AdminPanel/ticketpanel"
 
 
 
@@ -62,41 +66,176 @@ const Router = () => {
               path={PATHS.resetPassword}
               element={<PrivateRoute element={<ResetPassword />} isAllowed={isAllowed} />}
             />
+        <Route 
+            path={PATHS.adminpanel} 
+            element={
+              <ProtectedRoute 
+                element={<AdminPanel />} 
+                requiredRole="ManageEvent" 
+              />
+            }
+            />
+        <Route 
+            path={PATHS.AddEvent} 
+            element={
+              <ProtectedRoute 
+                element={<Addevent />} 
+                requiredRole="ManageEvent" 
+              />
+            }
+            />
+        <Route 
+            path={PATHS.AddNashriye} 
+            element={
+              <ProtectedRoute 
+                element={<AddNashriye />} 
+                requiredRole="ManageJournal" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.Tikets} 
+            element={
+              <ProtectedRoute 
+                element={<Tikets />} 
+                requiredRole="ManageEvent" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.Discount} 
+            element={
+              <ProtectedRoute 
+                element={<Discount />} 
+                requiredRole="ManageEvent" 
+              />
+            }
+            />
+        <Route 
+            path={PATHS.EditEpisode} 
+            element={
+              <ProtectedRoute 
+                element={<AddNashriye />} 
+                requiredRole="ManagePodcasts" 
+              />
+            }
+            />
+        <Route 
+            path={PATHS.EditPodcast} 
+            element={
+              <ProtectedRoute 
+                element={<AddNashriye />} 
+                requiredRole="ManagePodcasts" 
+              />
+            }
+            />
+        <Route 
+            path={PATHS.addpodcast} 
+            element={
+              <ProtectedRoute 
+                element={<AddPodcast />} 
+                requiredRole="ManagePodcasts" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.addmedia} 
+            element={
+              <ProtectedRoute 
+                element={<UploadMedia />} 
+                requiredRole="ManageEvent" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.addepisode} 
+            element={
+              <ProtectedRoute 
+                element={<UploadPodcast />} 
+                requiredRole="ManagePodcasts" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.Addmembers} 
+            element={
+              <ProtectedRoute 
+                element={<Members />} 
+                requiredRole="ManageJournal" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.giverole} 
+            element={
+              <ProtectedRoute 
+                element={<RoleManagement />} 
+                requiredRole="ManageJournal" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.createrole} 
+            element={
+              <ProtectedRoute 
+                element={<CreateRole />} 
+                requiredRole="ManageJournal" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.TicketPanel} 
+            element={
+              <ProtectedRoute 
+                element={<TiketsPanel />} 
+                requiredRole="ManageEvent" 
+              />
+            }
+            />
+          <Route 
+            path={PATHS.DiscountPanel} 
+            element={
+              <ProtectedRoute 
+                element={<DiscountPanel />} 
+                requiredRole="ManageEvent" 
+              />
+            }
+            />
         <Route path={PATHS.Navbar}  element={<Navbar/>}></Route>
         <Route path={PATHS.ProfilePage}  element={<ProfilePage/>}></Route>
         <Route path={PATHS.ChangePassword}  element={<ChangePassword/>}></Route>
         <Route path={PATHS.PersonalInfo}  element={<PersonalInfo/>}></Route>
         <Route path={PATHS.NewsPage}  element={<NewsPage/>}></Route>
-        <Route path={PATHS.AddEvent}  element={<Addevent />} />
-        <Route path={PATHS.Tikets} element={<Tikets />} />
-        <Route path={PATHS.Discount}  element={<Discount />} />
+        {/* <Route path={PATHS.AddEvent}  element={<Addevent />} /> */}
+        {/* <Route path={PATHS.Tikets} element={<Tikets />} /> */}
+        {/* <Route path={PATHS.Discount}  element={<Discount />} /> */}
 
         <Route path={PATHS.podcast}  element={<PodcastPage />} />
         <Route path={PATHS.podcastDetails}  element={<PodcastDetail />} />
         <Route path={PATHS.magazine}  element={<Nashrie />} />
         <Route path={PATHS.AddOrganizer}  element={<Organizer />} />
-        <Route path={PATHS.AddNashriye} element={< AddNashriye/>} />
-        <Route path={PATHS.EditEpisode} element={< EditEpisode/>} />
-        <Route path={PATHS.EditPodcast} element={< EditPadcast/>} />
+        {/* <Route path={PATHS.AddNashriye} element={< AddNashriye/>} /> */}
+        {/* <Route path={PATHS.EditEpisode} element={< EditEpisode/>} /> */}
+        {/* <Route path={PATHS.EditPodcast} element={< EditPadcast/>} /> */}
 
 
         {/* <Route path={PATHS.Footer}  element={<Footer/>}></Route> */}
         {/* <Route path={PATHS.event} element={<EventsPage/>}></Route>
         <Route path={PATHS.eventdetail} element={<EventDetail />} ></Route> */}
-        <Route path={PATHS.giverole} element={<RoleManagement/>}/>
-        <Route path={PATHS.createrole} element={<CreateRole/>}/>
-        <Route path={PATHS.addpodcast} element={<AddPodcast/>}/>
-        <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
-        <Route path={PATHS.adminpanel} element={<AdminPanel/>}/>
-                <Route path={PATHS.giverole} element={<RoleManagement/>}/>
-                <Route path={PATHS.createrole} element={<CreateRole/>}/>
-                <Route path={PATHS.addpodcast} element={<AddPodcast/>}/>
-                <Route path={PATHS.addepisode} element={<UploadPodcast/>}/>
-                {/* <Route path={PATHS.test} element={<EventComponent/>}/> */}
-                <Route path={PATHS.MembersPage}  element={<MembersPage />} />
-                <Route path={PATHS.Addmembers} element={<Members/>}/>
-                <Route path={PATHS.addmedia}  element={<UploadMedia />} />
-                <Route path={PATHS.ProfileEvent}  element={<ProfileEvent/>}></Route>
+        {/* <Route path={PATHS.giverole} element={<RoleManagement/>}/> */}
+        {/* <Route path={PATHS.createrole} element={<CreateRole/>}/> */}
+        {/* <Route path={PATHS.addpodcast} element={<AddPodcast/>}/> */}
+        {/* <Route path={PATHS.addepisode} element={<UploadPodcast/>}/> */}
+        {/* <Route path={PATHS.adminpanel} element={<AdminPanel/>}/> */}
+        {/* <Route path={PATHS.giverole} element={<RoleManagement/>}/> */}
+        {/* <Route path={PATHS.createrole} element={<CreateRole/>}/> */}
+        {/* <Route path={PATHS.addpodcast} element={<AddPodcast/>}/> */}
+        {/* <Route path={PATHS.addepisode} element={<UploadPodcast/>}/> */}
+        {/* <Route path={PATHS.test} element={<EventComponent/>}/> */}
+        <Route path={PATHS.MembersPage}  element={<MembersPage />} />
+        {/* <Route path={PATHS.Addmembers} element={<Members/>}/> */}
+        {/* <Route path={PATHS.addmedia}  element={<UploadMedia />} /> */}
+        <Route path={PATHS.ProfileEvent}  element={<ProfileEvent/>}></Route>
 
 
 

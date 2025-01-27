@@ -186,6 +186,12 @@ const EventsPage: React.FC = () => {
               <button className='add-button' onClick={()=>navigate('/addevent')} >ایجاد رویداد</button>
             }
           </nav>
+          {loading && (
+            <>
+              <div className="loading-spinner"></div>
+              <span>در حال جستجو...</span>
+            </>
+          )}
           {!loading &&  
           <div className="square-container">
             {filteredEvents.length > 0 ? (
@@ -226,9 +232,6 @@ const EventsPage: React.FC = () => {
               <p className="no-events">رویدادی یافت نشد</p>
             )}
           </div>
-          }
-          {loading &&
-          <div>Loading events...</div>
           }
           <div className="paging-div">
             <nav aria-label="Page navigation example">

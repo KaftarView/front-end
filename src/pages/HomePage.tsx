@@ -256,7 +256,7 @@ useEffect(
       async function getPod(){
   
         try {  
-          const response = await axios.get('https://66e1-212-64-199-253.ngrok-free.app/v1/public/podcasts', {
+          const response = await apiClient.get('https://7cdb-212-64-199-253.ngrok-free.app/v1/public/podcasts', {
             headers: {
               "ngrok-skip-browser-warning": "69420",
               'Content-Type': 'application/json', // Example header
@@ -375,7 +375,7 @@ useEffect(
     async function getMag(){
 
       try {  
-        const response = await axios.get('https://66e1-212-64-199-253.ngrok-free.app/v1/public/journals', {
+        const response = await apiClient.get('https://7cdb-212-64-199-253.ngrok-free.app/v1/public/journals', {
           headers: {
             "ngrok-skip-browser-warning": "69420",
             'Content-Type': 'application/json', // Example header

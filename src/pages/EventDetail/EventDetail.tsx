@@ -303,8 +303,14 @@ useEffect(() => {
 
   fetchEventMedia();  
 }, [id]);  
+
   if (loading) {  
-    return <div>Loading event...</div>;  
+    return (
+      <>
+        <div className="loading-spinner"></div>
+        <span>در حال بارگذاری...</span>
+      </>
+    )
   }  
 
     const getMediaIcon = (type: EventMedia['type']) => {
@@ -521,7 +527,7 @@ const handlePublish = async () => {
               <a onClick={() => navigate(`/admin-panel/${id}`)}  className="buy-button"> مدیریت رویداد</a>
               </div> 
           }
-          {userRole &&  userRole != "SuperAdmin" && 
+          {userRole &&  userRole != "SuperAdmin" && !member &&
               <div className='buy-button-div'>
               <a href="#" onClick={() => setPopupVisible(true)} className="buy-button">خرید بلیت</a>
               </div>

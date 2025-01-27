@@ -15,6 +15,7 @@ import fetchCategories, { Categories } from "../../components/Categories/GetCate
 export interface NewsOverall {  
   id: number;  
   title: string;  
+  banner : string;
   description: string;  
   CreatedAt: string;  
   UpdatedAt: string;  
@@ -201,6 +202,11 @@ const NewsPage: React.FC = () => {
       }
 
 </div>
+        {loading &&     
+          <>  
+          <div className="loading-spinner"></div>
+              <span>در حال جستجو...</span>
+          </>}
 
         <div className="news-container">
           { !loading && newsList.length > 0 && newsList.map((news) => (
@@ -214,7 +220,7 @@ const NewsPage: React.FC = () => {
                 </div>
               </div>
               }
-                <img src='../../public/news.jpg' alt={news.title} className="news-image" />
+                <img src={news.banner} alt={news.title} className="news-image" />
               <div className="news-summary">
                 <h3>{news.title}</h3>
                 <p>{news.description}</p>
@@ -227,7 +233,7 @@ const NewsPage: React.FC = () => {
           {!loading && newsList.length === 0 && 
           <div>خبری وجود ندارد</div>
           }
-          {loading && <div>در حال بارگذاری...</div>}
+
           <PopupQuestion   
                   isVisible={isModalVisible}  
                   message = "آیا از حذف این خبر اطمینان دارید؟"

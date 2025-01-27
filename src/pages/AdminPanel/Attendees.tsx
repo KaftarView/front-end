@@ -137,8 +137,10 @@ const GetAttendees: React.FC = () => {
         XLSX.writeFile(workbook, 'attendees.xlsx');
       };
 
-    const totalPaid = attendees.reduce((total, attendee) => total + attendee.price, 0);
-    const numberOfAttendees = attendees.length;
+    const totalPaid = attendees? attendees.reduce((total, attendee) => total + attendee.price, 0) : 0;
+    const numberOfAttendees = attendees? attendees.length : 0;
+    
+
     
     const handleSendEmail = async () => {
       const { eventid, email2 } = sendEmailData;
@@ -168,7 +170,13 @@ const GetAttendees: React.FC = () => {
 
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-6"> شرکت کننده‌گان</h2>
-
+              {loading && 
+                        <>
+                        <div className="loading-spinner"></div>
+                        <span>در حال جستجو...</span>
+                      </>
+                    }
+            {!loading && attendees && attendees.length != 0 &&
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
@@ -209,9 +217,6 @@ const GetAttendees: React.FC = () => {
                       >
                         پرداختی {getSortIcon('price')}
                       </th>
-                      <th className="px-6 py-3 text-center text-medium font-medium text-gray-500 uppercase tracking-wider">
-                        عملیات
-                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -223,16 +228,19 @@ const GetAttendees: React.FC = () => {
                         <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.email}</td>
                         <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.ticket}</td>
                         <td className="px-6 text-center py-4 text-sm text-gray-900">{attendee.price}</td>
-                        <td className="px-3 text-center py-4 text-large text-gray-900">
-                          <i className="fa fa-trash-o text-red-500 cursor-pointer mx-2" aria-hidden="true"></i>
-                          <i className="fa fa-pencil-square-o text-blue-500 cursor-pointer mx-2" aria-hidden="true"></i>
-                        </td>
                       </tr>
                     ))}
+
                   </tbody>
+
                 </table>
               </div>
-
+}
+{!loading && (!attendees || attendees.length === 0 ) &&
+                      <h4>  
+                        شرکت کننده ای وجود ندارد  
+                      </h4>  
+                    }
             </div>
 
           </div>

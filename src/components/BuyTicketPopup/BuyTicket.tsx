@@ -12,6 +12,7 @@ interface Ticket {
   createdAt: string;
   description?: string;
   quantity: number;
+  remainTickets :number
 }
 
 interface ticketsType {
@@ -30,7 +31,7 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
   const [ticketTypes, setTicketTypes] = useState<Ticket[]>([]);
   const [discountCode, setDiscountCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const [discountLoading, setDiscountLoading] = useState(false); // New loading state for discount
+  const [discountLoading, setDiscountLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [finalPrice, setFinalPrice] = useState<number | null>(null);
   const [reserveId, setReserveId] = useState<number | null>(null);
@@ -47,6 +48,7 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
           },
         });
         const fetchedTickets = response.data.data;
+        console.log(fetchedTickets)
         setTicketTypes(fetchedTickets);
         setTickets(
           fetchedTickets.reduce(
@@ -72,9 +74,9 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
   };
 
   const calculateTotal = () => {
-    return Object.entries(tickets).reduce((total, [id, quantity]) => {
+    return Object.entries(tickets).reduce((total, [id, remainTickets]) => {
       const ticket = ticketTypes.find((t) => t.id === parseInt(id));
-      return total + (ticket?.price || 0) * quantity;
+      return total + (ticket?.price || 0) * remainTickets;
     }, 0);
   };
 
@@ -96,12 +98,14 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
       const pay = {
         tickets: formattedTickets,
       };
+      console.log(pay)
 
       // setDiscountLoading(true); 
       // setError(null);
 
       try {
         const response = await apiClient.post(`/v1/events/${id}/reserve`, pay);
+        console.log(response.data.data)
         setFinalPrice(response.data.data.finalPrice);
         if (response.data.statusCode === 200) {
           setReserveId(response.data.data.id);
@@ -124,9 +128,10 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
       const response = await apiClient.post(`/v1/events/${id}/purchase/${reserveId}`);
       alert(response.data.message);
       console.log(response.data);
+      window.location.reload();
     } catch (err: any) {
       setError(err.response?.data?.message || 'An error occurred while purchasing tickets.');
-      alert(err.response?.data?.message || 'An error occurred while purchasing tickets.')
+      alert(err.response?.data?.message || 'مشکلی هنگام خرید بلیت ها به وجود آمد.')
     } finally {
       setLoading(false);
     }
@@ -236,14 +241,14 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
                   max={ticket.quantity}
                   onChange={(e) => {
                     const value = parseInt(e.target.value, 10);
-                    if (value >= 0 && value <= ticket.quantity) {
+                    if (value >= 0 && value <= ticket.remainTickets) {
                       handleQuantityChange(ticket.id, value);
                     }
                   }}
                   onBlur={(e) => {
                     const value = parseInt(e.target.value, 10);
-                    if (value > ticket.quantity) {
-                      handleQuantityChange(ticket.id, ticket.quantity);
+                    if (value > ticket.remainTickets) {
+                      handleQuantityChange(ticket.id, ticket.remainTickets);
                     } else if (value < 0 || isNaN(value)) {
                       handleQuantityChange(ticket.id, 0);
                     }
@@ -252,9 +257,12 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
               </div>
             </div>
           ))}
+
         </div>
       )}
-
+      {ticketTypes.length == 0 && 
+      <h4>بلیتی برای این رویداد وجود ندارد</h4>
+      }
       <div className="discount-section-buy-popup">
         <input
           type="text"
@@ -268,7 +276,7 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
           onClick={handleApplyDiscount}
           disabled={discountLoading || !discountCode.trim()} // Use discount-specific loading state
         >
-          {discountLoading ? ( // Use discount-specific loading state
+          {discountLoading ? (
             <>
               <div className="loading-spinner"></div>
               <span>در حال اعمال...</span>
@@ -304,14 +312,14 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
           </tr>
         </thead>
         <tbody>
-          {Object.entries(tickets).map(([id, quantity]) => {
+          {Object.entries(tickets).map(([id, remainTickets]) => {
             const ticket = ticketTypes.find((t) => t.id === parseInt(id));
-            if (quantity > 0) {
+            if (remainTickets > 0) {
               return (
                 <tr key={id}>
                   <td>{ticket?.name}</td>
                   <td>{ticket?.price.toLocaleString()} تومان</td>
-                  <td>{quantity}</td>
+                  <td>{remainTickets}</td>
                   <td>{finalPrice !== null ? finalPrice.toLocaleString() : calculateTotal().toLocaleString()}  تومان</td>
                 </tr>
               );

@@ -83,7 +83,7 @@ const Login = () => {
       <div>
         <img className="img2" src="././public/pacman gif.gif" alt="My GIF" />
       </div>
-      <h2 className="entry">ورود</h2>
+      <h2 className="entry-loginpage">ورود</h2>
       <form className="sign_form" onSubmit={handleSubmit(onSubmit)}>
         {/* Username Field */}
         <div className="mb-4">
@@ -103,9 +103,11 @@ const Login = () => {
               })}
             />
           </div>
+          <div className="text-danger-container">
           {errors.username && (
             <p className="text-danger">{errors.username.message}</p>
           )}
+          </div>
         </div>
 
         {/* Password Field */}
@@ -136,21 +138,30 @@ const Login = () => {
               </abbr>
             </div>
           </div>
+          <div className="text-danger-container">
           {errors.password && (
             <p className="text-danger">{errors.password.message}</p>
           )}
+          </div>
         </div>
        
 
         {/* Forgot Password Link */}
-        <h3 className="log2">
+        <h3 className="log2-login">
           رمز خود را فراموش کرده اید؟
           <Link to="/ForgetPassword" className="log">
             بازیابی رمز
           </Link>
         </h3>
+        <h3 className="log2-login">
+          هنوز ثبت نام نکرده‌اید؟
+          <Link to="/SignUp" className="log">
+         ثبت نام
+          </Link>
+        </h3>
 
         {/* Submit Button */}
+        
         <button
           type="submit"
           disabled={!isValid}
