@@ -139,44 +139,6 @@ const UploadMedia = () => {
 
       </div>
 
-      {/* <div className="event-banner">
-      <label className="Labeladd" htmlFor="banner">عکس خود را بارگذاری کنید</label>
-      <input
-        className="addinput-field"
-        type="file"
-        id="banner"
-        accept="image/*"
-        {...register("banner", { required: "بارگذاری عکس الزامی است" })}
-
-      />
-       {errors.banner && <p className="erroradd">{errors.banner.message}</p>}
-
-    </div> */}
-
-      {/* <div>
-      <label className="Labeladd" htmlFor="audio">فایل خود را بارگذاری کنید</label>
-
-        <input className="addinput-field" type="file" accept="audio/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/*,video/*" onChange={handleFileChange} />
-      </div>
-
-      {uploadError && <p className="error">{uploadError}</p>}
-      {uploadSuccess && <p className="success">{uploadSuccess}</p>}
-
-      {selectedFile && !isUploading && (
-        <div>
-          <p>Selected file: {selectedFile.name}</p>
-          <button onClick={()=>navigate("#")}
-                    disabled={!isValid}
-                    className={`submit-episod ${!isValid ? "submit-disabled" : ""}`}
-            >بارگذاری قسمت جدید</button>
-        </div>
-      )}
-
-      {isUploading && (
-        <div>
-          <p>Uploading... {uploadProgress}%</p>
-        </div>
-      )} */}
       <div>
   <label className="Labeladd-media" htmlFor="media">فایل خود را بارگذاری کنید</label>
   <input
@@ -201,7 +163,7 @@ const UploadMedia = () => {
         }
                     disabled={!isValid}
                     className={`submit-episod ${!isValid ? "submit-disabled" : ""}`}
-            >بارگذاری فایل جدید</button>
+            >بارگذاری </button>
         </div>
       )}
 

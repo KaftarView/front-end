@@ -4,7 +4,7 @@ import './editEvent.css'
 import { useForm } from "react-hook-form";
 import { Link, useNavigate,useParams } from "react-router-dom";
 import apiClient from '../../utils/apiClient'
-
+import { FaTrash } from "react-icons/fa";
 interface FormData {
   name: string;
   status: string;
@@ -85,6 +85,13 @@ const EditEvent: React.FC = () => {
   ) => {
     setNewEditEvent({ ...newEditEvent, [field]: value });
   };
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+      handleEditEvetnChange("banner", file);
+    }
+  };
 
   console.log(newEditEvent);
   useEffect(() => {
@@ -127,6 +134,10 @@ const EditEvent: React.FC = () => {
       const formData = new FormData();
       if (newEditEvent.name && newEditEvent.name !== initialData?.name) {
         formData.append("name", newEditEvent.name);
+  
+      }
+      if (newEditEvent.description && newEditEvent.description !== initialData?.description) {
+        formData.append("description", newEditEvent.description);
   
       }
   
@@ -190,19 +201,18 @@ const EditEvent: React.FC = () => {
       console.log('price: '+typeof(newEditEvent.basePrice));
 
       console.log('banner: '+typeof(newEditEvent.banner));
-      const newCategories = newEditEvent.categories.filter(category => !initialData?.categories.includes(category));
-      newCategories.forEach((cat) => {
-        formData.append("category", cat.toString()); // Append each category as a separate entry
-      });
+      const newCategories = newEditEvent.categories;
 
+      newCategories.forEach((cat) => {
+        formData.append("categories", cat.toString());
+      });
+  
 
       console.log('min capacity: '+typeof(newEditEvent.minCapacity));
-      console.log('category: '+typeof(newEditEvent.categories));
+      console.log('categories: '+typeof(newEditEvent.categories));
 
-      // console.log(typeof(formData.maxCapacity));
+      console.log("[...formData]");
 
-
-      // console.log(typeof(newCategories));
       console.log([...formData]);
      
     
@@ -218,11 +228,46 @@ const EditEvent: React.FC = () => {
       );
       console.log("event edited successfully:", res.data);
     } catch (err) {
-      if (err instanceof CanceledError) return;
-      console.error("error editing event:", err);
+      console.error("Error creating Event:", err);
+    
+      if (axios.isAxiosError(err)) {
+        // Log or display the general error message
+        console.error("Axios error message:", err.message);
+    
+        // Check for a server response
+        if (err.response) {
+          console.error("Response status code:", err.response.status);
+          console.error("Response data:", err.response.data);
+    
+          // Extract specific error messages, if available
+          const serverMessages = err.response.data.messages;
+          if (serverMessages) {
+            const formattedMessage = JSON.stringify(serverMessages)
+                .replace(/["{}]/g, '') 
+                .replace(/,/g, '\n')  
+                .split('\n')          
+                .map(line => {
+                    const parts = line.split(':'); 
+                    return parts.length > 2 
+                        ? ` ${parts.slice(2).join(':')}` 
+                        : line; 
+                })
+                .join('\n');
+        
+            console.log("meee " + formattedMessage);
+            alert(formattedMessage);
+        } else {
+            alert("An error occurred: " + err.response.data.message);
+        }
+        
+        
+        } else {
+          console.error("No response from server:", err.request);
+          alert("پاسخی از سرور دریافت نشد مجدد تلاش کنید");
+        }
+      } 
     }
   };
-
 
 
 
@@ -244,25 +289,13 @@ useEffect(
         if (response.status === 200 && response.data) {
           console.log(response.data.data)
           const eventData = response.data.data;
-
-          // const eventData=response.data.data;
-          // const trimTime = (time: string | null) => {
-          //   if (!time) return ""; // Return empty string for null/undefined
-          //   const timeParts = time.split(":");
-          //   if (timeParts.length >= 2) {
-          //     return timeParts.slice(0, 2).join(":"); // Keep only hours and minutes
-          //   }
-          //   return time; // Return as-is if splitting fails
-          // };
-          // eventData.available_from = trimTime(eventData.available_from);
-          // eventData.available_until = trimTime(eventData.available_until);
           const trimTime = (time: string | null) => {
-            if (!time) return ""; // Return empty string for null/undefined
+            if (!time) return ""; 
             const timeParts = time.split(":");
             if (timeParts.length >= 2) {
-              return timeParts.slice(0, 2).join(":"); // Keep only hours and minutes
+              return timeParts.slice(0, 2).join(":");
             }
-            return time; // Return as-is if splitting fails
+            return time; 
           };
 
           eventData.fromDate = trimTime(eventData.fromDate);
@@ -271,10 +304,10 @@ useEffect(
           console.log("Formatted available_until:", eventData.toDate);
           setInitialData(eventData);
           setNewEditEvent(eventData)
-          // Check if categories is a string or an array
+
           const cat = Array.isArray(eventData.categories)
-            ? eventData.categories // If it's an array, use it as is
-            : eventData.categories ? eventData.categories.split(",") : []; // Otherwise split it if it's a string
+            ? eventData.categories 
+            : eventData.categories ? eventData.categories.split(",") : []; 
     
           setNewEditEvent({
             ...eventData,
@@ -298,27 +331,6 @@ useEffect(
   };
 
 
-
-
-
-//-----------------------------FETCHING DISCOUNT
-
-
-
-
-
-
-  // const handleTicketChange = (field: keyof Ed, value: string | File | null) => {
-  //   setnewedit({ ...newedit, [field]: value });
-  // };
-
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files) {
-  //     const file = event.target.files[0];
-  //     handleTicketChange("banner", file); // Update the banner with the selected file
-  //   }
-  // };
-
   const addCategory = () => {
     setNewEditEvent({ ...newEditEvent, categories: [...newEditEvent.categories, ""] });
   };
@@ -333,10 +345,10 @@ useEffect(
 
       <form className="eventedit-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="event-name">
-        <label htmlFor="name">نام رویداد</label>
+        <label className="labeln" htmlFor="name">نام رویداد</label>
         <input
           id="name"
-          // {...register("name")}
+
           className="addinput-field-edit-evnet "
           value={newEditEvent.name}
           onChange={(e) => handleEditEvetnChange("name", e.target.value)}
@@ -348,7 +360,7 @@ useEffect(
         </div>
 
         <div className="event-status">
-        <label htmlFor="status">وضعیت رویداد</label>
+        <label className="labeln" htmlFor="status">وضعیت رویداد</label>
         <select
           id="status"
           // {...register("status")}
@@ -366,23 +378,26 @@ useEffect(
         </div>
 
         <div className="event-category">
-        <label className="Labeladd" htmlFor="categories">موضوعات</label>
-          {newEditEvent.categories.map((category, index) => (
-            <div key={index} className="writer-field">
-              <input
-                type="text"
-                value={category}
-                onChange={(e) => handleCategoryChange(index, e.target.value)}
-                className="addinput-field-edit-evnet"
-                required
-              />
-<button type="button" className="remove-writer" onClick={() => deleteCategory(index)}>
-                حذف
-              </button>
-            </div>
+           <label className="labeln" htmlFor="categories">موضوعات</label>
+           {newEditEvent.categories.map((category, index) => (
+          <div key={index} className="writer-field1">
+
+            <input
+              type="text"
+              value={category}
+              onChange={(e) => handleCategoryChange(index, e.target.value)}
+              className="addinput-field-edit-evnet"
+              required
+            />
+            <FaTrash
+              className="trash-icon"
+              onClick={() => deleteCategory(index)}
+            />
+          </div>
           ))}
-          <div className="buttonadd-container">
-            <button type="button" onClick={addCategory} className="submittik">
+
+          <div className="buttonadd-container1">
+            <button type="button" onClick={addCategory} className="submitadd1">
               افزودن
             </button>
           </div>
@@ -390,12 +405,11 @@ useEffect(
         </div>
         
         <div className="event-description">
-        <label htmlFor="description">توضیحات</label>
+        <label className="labeln" htmlFor="description">توضیحات</label>
         <input
         type="text"
           id="description"
-          
-          // {...register("description")}
+
           className="addinput-field-edit-evnet"
 
           value={newEditEvent.description}
@@ -407,7 +421,7 @@ useEffect(
         </div>
 
           <div className="event-from">
-          <label htmlFor="fromDate">تاریخ و ساعت شروع</label>
+          <label className="labeln" htmlFor="fromDate">تاریخ و ساعت شروع</label>
         <input
           type="datetime-local"
           id="fromDate"
@@ -423,7 +437,7 @@ useEffect(
           
 
           <div className="event-to">
-          <label htmlFor="toDate">تاریخ و ساعت پایان</label>
+          <label className="labeln" htmlFor="toDate">تاریخ و ساعت پایان</label>
         <input
           type="datetime-local"
           id="toDate"
@@ -439,7 +453,7 @@ useEffect(
 
 
         <div className="event-minCap">
-        <label htmlFor="minCapacity">حداقل ظرفیت</label>
+        <label className="labeln" htmlFor="minCapacity">حداقل ظرفیت</label>
         <input
           type="number"
           id="minCapacity"
@@ -458,7 +472,7 @@ useEffect(
 
 
         <div className="event-maxCap">
-        <label htmlFor="maxCapacity">حداکثر ظرفیت</label>
+        <label  className="labeln" htmlFor="maxCapacity">حداکثر ظرفیت</label>
         <input
           type="number"
           id="maxCapacity"
@@ -477,7 +491,7 @@ useEffect(
 
 
           <div className="event-price">
-          <label htmlFor="basePrice">حداقل قیمت</label>
+          <label className="labeln" htmlFor="basePrice">حداقل قیمت</label>
         <input
           type="number"
           id="basePrice"
@@ -493,7 +507,7 @@ useEffect(
 
 
           <div className="event-type">
-          <label className="Labeladd" htmlFor="venueType">نوع رویداد</label>
+          <label className="labeln" htmlFor="venueType">نوع رویداد</label>
         <select
           id="venueType"
           // {...register("venueType", { required: "نوع رویداد الزامی است" })}
@@ -505,7 +519,7 @@ useEffect(
             handleEditEvetnChange("venueType", e.target.value)// make sure to also update form state if needed
           }}
           className="addinput-field-edit-evnet"
-          defaultValue={newEditEvent?.venueType}
+          defaultValue={newEditEvent.venueType}
         >
           <option value="">انتخاب کنید</option>
           <option value="Online">آنلاین</option>
@@ -514,10 +528,8 @@ useEffect(
         {errors.venueType && <p className="erroradd">{errors.venueType.message}</p>}
 
 
-    {/* لینک یا آدرس */}
-    {eventType === "Online" && (
-      <>
-        <label className="Labeladd" htmlFor="location">لینک وبینار</label>
+
+        <label  className="labeln" htmlFor="location">لینک یا آدرس</label>
         <input
           type="text"
           id="location"
@@ -529,37 +541,25 @@ useEffect(
 
         />
         {errors.location && <p className="erroradd">{errors.location.message}</p>}
-      </>
-    )}
 
-    {eventType === "Physical" && (
-      <>
-        <label className="Labeladd" htmlFor="location">آدرس محل برگزاری</label>
-        <input
-          type="text"
-          id="location"
-          value={newEditEvent.location}
-          onChange={(e) => handleEditEvetnChange("location", e.target.value)}
 
-          // {...register("location", { required: "آدرس الزامی است" })}
-          className="addinput-field-edit-evnet"
-        />
-        {errors.location && <p className="erroradd">{errors.location.message}</p>}
-      </>
-    )}
+
+
 
           </div>
 
 
 
     {/* بارگذاری بنر */}
-    <label className="Labeladd" htmlFor="banner">محل بارگزاری عکس</label>
+    <label  className="labeln" htmlFor="banner">
+            محل بارگزاری عکس
+          </label>
           <div className="L1">
             <input
               type="file"
               id="banner"
               accept="image/*"
-              // onChange={handleFileChange} // Handle the file change
+              onChange={handleFileChange}
             />
             {typeof newEditEvent.banner === "string" && newEditEvent.banner && (
               <div>
@@ -574,7 +574,7 @@ useEffect(
           </div>
 
 
-<div className="buttonadd-container">
+    <div className="buttonadd-container">
                   <button
           type="submit"
           className="submitadd"
@@ -584,7 +584,7 @@ useEffect(
         <button
           type="button"
           className="canceladd"
-          onClick={() => navigate("/")} // مسیر مورد نظر خود را جایگزین کنید
+          onClick={() => navigate(`/event/${id}`)} // مسیر مورد نظر خود را جایگزین کنید
         >
           لغو
         </button>

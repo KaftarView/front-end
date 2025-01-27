@@ -3,6 +3,8 @@ import "./Discount.css";
 import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "../../utils/apiClient";
 import axios from "axios";
+import moment from "moment-jalaali";
+
 
 interface Discount {
   code: string;
@@ -53,6 +55,29 @@ const Discount = () => {
     return Object.keys(newErrors).length === 0; 
   };
 
+   const handleDateChange = (field: keyof Discount, jalaliDate: string) => {
+      try {
+        // Convert Jalali date to Gregorian
+        const gregorianDate = moment(jalaliDate, "jYYYY/jMM/jDD").format(
+          "YYYY-MM-DD"
+        );
+        console.log(gregorianDate)
+  
+        // Ensure newDiscount[field] is a string before calling split
+        const currentTime = String(newDiscount[field])?.split("T")[1] || "00:00";
+  
+        // Combine date and time
+        const combinedDateTime = `${gregorianDate}T${currentTime}`;
+  
+        // Update state
+        setNewDiscount({ ...newDiscount, [field]: combinedDateTime });
+      } catch (error) {
+        console.error("Error converting date:", error);
+      }
+    };
+  
+  
+
   const onSubmit = async () => {
     if (!validateFields()) return;
 
@@ -61,6 +86,7 @@ const Discount = () => {
       validFrom: newDiscount.validFrom + ":00Z",
       validUntil: newDiscount.validUntil + ":00Z",
     };
+    console.log(updatedDiscount)
 
     try {
       const res = await apiClient.post(
@@ -189,7 +215,7 @@ const Discount = () => {
           <span className="error-messagedis">{errors.quantity}</span>
         )}
 
-        <label className="Labeldis" htmlFor="validFrom">
+        {/* <label className="Labeldis" htmlFor="validFrom">
           تاریخ شروع
         </label>
         <input
@@ -201,9 +227,9 @@ const Discount = () => {
         />
         {errors.validFrom && (
           <span className="error-messagedis">{errors.validFrom}</span>
-        )}
+        )} */}
 
-        <label className="Labeldis" htmlFor="validUntil">
+        {/* <label className="Labeldis" htmlFor="validUntil">
           تاریخ پایان
         </label>
         <input
@@ -215,7 +241,45 @@ const Discount = () => {
         />
         {errors.validUntil && (
           <span className="error-messagedis">{errors.validUntil}</span>
+        )} */}
+
+
+    <label className="Labeldis" htmlFor="validFrom">
+            تاریخ شروع
+          </label>
+
+          
+
+    
+
+          {/* Jalali Date Input */}
+          <input
+            type="text"
+            id="validFrom"
+            placeholder="مثال: 1403/01/01"
+            onChange={(e) => handleDateChange("validFrom", e.target.value)}
+            className="addinput-fielddis"
+          />
+            {errors.validFrom && (
+          <span className="error-messagedis">{errors.validFrom}</span>
         )}
+
+      <label className="Labeldis" htmlFor="validFrom">
+            تاریخ پایان
+          </label>
+
+          {/* Jalali Date Input */}
+          <input
+            type="text"
+            id="validUntil"
+            placeholder="مثال: 1403/01/01"
+            onChange={(e) => handleDateChange("validUntil", e.target.value)}
+            className="addinput-fielddis"
+          />
+          {errors.validUntil && (
+          <span className="error-messagedis">{errors.validUntil}</span>
+        )}
+
 
         <div className="buttonadd-containerdis">
           <button type="button" onClick={onSubmit} className="submitdis">
