@@ -468,46 +468,7 @@ const HomePage = () => {
       </div>
 
       <div className="content">
-        {/* <div className='title'><span className='title-name'>جدیدترین رویداد‌ها</span> <button className='title-link  '>رفتن به رویداد‌ها</button></div>
-            <div className="lists "> 
-                <div className="box">
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                    <button className="my_btn">مشاهده اطلاعات </button>
-                </div>
-               
-                     <div className="box box-test" >
-                       
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                   
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                
-                    <div className="box">
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                                <div className="box">
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
 
-            </div> */}
 
         <div>
           {/* Section Title */}
@@ -538,7 +499,7 @@ const HomePage = () => {
                   <h2 className="product-title">{event.name}</h2>{" "}
                   {/* Assuming 'title' is a field */}
                   <p className="product-description">
-                    {event.description || "asdfghjklwertyuiopzxcvbnmdfghjk"}
+                    {event.description.slice(0,100) || "asdfghjklwertyuiopzxcvbnmdfghjk"}
                   </p>{" "}
                   {/* Assuming 'description' is a field */}
                   <span className="product-status">
@@ -564,62 +525,9 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* <div className='title'><span className='title-name'>جدیدترین دوره‌ها</span> <button className='title-link  '>رفتن به دوره‌ها</button> </div>
-            <div className="lists">
-                                <div className="box">
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                                <div className="box">
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                                <div className="box">
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                                <div className="box">
-                    <img src="https://aglowiditsolutions.com/wp-content/uploads/2022/12/Laravel-Best-Practices.png" alt="" />
-                    <h2 className="product-title">آموزش لاراول </h2>
-                    <p className="product-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها لازم است</p>
-                    <span className="product-status">کامل شده</span>
-                    <span className="product-price">790,000 تومان</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-            </div> */}
+
       </div>
 
-      {/* moarefi */}
-
-      {/* <div className="anjoman-special-part">
-
-
-
-        <div className="anjoman-special-part-link">
-        <h2>اینجا میتوانی اخبار انجمن با خبر بشی</h2>
-        <button className="btn"> رفتن به اخبار </button>
-        </div>
-
-        <a className="prev" onClick={()=>{plusSlideSpecial(-1)}}>  &#10095;</a>
-        <img className="mySlides-news" src="src\images\f.jpg" ></img>
-        <img className="mySlides-news" src="src\images\s.jpg"></img>
-        <a className="next" onClick={()=>{plusSlideSpecial(1)}}>&#10094;</a>
-
-
-
-        </div> */}
 
       <div className="content">
         <div className="pudcast-section">
@@ -730,40 +638,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* <div className="note-section">
-            <div className="about-anjoman-note">
-        <h1 className="about-anjoman-note-titel">
-            جزوه‌های شما 
-        
-        </h1>
-        <br/>
-        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد.لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده شناخت فراوان جامعه و متخصصان را می طلبدلورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد کتابهای زیادی در شصت و سه درصد گذشته حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد</p>
-        </div>
-        <div className='title'><span className='title-name'>جدیدترین جزوه‌ها</span> <button className='title-link  '>رفتن به جزوه‌ها</button></div>
-            <div className="lists">
-            <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">کامل شده</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">کامل شده</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">کامل شده</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-                <div className="box-small">
-                    <h2 className="product-title"> آموزش و بالابردن سطح آگاهی </h2>
-                    <span className="product-status">کامل شده</span>
-                    <button className="my_btn">مشاهده اطلاعات</button>
-                </div>
-            </div>
 
-            </div> */}
       </div>
       <Footer />
     </div>

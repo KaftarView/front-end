@@ -52,6 +52,23 @@ html, body {
   cursor: pointer;
 }
 
+.L1 {
+  font-family: 'Anjoman-FaNum-Bold';
+  display: block;
+  text-align: right;
+
+  margin: 20px;
+  padding: 10px;
+  width: calc(100% - 40px);
+  border: 1px solid rgb(74, 152, 174);
+  border-radius: 5px;
+  background-color: rgb(230, 230, 230);
+  transition: 0.5s;
+  font-size: 14px;
+  color: rgb(0, 67, 80);
+  /* height: 45px; */
+  
+  }
 .eventadd {
   max-width: 800px;
   margin: 20px auto;

@@ -258,20 +258,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .anjoman-gallery .mySlides
 {
     /* margin-top: 20rem; */
@@ -609,8 +595,9 @@
 
 .content .lists{
 
-    display: grid;
-    grid-template-columns:repeat(auto-fit,minmax(20rem,1fr)) ;
+    display: flex;
+    /* grid-template-columns:repeat(auto-fit,minmax(20rem,1fr)) ; */
+    flex-direction: row;
     margin-top: 2rem;
     /* margin-bottom: 2rem; */
     gap: .7rem;
