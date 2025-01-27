@@ -214,7 +214,11 @@ const EventsPage: React.FC = () => {
                       </small>
                       <h3>{event.name}</h3>
                       <div className='events-descriptin-div'>
-                        <p>{event.description}</p>
+                        <p> 
+                          {event.description.length > 100   
+                            ? `${event.description.slice(0, 100)}...`   
+                            : event.description}  
+                        </p> 
                       </div>
                       <div className="icon-div">
                         <i className="fa fa-money" aria-hidden="true"></i>

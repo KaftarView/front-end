@@ -28,7 +28,7 @@
     gap: 10px;
   }
   
-  .media-options button, a{
+  .media-options button , .media-options a{
     background: none;
     border: none;
     color: white;

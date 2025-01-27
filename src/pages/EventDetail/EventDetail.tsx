@@ -411,6 +411,7 @@ const handlePublish = async () => {
       <Navbar />
       <div className='event-detail-container'>
       <div className="main-container">
+
         <div className="img-description">
 
           <div className="description-section">
