@@ -406,8 +406,8 @@ useEffect(
         
         <div className="event-description">
         <label className="labeln" htmlFor="description">توضیحات</label>
-        <input
-        type="text"
+        <textarea
+        // type="text"
           id="description"
 
           className="addinput-field-edit-evnet"

@@ -229,7 +229,7 @@ function GetDiscounts() {
         <td className="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{discount.usedCount}</td>
         <td className="px-3 text-center py-4 text-large text-gray-900">
           <i className="fa fa-trash-o text-red-500 cursor-pointer mx-2" aria-hidden="true" onClick={() => handleDeleteClick(discount.id)} />
-          <i className="fa fa-pencil-square-o text-blue-500 cursor-pointer mx-2" aria-hidden="true" />
+          <i className="fa fa-pencil-square-o text-blue-500 cursor-pointer mx-2" aria-hidden="true" onClick={() => navigate(`/Editdiscount/${discount.id}`)} />
         </td>
       </tr>
     ))}

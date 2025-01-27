@@ -45,6 +45,8 @@ import TiketsPanel from "../pages/AdminPanel/ticketpanel"
 import Addnews from "../pages/AddNews/Addnews"
 import NewsPageshow from "../pages/News/News"
 import EditNews from "../pages/EditNews/EditNews"
+import EditDiscount from "../pages/EdiitDiscount/EditDiscount"
+import EditTicket from "../pages/EditTicket/EditTicket"
 
 
 
@@ -204,6 +206,8 @@ const Router = () => {
               />
             }
             />
+            <Route path={PATHS.EditDiscount}  element={<EditDiscount/>} />
+                <Route path={PATHS.EditTicket}  element={<EditTicket/>} />
         <Route path={PATHS.Navbar}  element={<Navbar/>}></Route>
         <Route path={PATHS.ProfilePage}  element={<ProfilePage/>}></Route>
         <Route path={PATHS.ChangePassword}  element={<ChangePassword/>}></Route>
