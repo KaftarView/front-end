@@ -260,7 +260,7 @@ const TicketPurchasePopup: React.FC<{ onClose: () => void; id: string | undefine
 
         </div>
       )}
-      {ticketTypes.length == 0 && 
+      {(ticketTypes && ticketTypes.length)|| !ticketTypes && 
       <h4>بلیتی برای این رویداد وجود ندارد</h4>
       }
       <div className="discount-section-buy-popup">

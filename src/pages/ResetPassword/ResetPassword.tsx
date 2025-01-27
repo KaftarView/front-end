@@ -61,7 +61,7 @@ function ResetPassword() {
         
         try {
             const obj = {email : email.email , password : newPassword.password , confirmPassword : newPassword.confirmation}
-            const response = await apiClient.put(`/v1/auth/reset-password`, obj);
+            const response = await apiClient.put(`/v1/profile/reset-password`, obj);
             console.log('Password reset successful:', response.data);
             if(response.data.statusCode === 200)
             {
