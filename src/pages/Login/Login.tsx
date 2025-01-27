@@ -53,7 +53,7 @@ const Login = () => {
             setRefreshToken(res.data.data.refresh_token)
             const user: User = {
               id: res.data.data.id,  
-              username: res.data.data.name,  
+              userName: res.data.data.username,  
               email: res.data.data.email,
               roles : res.data.data.roles,
               permissions: res.data.data.permissions,

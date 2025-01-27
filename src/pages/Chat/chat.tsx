@@ -105,6 +105,7 @@ const ChatSupport: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { getUserUsername} = useAuth();
   const username=getUserUsername();
+  console.log(username)
   const currentUserName = username;
   
 

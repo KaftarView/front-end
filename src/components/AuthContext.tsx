@@ -14,7 +14,7 @@ interface AuthContextType {
 
 export interface User {  
     id: number;  
-    username: string;  
+    userName: string;  
     email: string;  
     roles: string[];
     permissions : string[];
@@ -51,10 +51,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }; 
 
       const getUserUsername = (): string => {
-        const user = localStorage.getItem('user');  
+        const user = localStorage.getItem('user'); 
+        console.log(user) 
         if (user) {  
             const parsedUser: User = JSON.parse(user);  
-            return parsedUser.username;
+            return parsedUser.userName;
         }  
         return "";
       }
